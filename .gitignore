@@ -6,3 +6,6 @@ __pycache__/
 idinvert/examples
 .DS_Store
 .idea/
+venv/
+trainedModels/
+examples/
