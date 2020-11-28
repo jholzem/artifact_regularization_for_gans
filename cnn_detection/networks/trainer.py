@@ -1,8 +1,7 @@
-import functools
 import torch
 import torch.nn as nn
-from networks.resnet import resnet50
-from networks.base_model import BaseModel, init_weights
+from cnn_detection.networks import resnet50
+from cnn_detection.networks import BaseModel
 
 
 class Trainer(BaseModel):

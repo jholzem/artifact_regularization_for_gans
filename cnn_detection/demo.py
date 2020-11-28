@@ -1,13 +1,8 @@
-import os
-import sys
-import torch
 import torch.nn
 import argparse
-import numpy as np
 import torchvision.transforms as transforms
-import torchvision.datasets as datasets
 from PIL import Image
-from networks.resnet import resnet50
+from cnn_detection.networks import resnet50
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('-f','--file', default='examples_realfakedir')

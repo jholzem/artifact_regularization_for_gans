@@ -1,17 +1,12 @@
 import os
-import sys
 import time
-import torch
-import torch.nn
-import argparse
-from PIL import Image
 from tensorboardX import SummaryWriter
 
-from validate import validate
-from data import create_dataloader
-from earlystop import EarlyStopping
-from networks.trainer import Trainer
-from options.train_options import TrainOptions
+from cnn_detection.validate import validate
+from cnn_detection.data import create_dataloader
+from cnn_detection.earlystop import EarlyStopping
+from cnn_detection.networks.trainer import Trainer
+from cnn_detection.options import TrainOptions
 
 
 """Currently assumes jpg_prob, blur_prob 0 or 1"""

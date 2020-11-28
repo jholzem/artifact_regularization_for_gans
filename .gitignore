@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+*.npy
+*.log
+/results/
+idinvert/examples
+.DS_Store
+.idea/

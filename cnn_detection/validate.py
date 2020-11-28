@@ -1,9 +1,9 @@
 import torch
 import numpy as np
-from networks.resnet import resnet50
-from sklearn.metrics import average_precision_score, precision_recall_curve, accuracy_score
-from options.test_options import TestOptions
-from data import create_dataloader
+from cnn_detection.networks import resnet50
+from sklearn.metrics import average_precision_score, accuracy_score
+from cnn_detection.options.test_options import TestOptions
+from cnn_detection.data import create_dataloader
 
 
 def validate(model, opt):

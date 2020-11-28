@@ -1,6 +1,6 @@
 import argparse
 import os
-import util
+from cnn_detection import util
 import torch
 #import models
 #import data

@@ -2,10 +2,10 @@ import os
 import csv
 import torch
 
-from validate import validate
-from networks.resnet import resnet50
-from options.test_options import TestOptions
-from eval_config import *
+from cnn_detection.validate import validate
+from cnn_detection.networks import resnet50
+from cnn_detection.options.test_options import TestOptions
+from cnn_detection.eval_config import *
 
 
 # Running tests

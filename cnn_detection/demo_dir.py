@@ -1,15 +1,12 @@
 
 import argparse
-import os
-import csv
-import torch
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 import torch.utils.data
 import numpy as np
-from sklearn.metrics import average_precision_score, precision_recall_curve, accuracy_score
+from sklearn.metrics import average_precision_score, accuracy_score
 
-from networks.resnet import resnet50
+from cnn_detection.networks import resnet50
 
 from tqdm import tqdm
 
