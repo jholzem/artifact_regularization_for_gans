@@ -1,3 +1,5 @@
+# Artifact Regularization based on Fourier Transform for Fine-Tuning GANs
+## Idea
 ## Background
 ### In-Domain GAN Inversion for Real Image Editing
 
@@ -5,7 +7,7 @@
 ![TensorFlow 1.12.2](https://img.shields.io/badge/tensorflow-1.12.2-green.svg?style=plastic)
 ![Keras 2.2.4](https://img.shields.io/badge/keras-2.2.4-green.svg?style=plastic)
 
-![image](./docs/assets/teaser.jpg)
+![image](idinvert/docs/assets/teaser.jpg)
 
 **Figure:** *Real image editing using the proposed In-Domain GAN inversion with a fixed GAN generator.*
 
