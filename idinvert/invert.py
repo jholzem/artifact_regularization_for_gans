@@ -6,11 +6,9 @@ employs the domain-guided encoder to produce a initial point in the latent
 space and then performs domain-regularized optimization to refine the latent
 code.
 """
-
 import os
 import argparse
 import pickle
-from tqdm import tqdm
 import numpy as np
 import tensorflow as tf
 from dnnlib import tflib
@@ -128,7 +126,7 @@ def main():
   image_list = []
   with open(args.image_list, 'r') as f:
     for line in f:
-      image_list.append(line.strip())
+      image_list.append(os.path.join("idinvert", line.strip()))
 
   # Invert images.
   logger.info(f'Start inversion.')
@@ -146,7 +144,7 @@ def main():
   names = ['' for _ in range(args.batch_size)]
   latent_codes_enc = []
   latent_codes = []
-  for img_idx in tqdm(range(0, len(image_list), args.batch_size), leave=False):
+  for img_idx in range(0, len(image_list), args.batch_size):
     # Load inputs.
     batch = image_list[img_idx:img_idx + args.batch_size]
     for i, image_path in enumerate(batch):
@@ -168,7 +166,7 @@ def main():
       visualizer.set_cell(i + img_idx, 2, image=outputs[1][i])
     # Optimize latent codes.
     col_idx = 3
-    for step in tqdm(range(1, args.num_iterations + 1), leave=False):
+    for step in range(1, args.num_iterations + 1):
       sess.run(train_op, {x: inputs})
       if step == args.num_iterations or step % save_interval == 0:
         outputs = sess.run([wp, x_rec])
