@@ -10,7 +10,7 @@
 #----------------------------------------------------------------------------
 # Paths.
 
-result_dir = 'results'
+result_dir = 'idinvert/results'
 data_dir = 'idinvert/datasets'
 lamb = 0.01
 cache_dir = 'cache'

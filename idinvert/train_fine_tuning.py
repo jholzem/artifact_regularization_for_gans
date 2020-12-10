@@ -13,11 +13,13 @@ from dnnlib import EasyDict
 
 import config
 from metrics import metric_base
+import os
 
 #----------------------------------------------------------------------------
 # Official training configs for StyleGAN, targeted mainly for FFHQ.
 
 if 1:
+    os.environ['CUDA_VISIBLE_DEVICES'] = '1'
     desc          = 'sgan'                                                                 # Description string included in result subdir name.
     train         = EasyDict(run_func_name='training.training_loop_fine_tuning.training_loop_fine_tuning')                     # Options for training loop.
     G             = EasyDict(func_name='training.networks_stylegan.G_style')               # Options for generator network.
@@ -34,7 +36,7 @@ if 1:
     tf_config     = {'rnd.np_random_seed': 1000}                                           # Options for tflib.init_tf().
 
     # Dataset.
-    desc += '-custom_dataset';  dataset = EasyDict(tfrecord_dir='resized', resolution=256);  train.mirror_augment = False
+    desc += '-custom_dataset';  dataset = EasyDict(tfrecord_dir='ffq_256', resolution=256);  train.mirror_augment = False
     #desc += '-ffhq';     dataset = EasyDict(tfrecord_dir='ffhq');                 train.mirror_augment = True
     #desc += '-ffhq512';  dataset = EasyDict(tfrecord_dir='ffhq', resolution=512); train.mirror_augment = True
     #desc += '-ffhq256';  dataset = EasyDict(tfrecord_dir='ffhq', resolution=256); train.mirror_augment = True
