@@ -9,3 +9,5 @@ idinvert/examples
 venv/
 trainedModels/
 examples/
+pytorch_implementation/created_Images
+pytorch_implementation/pretrained_models
