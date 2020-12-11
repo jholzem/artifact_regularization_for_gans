@@ -8,18 +8,18 @@ def main():
     # generator_name = input("Which generator do you want to use")
 
     # load Generator
-    G = model_loader.build(discriminator=False, encoder=False)
+    model = model_loader.build(discriminator=False, encoder=False)
 
     # synthesize
-    images = model_loader.synthesize(G,n)
+    images = model_loader.synthesize(model[0],n,seed=0)
 
     # save stuff
-    os.mkdir('created_Images/' + folder_name)
-    print('save')
+    os.mkdir('img_syn_stylegan/' + folder_name)
+    print(f'save')
     for i, img in enumerate(images):
         img_rgb = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-        cv2.imwrite('created_Images/' + folder_name + '/image' + str(i).zfill(6) + '.jpg',img_rgb)
-    print('saved stuff')
+        cv2.imwrite(f'img_syn_stylegan/{folder_name}/img{str(i).zfill(6)}.jpg',img_rgb)
+    print(f'saved stuff')
 
 if __name__ == '__main__':
     main()
