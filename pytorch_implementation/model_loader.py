@@ -27,22 +27,22 @@ def build(model_name='stylegan_ffhq256', generator=True, discriminator=True, enc
     url = model_config.pop('url')  # URL to download model if needed.
 
     # Build requested parts
-    to_build = []
+    model = []
     description = []
     print(f'Building requested parts of the model `{model_name}`:')
     if generator:
         print(f'Building generator')
-        to_build.append(build_model(**model_config, module='generator'))
+        model.append(build_model(**model_config, module='generator'))
         description.append('generator')
         print(f'Finish building generator.')
     if discriminator:
         print(f'Building discriminator')
-        to_build.append(build_model(**model_config, module='discriminator'))
+        model.append(build_model(**model_config, module='discriminator'))
         description.append('discriminator')
         print(f'Finish building discriminator.')
     if encoder:
         print(f'Building encoder')
-        to_build.append(build_model(**model_config, module='encoder'))
+        model.append(build_model(**model_config, module='encoder'))
         description.append('encoder')
         print(f'Finish building emcoder.')
 
@@ -53,16 +53,7 @@ def build(model_name='stylegan_ffhq256', generator=True, discriminator=True, enc
     checkpoint_stylegan = torch.load(checkpoint_stylegan_path, map_location='cpu')
     checkpoint_encoder = torch.load(checkpoint_encoder_path, map_location='cpu')
 
-    """
-    if not os.path.exists(checkpoint_path):
-        print("Pretrained model not found!")
-        # assert True
-        print(f'  Downloading checkpoint from `{url}` ...')
-        subprocess.call(['wget', '--quiet', '-O', checkpoint_path, url])
-        print(f'  Finish downloading checkpoint.')
-    """
-
-    for part, desc in zip(to_build, description):
+    for part, desc in zip(model, description):
         if desc == 'encoder':
             part.load_state_dict(checkpoint_encoder)
         else:
@@ -70,20 +61,13 @@ def build(model_name='stylegan_ffhq256', generator=True, discriminator=True, enc
                 part.load_state_dict(checkpoint_stylegan[desc + '_smooth'])
             else:
                 part.load_state_dict(checkpoint_stylegan[desc])
+            if gpu and desc == 'generator':
+                part = part.cuda()
+        part.eval()
 
-    G = to_build[0]
-    D = to_build[1]
-    E = to_build[2]
-
-    if gpu:
-        G = G.cuda()
-
-    G.eval()
-    D.eval()
-    E.eval()
     print(f'Finish loading checkpoint.')
 
-    return G, D, E
+    return model
 
 
 def synthesize(generator, num, synthesis_kwargs=None, batch_size=1, seed=0):
