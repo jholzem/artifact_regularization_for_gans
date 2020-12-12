@@ -10,9 +10,12 @@
 #----------------------------------------------------------------------------
 # Paths.
 
-result_dir = 'results'
-data_dir = 'datasets'
+result_dir = 'idinvert/results'
+data_dir = 'idinvert/datasets'
+lamb = 0.01
 cache_dir = 'cache'
 run_dir_ignore = ['results', 'datasets', 'cache']
+pretrained_model_path = "idinvert/styleganinv_face_256.pkl"
+dissimilarity_metric = '2'
 
 #----------------------------------------------------------------------------

@@ -136,6 +136,45 @@ def G_logistic_nonsaturating(G, D, opt, training_set, minibatch_size): # pylint:
     loss = tf.nn.softplus(-fake_scores_out)  # -log(logistic(fake_scores_out))
     return loss
 
+def G_logisitc_nonsaturating_regularized(E, G, D, opt, training_set, minibatch_size, reals, lamb, dissimilarity_metric):
+    labels = training_set.get_random_labels_tf(minibatch_size)
+    latents = E.get_output_for(reals, is_training=False)
+    latent_shape = G.components.synthesis.input_shape
+    latent_shape[0] = minibatch_size
+    latents = tf.reshape(latents, latent_shape)
+    fake_images_out = G.components.synthesis.get_output_for(latents, randomize_noise=False, is_training=True)
+    fake_scores_out = fp32(D.get_output_for(fake_images_out, labels, is_training=False))
+    fake_images_out_shape = fake_images_out.shape
+    new_shape = [minibatch_size, fake_images_out_shape[2], fake_images_out_shape[3], fake_images_out_shape[1]]
+    fake_images_out_rs = tf.reshape(fake_images_out, new_shape)
+    reals_rs = tf.reshape(reals, new_shape)
+    fd = fourier_dissimilarity(fake_images_out_rs, reals_rs, dissimilarity_metric)
+    loss = tf.nn.softplus(-fake_scores_out) + lamb * fd # -log(logistic(fake_scores_out))
+    return loss
+
+def fourier_dissimilarity(fake_images, real_images, metric):
+    with tf.device('/cpu:0'):
+        fake_gray = tf.squeeze(tf.image.rgb_to_grayscale(fp32(fake_images)), axis=3)
+        real_gray = tf.squeeze(tf.image.rgb_to_grayscale(fp32(real_images)), axis=3)
+    fake_ft = tf.math.abs(tf.fft2d(tf.cast(fake_gray, tf.complex64)))
+    real_ft = tf.math.abs(tf.fft2d(tf.cast(real_gray, tf.complex64)))
+    if metric == '1':
+        return tf.norm(fake_ft-real_ft, ord=1, axis=(1, 2))*1e-6
+    elif metric == '2':
+        return tf.reduce_sum(tf.norm(fake_ft-real_ft, ord='fro', axis=(1, 2))*1e-6)
+    elif metric == 'inf':
+        return tf.norm(fake_ft-real_ft, ord='inf', axis=(1, 2))*1e-6
+    elif metric == 'cos':
+        shape = tf.shape(fake_ft)
+        fake_ft_vec = tf.reshape(fake_ft, [shape[0], shape[1]*shape[2]])
+        real_ft_vec = tf.reshape(real_ft, [shape[0], shape[1]*shape[2]])
+        fake_ft_norm = tf.norm(fake_ft_vec, ord='euclidean', axis=1)
+        real_ft_norm = tf.norm(real_ft_vec, ord='euclidean', axis=1)
+        inner = tf.keras.backend.batch_dot(fake_ft_vec, real_ft_vec, (1, 1))
+        return 1 - tf.math.divide(tf.reshape(inner, inner.shape[:1]), tf.math.multiply(fake_ft_norm, real_ft_norm))
+    else:
+        return 0
+
 def D_logistic(G, D, opt, training_set, minibatch_size, reals, labels): # pylint: disable=unused-argument
     latents = tf.random_normal([minibatch_size] + G.input_shapes[0][1:])
     fake_images_out = G.get_output_for(latents, labels, is_training=True)

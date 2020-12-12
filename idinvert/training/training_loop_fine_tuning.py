@@ -8,6 +8,7 @@
 """Main training script."""
 
 import os
+import pickle
 import numpy as np
 import tensorflow as tf
 import dnnlib
@@ -108,7 +109,7 @@ def training_schedule(
 #----------------------------------------------------------------------------
 # Main training script.
 
-def training_loop(
+def training_loop_fine_tuning(
     submit_config,
     G_args                  = {},       # Options for generator network.
     D_args                  = {},       # Options for discriminator network.
@@ -146,15 +147,9 @@ def training_loop(
 
     # Construct networks.
     with tf.device('/gpu:0'):
-        if resume_run_id is not None:
-            network_pkl = misc.locate_network_pkl(resume_run_id, resume_snapshot)
-            print('Loading networks from "%s"...' % network_pkl)
-            G, D, Gs = misc.load_pkl(network_pkl)
-        else:
-            print('Constructing networks...')
-            G = tflib.Network('G', num_channels=training_set.shape[0], resolution=training_set.shape[1], label_size=training_set.label_size, **G_args)
-            D = tflib.Network('D', num_channels=training_set.shape[0], resolution=training_set.shape[1], label_size=training_set.label_size, **D_args)
-            Gs = G.clone('Gs')
+        with open(config.pretrained_model_path, 'rb') as f:
+            E, G, D, Gs = pickle.load(f)
+
     G.print_layers(); D.print_layers()
 
     print('Building TensorFlow graph...')
@@ -166,22 +161,20 @@ def training_loop(
         Gs_beta         = 0.5 ** tf.div(tf.cast(minibatch_in, tf.float32), G_smoothing_kimg * 1000.0) if G_smoothing_kimg > 0.0 else 0.0
 
     G_opt = tflib.Optimizer(name='TrainG', learning_rate=lrate_in, **G_opt_args)
-    D_opt = tflib.Optimizer(name='TrainD', learning_rate=lrate_in, **D_opt_args)
     for gpu in range(submit_config.num_gpus):
         with tf.name_scope('GPU%d' % gpu), tf.device('/gpu:%d' % gpu):
             G_gpu = G if gpu == 0 else G.clone(G.name + '_shadow')
+            E_gpu = E if gpu == 0 else E.clone(E.name + '_shadow')
             D_gpu = D if gpu == 0 else D.clone(D.name + '_shadow')
-            lod_assign_ops = [tf.assign(G_gpu.find_var('lod'), lod_in), tf.assign(D_gpu.find_var('lod'), lod_in)]
+            lod_assign_ops = [tf.assign(G_gpu.find_var('lod'), lod_in)]
             reals, labels = training_set.get_minibatch_tf()
             reals = process_reals(reals, lod_in, mirror_augment, training_set.dynamic_range, drange_net)
             with tf.name_scope('G_loss'), tf.control_dependencies(lod_assign_ops):
-                G_loss = dnnlib.util.call_func_by_name(G=G_gpu, D=D_gpu, opt=G_opt, training_set=training_set, minibatch_size=minibatch_split, **G_loss_args)
-            with tf.name_scope('D_loss'), tf.control_dependencies(lod_assign_ops):
-                D_loss = dnnlib.util.call_func_by_name(G=G_gpu, D=D_gpu, opt=D_opt, training_set=training_set, minibatch_size=minibatch_split, reals=reals, labels=labels, **D_loss_args)
+                G_loss = dnnlib.util.call_func_by_name(E=E_gpu, G=G_gpu, D=D_gpu, opt=G_opt, training_set=training_set,
+                                                       minibatch_size=minibatch_split, reals=reals, lamb=config.lamb,
+                                                       dissimilarity_metric=config.dissimilarity_metric, **G_loss_args)
             G_opt.register_gradients(tf.reduce_mean(G_loss), G_gpu.trainables)
-            D_opt.register_gradients(tf.reduce_mean(D_loss), D_gpu.trainables)
     G_train_op = G_opt.apply_updates()
-    D_train_op = D_opt.apply_updates()
 
     Gs_update_op = Gs.setup_as_moving_average_of(G, beta=Gs_beta)
     with tf.device('/gpu:0'):
@@ -220,13 +213,12 @@ def training_loop(
         training_set.configure(sched.minibatch // submit_config.num_gpus, sched.lod)
         if reset_opt_for_new_lod:
             if np.floor(sched.lod) != np.floor(prev_lod) or np.ceil(sched.lod) != np.ceil(prev_lod):
-                G_opt.reset_optimizer_state(); D_opt.reset_optimizer_state()
+                G_opt.reset_optimizer_state()
         prev_lod = sched.lod
 
         # Run training ops.
         for _mb_repeat in range(minibatch_repeats):
             for _D_repeat in range(D_repeats):
-                tflib.run([D_train_op, Gs_update_op], {lod_in: sched.lod, lrate_in: sched.D_lrate, minibatch_in: sched.minibatch})
                 cur_nimg += sched.minibatch
             tflib.run([G_train_op], {lod_in: sched.lod, lrate_in: sched.G_lrate, minibatch_in: sched.minibatch})
 
