@@ -10,6 +10,7 @@ idinvert/examples
 venv/
 trainedModels/
 examples/
+pytorch_implementation/img_syn_stylegan
 pytorch_implementation/pretrained_models/stylegan_ffhq256.pth
 pytorch_implementation/pretrained_models/styleganinv_ffhq256_encoder.pth
 pytorch_implementation/pretrained_models/styleganinv_ffhq256_generator.pth
