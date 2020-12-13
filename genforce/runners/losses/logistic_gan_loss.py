@@ -4,6 +4,7 @@
 import torch
 import numpy as np
 import torch.nn.functional as F
+import fourier.fourier as fou
 
 __all__ = ['LogisticGANLoss']
 
@@ -114,6 +115,7 @@ class FourierRegularizedLogisticGANLoss(LogisticGANLoss):
     def __init__(self, runner, d_loss_kwargs=None, g_loss_kwargs=None):
         super(FourierRegularizedLogisticGANLoss, self).__init__(runner, d_loss_kwargs, g_loss_kwargs)
         self.lamb = self.g_loss_kwargs['lamb']
+        self.metric = self.g_loss_kwargs['metric']
 
     def g_loss(self, runner, data):
         """Computes loss for generator."""
@@ -135,6 +137,5 @@ class FourierRegularizedLogisticGANLoss(LogisticGANLoss):
 
     def fourier_loss(self, reals, fakes):
         """Compute fourier loss for regularization"""
-        #TODO: define
-        a = 1
+        return torch.mean(fou.fourier_dissimilarity(fakes, reals, self.metric))
 

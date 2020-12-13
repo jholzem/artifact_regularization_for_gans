@@ -59,5 +59,5 @@ modules = dict(
 loss = dict(
     type='FourierRegularizedLogisticGANLoss',
     d_loss_kwargs=dict(r1_gamma=10.0),
-    g_loss_kwargs=dict(lamb=0.01),
+    g_loss_kwargs=dict(lamb=0.01, metric='2'),
 )
