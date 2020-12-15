@@ -21,42 +21,42 @@ from utils.visualizer import save_image, load_image, resize_image
 
 
 def parse_args():
-  """Parses arguments."""
-  parser = argparse.ArgumentParser()
-  parser.add_argument('model_path', type=str,
-                      help='Path to the pre-trained model.')
-  parser.add_argument('image_list', type=str,
-                      help='List of images to invert.')
-  parser.add_argument('-o', '--output_dir', type=str, default='',
-                      help='Directory to save the results. If not specified, '
-                           '`./results/inversion/${IMAGE_LIST}` '
-                           'will be used by default.')
-  parser.add_argument('--batch_size', type=int, default=4,
-                      help='Batch size. (default: 4)')
-  parser.add_argument('--learning_rate', type=float, default=0.01,
-                      help='Learning rate for optimization. (default: 0.01)')
-  parser.add_argument('--num_iterations', type=int, default=100,
-                      help='Number of optimization iterations. (default: 100)')
-  parser.add_argument('--num_results', type=int, default=5,
-                      help='Number of intermediate optimization results to '
-                           'save for each sample. (default: 5)')
-  parser.add_argument('-R', '--random_init', action='store_true',
-                      help='Whether to use random initialization instead of '
-                           'the output from encoder. (default: False)')
-  parser.add_argument('-E', '--domain_regularizer', action='store_false',
-                      help='Whether to use domain regularizer for '
-                           'optimization. (default: True)')
-  parser.add_argument('--loss_weight_feat', type=float, default=5e-5,
-                      help='The perceptual loss scale for optimization. '
-                           '(default: 5e-5)')
-  parser.add_argument('--loss_weight_enc', type=float, default=2.0,
-                      help='The encoder loss scale for optimization.'
-                           '(default: 2.0)')
-  parser.add_argument('--viz_size', type=int, default=256,
-                      help='Image size for visualization. (default: 256)')
-  parser.add_argument('--gpu_id', type=str, default='0',
-                      help='Which GPU(s) to use. (default: `0`)')
-  return parser.parse_args()
+    """Parses arguments."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument('model_path', type=str,
+                        help='Path to the pre-trained model.')
+    parser.add_argument('image_list', type=str,
+                        help='List of images to invert.')
+    parser.add_argument('-o', '--output_dir', type=str, default='',
+                        help='Directory to save the results. If not specified, '
+                             '`./results/inversion/${IMAGE_LIST}` '
+                             'will be used by default.')
+    parser.add_argument('--batch_size', type=int, default=4,
+                        help='Batch size. (default: 4)')
+    parser.add_argument('--learning_rate', type=float, default=0.01,
+                        help='Learning rate for optimization. (default: 0.01)')
+    parser.add_argument('--num_iterations', type=int, default=100,
+                        help='Number of optimization iterations. (default: 100)')
+    parser.add_argument('--num_results', type=int, default=5,
+                        help='Number of intermediate optimization results to '
+                             'save for each sample. (default: 5)')
+    parser.add_argument('-R', '--random_init', action='store_true',
+                        help='Whether to use random initialization instead of '
+                             'the output from encoder. (default: False)')
+    parser.add_argument('-E', '--domain_regularizer', action='store_false',
+                        help='Whether to use domain regularizer for '
+                             'optimization. (default: True)')
+    parser.add_argument('--loss_weight_feat', type=float, default=5e-5,
+                        help='The perceptual loss scale for optimization. '
+                             '(default: 5e-5)')
+    parser.add_argument('--loss_weight_enc', type=float, default=2.0,
+                        help='The encoder loss scale for optimization.'
+                             '(default: 2.0)')
+    parser.add_argument('--viz_size', type=int, default=256,
+                        help='Image size for visualization. (default: 256)')
+    parser.add_argument('--gpu_id', type=str, default='0',
+                        help='Which GPU(s) to use. (default: `0`)')
+    return parser.parse_args()
 
 
 def main():
@@ -169,23 +169,6 @@ def main():
     for step in range(1, args.num_iterations + 1):
       sess.run(train_op, {x: inputs})
       if step == args.num_iterations or step % save_interval == 0:
-        outputs = sess.run([wp, x_rec])
-        outputs[1] = adjust_pixel_range(outputs[1])
-        for i, _ in enumerate(batch):
-          if step == args.num_iterations:
-            save_image(f'{output_dir}/{names[i]}_inv.png', outputs[1][i])
-          visualizer.set_cell(i + img_idx, col_idx, image=outputs[1][i])
-        col_idx += 1
-    latent_codes.append(outputs[0][0:len(batch)])
-
-  # Save results.
-  os.system(f'cp {args.image_list} {output_dir}/image_list.txt')
-  np.save(f'{output_dir}/encoded_codes.npy',
-          np.concatenate(latent_codes_enc, axis=0))
-  np.save(f'{output_dir}/inverted_codes.npy',
-          np.concatenate(latent_codes, axis=0))
-  visualizer.save(f'{output_dir}/inversion.html')
-
-
+        
 if __name__ == '__main__':
-  main()
+    main()

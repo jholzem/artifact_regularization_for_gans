@@ -10,8 +10,8 @@ Use this class to generate latent codes for stylegan given input images by apply
 logic is copied from gan_id_inversion.invert but generalized for any usecase where mappings from images to latent codes
 are required.
 Input to init:
-    - E -> pretrained encoder with freezed parameters
-    - G -> pretrained generator with unfreezed parameters
+    - E -> pretrained encoder with frozen parameters
+    - G -> pretrained generator with adjustable parameters
     - batch_size, number_of_iters defaults taken from gan_id_inversion.invert 
 """
 # TODO: debug
