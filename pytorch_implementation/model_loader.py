@@ -49,7 +49,7 @@ def build(model_name='stylegan_ffhq256', generator=True, discriminator=True, enc
     # Load pre-trained weights.
     checkpoint_stylegan_path = os.path.join('pretrained_models', model_name + '.pth')
     checkpoint_encoder_path = os.path.join('pretrained_models', 'styleganinv_ffhq256_encoder.pth')
-    # print(f'Loading weights from `{checkpoint_path}` ...')
+    print(f'Loading weights ...')
     checkpoint_stylegan = torch.load(checkpoint_stylegan_path, map_location='cpu')
     checkpoint_encoder = torch.load(checkpoint_encoder_path, map_location='cpu')
 

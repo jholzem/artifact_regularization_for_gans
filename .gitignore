@@ -15,3 +15,4 @@ pytorch_implementation/pretrained_models/styleganinv_ffhq256_encoder.pth
 pytorch_implementation/pretrained_models/styleganinv_ffhq256_generator.pth
 pytorch_implementation/pretrained_models/vgg16.pth
 pytorch_implementation/idinvert_pytorch/examples
+pytorch_implementation/tf_to_pytorch/weights
