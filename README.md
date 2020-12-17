@@ -1,3 +1,4 @@
+# TODO: Needs clean up
 # Artifact Regularization based on Fourier Transform for Fine-Tuning GANs
 ## Idea
 ## Background
