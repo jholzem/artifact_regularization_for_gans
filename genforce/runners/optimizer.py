@@ -4,6 +4,11 @@
 import math
 
 import torch
+import sys
+sys.path.append("..")
+from models.stylegan_generator_idinvert import StyleGANGeneratorIdinvert
+from models.stylegan_discriminator import StyleGANDiscriminator
+from models.stylegan_generator import StyleGANGenerator
 
 __all__ = ['build_optimizer', 'build_optimizers']
 
@@ -99,7 +104,10 @@ def build_optimizers(opt_config, runner):
             raise AttributeError(f'Optimizer `{name}` has already existed!')
         if name not in runner.models:
             raise AttributeError(f'Model `{name}` is missing!')
-        runner.optimizers[name] = build_optimizer(config, runner.models[name])
+        if type(runner.models[name]) != StyleGANGeneratorIdinvert:
+            runner.optimizers[name] = build_optimizer(config, runner.models[name])
+        else:
+            runner.optimizers[name] = build_optimizer(config, runner.models[name].net)
 
 
 # We slightly modify the Adam optimizer from `torch.optim`. since there exists

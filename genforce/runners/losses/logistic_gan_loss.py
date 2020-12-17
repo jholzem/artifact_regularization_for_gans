@@ -4,8 +4,10 @@
 import torch
 import numpy as np
 import torch.nn.functional as F
+from .fourier.fourier import fourier_dissimilarity
+from models.perceptual_model import PerceptualModel
 
-__all__ = ['LogisticGANLoss']
+__all__ = ['LogisticGANLoss', 'FourierRegularizedLogisticGANLoss']
 
 apply_loss_scaling = lambda x: x * torch.exp(x * np.log(2.0))
 undo_loss_scaling = lambda x: x * torch.exp(-x * np.log(2.0))
@@ -114,6 +116,7 @@ class FourierRegularizedLogisticGANLoss(LogisticGANLoss):
     def __init__(self, runner, d_loss_kwargs=None, g_loss_kwargs=None):
         super(FourierRegularizedLogisticGANLoss, self).__init__(runner, d_loss_kwargs, g_loss_kwargs)
         self.lamb = self.g_loss_kwargs['lamb']
+        self.metric = self.g_loss_kwargs['metric']
 
     def g_loss(self, runner, data):
         """Computes loss for generator."""
@@ -121,20 +124,45 @@ class FourierRegularizedLogisticGANLoss(LogisticGANLoss):
         G = runner.models['generator']
         D = runner.models['discriminator']
         labels = data.get('label', None)
-        latents = runner.models['inverter'].easy_invert(data)
-        fakes = G.synthesis(latents)['image']
+        data['image'] = data['image'] / 255. * 2. - 1.
+        latents = runner.inverter.invert(data['image'])
+        G.net.train()
+        fakes = G.net.module.synthesis(latents)
         fake_scores = D(fakes, label=labels, **runner.D_kwargs_train)
 
         g_loss = F.softplus(-fake_scores).mean()
         runner.running_stats.update({'g_loss': g_loss.item()})
-        fourier_loss = self.fourier_loss(data, fakes)
+        fourier_loss = fourier_dissimilarity(fakes, data['image'], self.metric)
+        fourier_loss = torch.mean(fourier_loss)
         runner.running_stats.update({'fourier_loss': fourier_loss.item()})
         total_loss = g_loss + self.lamb * fourier_loss
         runner.running_stats.update({'total_loss': total_loss.item()})
         return g_loss
 
-    def fourier_loss(self, reals, fakes):
-        """Compute fourier loss for regularization"""
-        #TODO: define
-        a = 1
+class FourierRegularizedPerceptualLoss(LogisticGANLoss):
+    def __init__(self, runner, d_loss_kwargs=None, g_loss_kwargs=None):
+        super(FourierRegularizedPerceptualLoss, self).__init__(runner, d_loss_kwargs, g_loss_kwargs)
+        self.lamb = self.g_loss_kwargs['lamb']
+        self.metric = self.g_loss_kwargs['metric']
+        self.F = PerceptualModel(-1, 1)
+
+    def g_loss(self, runner, data):
+        """Computes loss for generator."""
+        # TODO: Use random labels.
+        G = runner.models['generator']
+        data['image'] = data['image'] / 255. * 2. - 1.
+        latents = runner.inverter.invert(data['image'])
+        G.net.train()
+        fakes = G.net.module.synthesis(latents)
+        fakes_feat = self.F.net(fakes)
+        reals_feat = self.F.net(data['image'])
+        g_loss = torch.mean((fakes_feat - reals_feat) ** 2)
+
+        runner.running_stats.update({'g_loss': g_loss.item()})
+        fourier_loss = fourier_dissimilarity(fakes, data['image'], self.metric)
+        fourier_loss = torch.mean(fourier_loss)
+        runner.running_stats.update({'fourier_loss': fourier_loss.item()})
+        total_loss = g_loss + self.lamb * fourier_loss
+        runner.running_stats.update({'total_loss': total_loss.item()})
+        return g_loss
 

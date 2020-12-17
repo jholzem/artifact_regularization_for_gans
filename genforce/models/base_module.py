@@ -12,7 +12,7 @@ import numpy as np
 
 import torch
 
-from . import model_settings
+from .model_settings import *
 
 __all__ = ['BaseModule']
 
@@ -91,11 +91,11 @@ class BaseModule(object):
     self.logger = logger or get_temp_logger(model_name)
 
     # Parse settings.
-    for key, val in model_settings.MODEL_POOL[model_name].items():
+    for key, val in MODEL_POOL[model_name].items():
       setattr(self, key, val)
-    self.use_cuda = model_settings.USE_CUDA and torch.cuda.is_available()
-    self.batch_size = model_settings.MAX_IMAGES_ON_DEVICE
-    self.ram_size = model_settings.MAX_IMAGES_ON_RAM
+    self.use_cuda = USE_CUDA and torch.cuda.is_available()
+    self.batch_size = MAX_IMAGES_ON_DEVICE
+    self.ram_size = MAX_IMAGES_ON_RAM
     self.net = None
     self.run_device = 'cuda' if self.use_cuda else 'cpu'
     self.cpu_device = 'cpu'
@@ -111,7 +111,7 @@ class BaseModule(object):
     self.max_val = getattr(self, 'max_val', 1.0)
 
     # Get paths.
-    self.weight_path = model_settings.get_weight_path(
+    self.weight_path = get_weight_path(
         f'{model_name}_{module_name}')
 
     # Build graph and load pre-trained weights.

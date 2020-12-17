@@ -19,6 +19,11 @@ from . import losses
 from . import misc
 from .optimizer import build_optimizers
 from .running_stats import RunningStats
+import sys
+sys.path.append("..")
+from models.stylegan_generator_idinvert import StyleGANGeneratorIdinvert
+from models.stylegan_discriminator import StyleGANDiscriminator
+from models.stylegan_generator import StyleGANGenerator
 
 
 def _strip_state_dict_prefix(state_dict, prefix='module.'):
@@ -166,7 +171,8 @@ class BaseRunner(object):
         for module, module_config in self.config.modules.items():
             model_config = module_config['model']
             self.models[module] = build_model(module=module, **model_config)
-            self.models[module].cuda()
+            if module_config['model']['gan_type'] != 'stylegan_idinvert':
+                self.models[module].cuda()
             opt_config[module] = module_config.get('opt', None)
             lr_config[module] = module_config.get('lr', None)
         build_optimizers(opt_config, self)
@@ -176,11 +182,19 @@ class BaseRunner(object):
     def distribute(self):
         """Sets `self.model` as `torch.nn.parallel.DistributedDataParallel`."""
         for name in self.models:
-            self.models[name] = torch.nn.parallel.DistributedDataParallel(
-                module=self.models[name],
-                device_ids=[torch.cuda.current_device()],
-                broadcast_buffers=False,
-                find_unused_parameters=True)
+            if type(self.models[name]) != StyleGANGeneratorIdinvert:
+                self.models[name] = torch.nn.parallel.DistributedDataParallel(
+                    module=self.models[name],
+                    device_ids=[torch.cuda.current_device()],
+                    broadcast_buffers=False,
+                    find_unused_parameters=True)
+            else:
+                self.models[name].net = torch.nn.parallel.DistributedDataParallel(
+                    module=self.models[name].net,
+                    device_ids=[torch.cuda.current_device()],
+                    broadcast_buffers=False,
+                    find_unused_parameters=True)
+
 
     @staticmethod
     def get_module(model):
@@ -233,8 +247,12 @@ class BaseRunner(object):
 
     def set_model_requires_grad(self, name, requires_grad):
         """Sets the `requires_grad` configuration for a particular model."""
-        for param in self.models[name].parameters():
-            param.requires_grad = requires_grad
+        if type(self.models[name]) != StyleGANGeneratorIdinvert:
+            for param in self.models[name].parameters():
+                param.requires_grad = requires_grad
+        else:
+            for param in self.models[name].net.parameters():
+                param.requires_grad = requires_grad
 
     def set_models_requires_grad(self, requires_grad):
         """Sets the `requires_grad` configuration for all models."""
@@ -246,7 +264,10 @@ class BaseRunner(object):
         if isinstance(mode, str):
             mode = mode.lower()
         if mode == 'train' or mode is True:
-            self.models[name].train()
+            if type(self.models[name]) != StyleGANGeneratorIdinvert:
+                self.models[name].train()
+            else:
+                self.models[name].net.train()
         elif mode in ['val', 'test', 'eval'] or mode is False:
             self.models[name].eval()
         else:
@@ -256,7 +277,10 @@ class BaseRunner(object):
         """Sets the `train/val` mode for all models."""
         self.mode = mode
         for name in self.models:
-            self.set_model_mode(name, mode)
+            if type(self.models[name]) != StyleGANGeneratorIdinvert:
+                self.set_model_mode(name, mode)
+            else:
+                self.models[name].net.train()
 
     def train_step(self, data, **train_kwargs):
         """Executes one training step."""
@@ -313,7 +337,10 @@ class BaseRunner(object):
         # Models.
         checkpoint['models'] = dict()
         for name, model in self.models.items():
-            checkpoint['models'][name] = self.get_module(model).state_dict()
+            if type(self.models[name]) != StyleGANGeneratorIdinvert:
+                checkpoint['models'][name] = self.get_module(model).state_dict()
+            else:
+                checkpoint['models'][name] = self.get_module(model).net.state_dict()
         # Running metadata.
         if running_metadata:
             checkpoint['running_metadata'] = {
@@ -372,7 +399,8 @@ class BaseRunner(object):
                 continue
             state_dict = _strip_state_dict_prefix(
                 checkpoint['models'][model_name])
-            model.load_state_dict(state_dict)
+            if type(model) != StyleGANGeneratorIdinvert:
+                model.load_state_dict(state_dict)
             self.logger.info(f'  Successfully loaded model `{model_name}`.')
         # Load running metedata.
         if running_metadata:

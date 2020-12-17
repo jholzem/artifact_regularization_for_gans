@@ -17,6 +17,24 @@ from utils.logger import setup_logger
 from utils.visualizer import HtmlPageVisualizer
 from utils.visualizer import save_image, load_image, resize_image
 
+def resize_image(image, *args, **kwargs):
+    """Resizes image.
+
+    This is a wrap of `cv2.resize()`.
+
+    NOTE: THe channel order of the input image will not be changed.
+
+    Args:
+        image: Image to resize.
+    """
+    if image is None:
+        return None
+
+    assert image.ndim == 3 and image.shape[2] in [1, 3]
+    image = cv2.resize(image, *args, **kwargs)
+    if image.ndim == 2:
+        return image[:, :, np.newaxis]
+    return image
 
 def parse_args():
   """Parses arguments."""
@@ -59,6 +77,7 @@ def main():
 
   logger.info(f'Loading model.')
   inverter = StyleGANInverter(
+      G,
       args.model_name,
       learning_rate=args.learning_rate,
       iteration=args.num_iterations,
@@ -69,12 +88,13 @@ def main():
   image_size = inverter.G.resolution
 
   # Load image list.
-  logger.info(f'Loading image list.')
+  #logger.info(f'Loading image list.')
   image_list = []
   with open(args.image_list, 'r') as f:
     for line in f:
       image_list.append(line.strip())
 
+  """
   # Initialize visualizer.
   save_interval = args.num_iterations // args.num_results
   headers = ['Name', 'Original Image', 'Encoder Output']
@@ -85,9 +105,10 @@ def main():
   visualizer = HtmlPageVisualizer(
       num_rows=len(image_list), num_cols=len(headers), viz_size=viz_size)
   visualizer.set_headers(headers)
+  """
 
   # Invert images.
-  logger.info(f'Start inversion.')
+  #logger.info(f'Start inversion.')
   latent_codes = []
   for img_idx in tqdm(range(len(image_list)), leave=False):
     image_path = image_list[img_idx]
@@ -98,16 +119,18 @@ def main():
     save_image(f'{output_dir}/{image_name}_ori.png', image)
     save_image(f'{output_dir}/{image_name}_enc.png', viz_results[1])
     save_image(f'{output_dir}/{image_name}_inv.png', viz_results[-1])
+    """
     visualizer.set_cell(img_idx, 0, text=image_name)
     visualizer.set_cell(img_idx, 1, image=image)
     for viz_idx, viz_img in enumerate(viz_results[1:]):
       visualizer.set_cell(img_idx, viz_idx + 2, image=viz_img)
+    """
 
   # Save results.
   os.system(f'cp {args.image_list} {output_dir}/image_list.txt')
   np.save(f'{output_dir}/inverted_codes.npy',
           np.concatenate(latent_codes, axis=0))
-  visualizer.save(f'{output_dir}/inversion.html')
+  #visualizer.save(f'{output_dir}/inversion.html')
 
 
 if __name__ == '__main__':

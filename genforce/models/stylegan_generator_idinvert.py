@@ -9,14 +9,14 @@ import numpy as np
 
 import torch
 
-from . import model_settings
+from .model_settings import *
 from .base_generator import BaseGenerator
-from .stylegan_generator_network import StyleGANGeneratorNet
+from .stylegan_generator_idinvert_network import StyleGANGeneratorNet
 
-__all__ = ['StyleGANGenerator']
+__all__ = ['StyleGANGeneratorIdinvert']
 
 
-class StyleGANGenerator(BaseGenerator):
+class StyleGANGeneratorIdinvert(BaseGenerator):
   """Defines the generator class of StyleGAN.
 
   Different from conventional GAN, StyleGAN introduces a disentangled latent
@@ -47,9 +47,9 @@ class StyleGANGenerator(BaseGenerator):
     self.final_tanh = getattr(self, 'final_tanh', False)
     self.label_size = getattr(self, 'label_size', 0)
     self.fused_scale = getattr(self, 'fused_scale', 'auto')
-    self.truncation_psi = model_settings.STYLEGAN_TRUNCATION_PSI
-    self.truncation_layers = model_settings.STYLEGAN_TRUNCATION_LAYERS
-    self.randomize_noise = model_settings.STYLEGAN_RANDOMIZE_NOISE
+    self.truncation_psi = STYLEGAN_TRUNCATION_PSI
+    self.truncation_layers = STYLEGAN_TRUNCATION_LAYERS
+    self.randomize_noise = STYLEGAN_RANDOMIZE_NOISE
     self.fmaps_base = getattr(self, 'fmaps_base', 16 << 10)
     self.fmaps_max = getattr(self, 'fmaps_max', 512)
     self.net = StyleGANGeneratorNet(

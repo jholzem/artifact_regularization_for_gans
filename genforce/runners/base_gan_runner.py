@@ -126,7 +126,7 @@ class BaseGANRunner(BaseRunner):
                     G = self.models['generator_smooth']
                 else:
                     G = self.models['generator']
-                images = G(code, **self.G_kwargs_val)['image']
+                images = G.net(code)
                 images = self.postprocess(images)
             for sub_idx, image in zip(sub_indices, images):
                 save_image(os.path.join(temp_dir, f'{sub_idx:06d}.jpg'), image)
@@ -201,7 +201,7 @@ class BaseGANRunner(BaseRunner):
                     G = self.models['generator_smooth']
                 else:
                     G = self.models['generator']
-                fake_images = G(code)['image']
+                fake_images = G.net(code)
                 fake_feature_list.append(
                     extract_feature(self.inception_model, fake_images))
             self.logger.update_pbar(task1, batch_size * self.world_size)

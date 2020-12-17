@@ -8,6 +8,7 @@ from .stylegan_generator import StyleGANGenerator
 from .stylegan_discriminator import StyleGANDiscriminator
 from .stylegan2_generator import StyleGAN2Generator
 from .stylegan2_discriminator import StyleGAN2Discriminator
+from .stylegan_generator_idinvert import StyleGANGeneratorIdinvert
 
 __all__ = [
     'MODEL_ZOO', 'PGGANGenerator', 'PGGANDiscriminator', 'StyleGANGenerator',
@@ -15,7 +16,7 @@ __all__ = [
     'build_generator', 'build_discriminator', 'build_model', 'parse_gan_type'
 ]
 
-_GAN_TYPES_ALLOWED = ['pggan', 'stylegan', 'stylegan2']
+_GAN_TYPES_ALLOWED = ['pggan', 'stylegan', 'stylegan2', 'stylegan_idinvert']
 _MODULES_ALLOWED = ['generator', 'discriminator']
 
 
@@ -41,6 +42,8 @@ def build_generator(gan_type, resolution, **kwargs):
         return StyleGANGenerator(resolution, **kwargs)
     if gan_type == 'stylegan2':
         return StyleGAN2Generator(resolution, **kwargs)
+    if gan_type == 'stylegan_idinvert':
+        return StyleGANGeneratorIdinvert("styleganinv_ffhq256")
     raise NotImplementedError(f'Unsupported GAN type `{gan_type}`!')
 
 

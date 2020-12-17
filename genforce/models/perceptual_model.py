@@ -8,11 +8,11 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-from . import model_settings
+from .model_settings import *
 
 __all__ = ['VGG16', 'PerceptualModel']
 
-_WEIGHT_PATH = os.path.join(model_settings.MODEL_DIR, 'vgg16.pth')
+_WEIGHT_PATH = os.path.join(MODEL_DIR, 'vgg16.pth')
 
 _MEAN_STATS = (103.939, 116.779, 123.68)
 
@@ -94,9 +94,9 @@ class PerceptualModel(object):
 
   def __init__(self, output_layer_idx=23, min_val=-1.0, max_val=1.0):
     """Initializes."""
-    self.use_cuda = model_settings.USE_CUDA and torch.cuda.is_available()
-    self.batch_size = model_settings.MAX_IMAGES_ON_DEVICE
-    self.ram_size = model_settings.MAX_IMAGES_ON_RAM
+    self.use_cuda = USE_CUDA and torch.cuda.is_available()
+    self.batch_size = MAX_IMAGES_ON_DEVICE
+    self.ram_size = MAX_IMAGES_ON_RAM
     self.run_device = 'cuda' if self.use_cuda else 'cpu'
     self.cpu_device = 'cpu'
 

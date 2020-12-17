@@ -10,6 +10,8 @@ import torch
 from models.stylegan_generator import StyleGANGenerator
 from models.stylegan_encoder import StyleGANEncoder
 from models.perceptual_model import PerceptualModel
+import matplotlib.pyplot as plt
+import os
 
 __all__ = ['StyleGANInverter']
 
@@ -71,6 +73,15 @@ class StyleGANInverter(object):
     self.logger = logger
     self.model_name = model_name
     self.gan_type = 'stylegan'
+    self.save_dir = "inversion_debugging_0"
+    index = 0
+    while os.path.isdir(self.save_dir):
+      index += 1
+      save_dir = list(self.save_dir)
+      save_dir[-1] = str(index)
+      self.save_dir = "".join(save_dir)
+    os.mkdir(self.save_dir)
+    self.iteration_counter = 0
 
     #self.G = StyleGANGenerator(self.model_name, self.logger)
     self.G = G
@@ -138,9 +149,11 @@ class StyleGANInverter(object):
     channel order `self.G.channel_order`, and pixel range [self.G.min_val,
     self.G.max_val].
     """
-    x = image[np.newaxis]
-    x = self.G.to_tensor(x.astype(np.float32))
-    z = _get_tensor_value(self.E.net(x).view(1, *self.encode_dim))
+    #x = image[np.newaxis]
+    #x = self.G.to_tensor(x.astype(np.float32))
+    latent = self.E.net(image)
+    batch_size = latent.shape[0]
+    z = _get_tensor_value(latent.view(batch_size, *self.encode_dim))
     return z.astype(np.float32)
 
   def invert(self, image, num_viz=0):
@@ -160,25 +173,36 @@ class StyleGANInverter(object):
         are from the optimization process every `self.iteration // num_viz`
         steps.
     """
-    x = image[np.newaxis]
-    x = self.G.to_tensor(x.astype(np.float32))
+    #x = torch.from_numpy(image)
+    #x = self.G.to_tensor(x.astype(np.float32))
+    #x.requires_grad = False
+    os.mkdir(os.path.join(self.save_dir, str(self.iteration_counter)))
+    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "original.jpg")
+    plt.imsave(save_path, (255*(image.permute(0, 2, 3, 1)[0] + 1.) / 2.).cpu().numpy().astype(np.uint8))
+    self.G.net.eval()
+    x = image
     x.requires_grad = False
     init_z = self.get_init_code(image)
+
     z = torch.Tensor(init_z).to(self.run_device)
+    x_rec = self.G.net.module.synthesis(z)
+    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.jpg")
+    plt.imsave(save_path, (255*(x_rec.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
+
     z.requires_grad = True
 
     optimizer = torch.optim.Adam([z], lr=self.learning_rate)
 
-    viz_results = []
-    viz_results.append(self.G.postprocess(_get_tensor_value(x))[0])
-    x_init_inv = self.G.net.synthesis(z)
-    viz_results.append(self.G.postprocess(_get_tensor_value(x_init_inv))[0])
+    #viz_results = []
+    #viz_results.append(self.G.postprocess(_get_tensor_value(x))[0])
+    #x_init_inv = self.G.net.synthesis(z)
+    #viz_results.append(self.G.postprocess(_get_tensor_value(x_init_inv))[0])
     pbar = tqdm(range(1, self.iteration + 1), leave=True)
     for step in pbar:
       loss = 0.0
 
       # Reconstruction loss.
-      x_rec = self.G.net.synthesis(z)
+      x_rec = self.G.net.module.synthesis(z)
       loss_pix = torch.mean((x - x_rec) ** 2)
       loss = loss + loss_pix * self.loss_pix_weight
       log_message = f'loss_pix: {_get_tensor_value(loss_pix):.3f}'
@@ -193,7 +217,9 @@ class StyleGANInverter(object):
 
       # Regularization loss.
       if self.loss_reg_weight:
-        z_rec = self.E.net(x_rec).view(1, *self.encode_dim)
+        latent = self.E.net(x_rec)
+        batch_size = latent.shape[0]
+        z_rec = latent.view(batch_size, *self.encode_dim)
         loss_reg = torch.mean((z - z_rec) ** 2)
         loss = loss + loss_reg * self.loss_reg_weight
         log_message += f', loss_reg: {_get_tensor_value(loss_reg):.3f}'
@@ -209,11 +235,16 @@ class StyleGANInverter(object):
       optimizer.zero_grad()
       loss.backward()
       optimizer.step()
-
+      """
       if num_viz > 0 and step % (self.iteration // num_viz) == 0:
         viz_results.append(self.G.postprocess(_get_tensor_value(x_rec))[0])
-
-    return _get_tensor_value(z), viz_results
+      """
+    x_opt = self.G.net.module.synthesis(z)
+    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "opt.jpg")
+    plt.imsave(save_path, (255. * (x_opt.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
+    self.iteration_counter += 1
+    z.requires_grad = False
+    return z
 
   def easy_invert(self, image, num_viz=0):
     """Wraps functions `preprocess()` and `invert()` together."""

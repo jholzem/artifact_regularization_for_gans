@@ -16,7 +16,7 @@ from .transforms import progressive_resize_image
 from .transforms import crop_resize_image
 from .transforms import resize_image
 from .transforms import normalize_image
-
+import matplotlib.pyplot as plt
 __all__ = ['BaseDataset']
 
 _FORMATS_ALLOWED = ['dir', 'lmdb', 'list', 'zip']
@@ -113,7 +113,7 @@ class BaseDataset(Dataset):
                  mirror=0.0,
                  progressive_resize=True,
                  crop_resize_resolution=-1,
-                 transform=normalize_image,
+                 transform=None,#normalize_image,
                  transform_kwargs=None,
                  **_unused_kwargs):
         """Initializes the dataset.

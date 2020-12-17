@@ -57,7 +57,7 @@ modules = dict(
 )
 
 loss = dict(
-    type='FourierRegularizedLogisticGANLoss',
+    type='FourierRegularizedPerceptualLoss',
     d_loss_kwargs=dict(r1_gamma=10.0),
     g_loss_kwargs=dict(lamb=0.0001, metric='2'),
 )
