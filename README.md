@@ -3,7 +3,7 @@
 ## Idea
 ## Background
 ### Run Fourier traing
-- download file: https://drive.google.com/drive/u/0/folders/1d05K1iZWoDkx6dxRMQjI6U7Nfe_8s2Xs
+- download "exchanged both" file: https://drive.google.com/drive/u/0/folders/1d05K1iZWoDkx6dxRMQjI6U7Nfe_8s2Xs
 - mv it to genforce
 - cd genforce
 - make sure requirements are installed
