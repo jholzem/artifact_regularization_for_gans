@@ -2,17 +2,13 @@
 """Collects all available models together."""
 
 from .model_zoo import MODEL_ZOO
-from .pggan_generator import PGGANGenerator
-from .pggan_discriminator import PGGANDiscriminator
 from .stylegan_generator import StyleGANGenerator
 from .stylegan_discriminator import StyleGANDiscriminator
-from .stylegan2_generator import StyleGAN2Generator
-from .stylegan2_discriminator import StyleGAN2Discriminator
 from .stylegan_generator_idinvert import StyleGANGeneratorIdinvert
 
 __all__ = [
-    'MODEL_ZOO', 'PGGANGenerator', 'PGGANDiscriminator', 'StyleGANGenerator',
-    'StyleGANDiscriminator', 'StyleGAN2Generator', 'StyleGAN2Discriminator',
+    'MODEL_ZOO', 'StyleGANGenerator',
+    'StyleGANDiscriminator',
     'build_generator', 'build_discriminator', 'build_model', 'parse_gan_type'
 ]
 
@@ -36,12 +32,8 @@ def build_generator(gan_type, resolution, **kwargs):
         raise ValueError(f'Invalid GAN type: `{gan_type}`!\n'
                          f'Types allowed: {_GAN_TYPES_ALLOWED}.')
 
-    if gan_type == 'pggan':
-        return PGGANGenerator(resolution, **kwargs)
     if gan_type == 'stylegan':
         return StyleGANGenerator(resolution, **kwargs)
-    if gan_type == 'stylegan2':
-        return StyleGAN2Generator(resolution, **kwargs)
     if gan_type == 'stylegan_idinvert':
         return StyleGANGeneratorIdinvert("styleganinv_ffhq256")
     raise NotImplementedError(f'Unsupported GAN type `{gan_type}`!')
@@ -63,12 +55,8 @@ def build_discriminator(gan_type, resolution, **kwargs):
         raise ValueError(f'Invalid GAN type: `{gan_type}`!\n'
                          f'Types allowed: {_GAN_TYPES_ALLOWED}.')
 
-    if gan_type == 'pggan':
-        return PGGANDiscriminator(resolution, **kwargs)
     if gan_type == 'stylegan':
         return StyleGANDiscriminator(resolution, **kwargs)
-    if gan_type == 'stylegan2':
-        return StyleGAN2Discriminator(resolution, **kwargs)
     raise NotImplementedError(f'Unsupported GAN type `{gan_type}`!')
 
 
@@ -108,10 +96,6 @@ def parse_gan_type(module):
     Raises:
         ValueError: If the GAN type is unknown.
     """
-    if isinstance(module, (PGGANGenerator, PGGANDiscriminator)):
-        return 'pggan'
     if isinstance(module, (StyleGANGenerator, StyleGANDiscriminator)):
         return 'stylegan'
-    if isinstance(module, (StyleGAN2Generator, StyleGAN2Discriminator)):
-        return 'stylegan2'
     raise ValueError(f'Unable to parse GAN type from type `{type(module)}`!')
