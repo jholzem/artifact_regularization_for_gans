@@ -89,7 +89,7 @@ def main(conf, work_dir, resume_path=None, weight_path=None, seed=None, launcher
     if dist.get_rank() == 0:
         logger_type = config.get('logger_type', 'normal')
         logger = build_logger(logger_type, work_dir=config.work_dir)
-        shutil.copy(args.config, os.path.join(config.work_dir, 'config.py'))
+        shutil.copy(conf, os.path.join(config.work_dir, 'config.py'))
         commit_id = os.popen('git rev-parse HEAD').readline()
         logger.info(f'Commit ID: {commit_id}')
     else:
