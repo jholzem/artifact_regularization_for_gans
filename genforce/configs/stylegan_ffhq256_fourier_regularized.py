@@ -10,7 +10,7 @@ gan_type = 'stylegan'
 resolution = 256
 batch_size = 4
 val_batch_size = 64
-total_img = 25000_000
+total_img = 1000#25000_000
 
 # Training dataset is repeated at the beginning to avoid loading dataset
 # repeatedly at the end of each epoch. This can save some I/O time.
