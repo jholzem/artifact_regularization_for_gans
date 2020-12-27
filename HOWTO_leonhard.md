@@ -14,7 +14,7 @@ Copy public key to cluster
 ```bash
 ssh-copy-id -i $HOME/.ssh/id_ed25519_leonhard.pub username@login.leonhard.ethz.ch
 ```
-Add the following two lines to your `$HOME/.ssh/config`file:
+Add the following two lines to your `$HOME/.ssh/config` file (on your personal computer):
 ```bash
 Host login.leonhard.ethz.ch
 IdentityFile ~/.ssh/id_ed25519_leonhard
