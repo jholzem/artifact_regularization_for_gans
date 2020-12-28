@@ -299,6 +299,7 @@ class BaseRunner(object):
             total_epochs = self.config.get('total_epochs', 0)
             self.total_iters = self.convert_epoch_to_iter(total_epochs)
         assert self.total_iters > 0
+        print(self.total_iters)
         while self.iter < self.total_iters:
             self._iter += 1
             self.pre_execute_controllers()
