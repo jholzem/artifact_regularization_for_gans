@@ -47,7 +47,7 @@ for i in range(2):
 
     # create optimized latent code & fake images
     for k in range(real.shape[0]):
-        latent, fake, loss = Inverter.invert(image=(real[k].type(torch.cuda.FloatTensor)).unsqueeze(0))
+        latent, fake, loss = Inverter.invert_offline(image=(real[k].type(torch.cuda.FloatTensor)).unsqueeze(0))
         latents.append(latent.squeeze().detach().numpy())
         fakes.append(fake.squeeze().detach().numpy())
         losses.append(loss)
