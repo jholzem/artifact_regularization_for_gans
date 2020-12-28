@@ -329,6 +329,9 @@ class StyleGANInverter(object):
                           f'lr: {self.learning_rate:.2e}, '
                           f'{log_message}')
 
+      if loss_feat > 6000 and step > self.iteration/4:
+        break
+
       # Do optimization.
       optimizer.zero_grad()
       loss.backward()
