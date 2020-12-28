@@ -8,7 +8,7 @@ import utils.inverter as inv
 from models.stylegan_generator_idinvert import StyleGANGeneratorIdinvert
 
 # settings
-path_images = 'data/FFHQ_256'
+path_images = '../data/FFHQ_256'
 n_iter = 100
 
 # initialize generator & invertor
