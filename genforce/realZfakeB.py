@@ -9,7 +9,7 @@ from models.stylegan_generator_idinvert import StyleGANGeneratorIdinvert
 
 # settings
 path_images = 'genforce/data/FFHQ_256'
-n_iter = 3
+n_iter = 200
 
 # initialize generator & invertor
 G = StyleGANGeneratorIdinvert('styleganinv_ffhq256')
@@ -32,14 +32,13 @@ latents = []
 fakes = []
 losses = []
 
-counter = 1
 start = time.time()
 
-for i in range(2):
+for i in range(6, 11):
 
     # read .png files
     real_list = []
-    for j in range(2):
+    for j in range(1000):
         file = path_images + '/' + str(i * 1000 + j).zfill(5) + '.png'
         real_list.append(preprocess(plt.imread(file)))
 
@@ -48,12 +47,9 @@ for i in range(2):
     # create optimized latent code & fake images
     for k in range(real.shape[0]):
         latent, fake, loss = Inverter.invert_offline(image=(real[k].type(torch.cuda.FloatTensor)).unsqueeze(0))
-        latents.append(latent.squeeze().detach().numpy())
-        fakes.append(fake.squeeze().detach().numpy())
+        latents.append(latent.squeeze().detach().cpu().numpy())
+        fakes.append(fake.squeeze().detach().cpu().numpy())
         losses.append(loss)
-
-        print('ETA:', (11000-counter)*(time.time()-start)/counter / 3600, 'hours')
-        counter += 1
 
 latents = np.array(latents)
 fakes = np.array(fakes)

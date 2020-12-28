@@ -281,7 +281,7 @@ class StyleGANInverter(object):
     x.requires_grad = False
     init_z = self.get_init_code(image)
 
-    z = torch.cuda.Tensor(init_z)#torch.Tensor(init_z)
+    z = torch.cuda.FloatTensor(init_z)#torch.Tensor(init_z)
     x_rec = self.G.net.synthesis(z)#self.G.net.module.synthesis(z)#
     if self.save:
       save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.png")
@@ -328,6 +328,9 @@ class StyleGANInverter(object):
         self.logger.debug(f'Step: {step:05d}, '
                           f'lr: {self.learning_rate:.2e}, '
                           f'{log_message}')
+
+      if loss_feat > 6000 and step > self.iteration/4:
+        break
 
       # Do optimization.
       optimizer.zero_grad()
