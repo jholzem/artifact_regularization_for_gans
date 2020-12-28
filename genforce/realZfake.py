@@ -9,7 +9,7 @@ from models.stylegan_generator_idinvert import StyleGANGeneratorIdinvert
 
 # settings
 path_images = '../data/FFHQ_256'
-n_iter = 100
+n_iter = 3
 
 # initialize generator & invertor
 G = StyleGANGeneratorIdinvert('styleganinv_ffhq256')
@@ -39,7 +39,7 @@ for i in range(2):
 
     # read .png files
     real_list = []
-    for j in range(5):
+    for j in range(2):
         file = path_images + '/' + str(i * 1000 + j).zfill(5) + '.png'
         real_list.append(preprocess(plt.imread(file)))
 
