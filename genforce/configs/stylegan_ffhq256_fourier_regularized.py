@@ -8,7 +8,7 @@ and `num_workers`.
 runner_type = 'FourierRegularizedStyleGANRunner'
 gan_type = 'stylegan'
 resolution = 256
-batch_size = 4
+batch_size = 1
 val_batch_size = 64
 total_img = 1000#25000_000
 
