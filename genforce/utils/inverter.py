@@ -88,7 +88,7 @@ class StyleGANInverter(object):
     self.E = StyleGANEncoder(self.model_name, self.logger)
     self.F = PerceptualModel(min_val=self.G.min_val, max_val=self.G.max_val)
     self.encode_dim = [self.G.num_layers, self.G.w_space_dim]
-    self.run_device = self.G.run_device
+    #self.run_device = self.G.run_device
     assert list(self.encode_dim) == list(self.E.encode_dim)
 
     assert self.G.gan_type == self.gan_type
@@ -177,7 +177,7 @@ class StyleGANInverter(object):
     #x = self.G.to_tensor(x.astype(np.float32))
     #x.requires_grad = False
     os.mkdir(os.path.join(self.save_dir, str(self.iteration_counter)))
-    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "original.jpg")
+    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "original.png")
     plt.imsave(save_path, (255*(image.permute(0, 2, 3, 1)[0] + 1.) / 2.).cpu().numpy().astype(np.uint8))
     self.G.net.eval()
     x = image
@@ -186,7 +186,7 @@ class StyleGANInverter(object):
 
     z = torch.Tensor(init_z).to(self.run_device)
     x_rec = self.G.net.module.synthesis(z)
-    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.jpg")
+    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.png")
     plt.imsave(save_path, (255*(x_rec.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
 
     z.requires_grad = True
@@ -240,11 +240,101 @@ class StyleGANInverter(object):
         viz_results.append(self.G.postprocess(_get_tensor_value(x_rec))[0])
       """
     x_opt = self.G.net.module.synthesis(z)
-    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "opt.jpg")
+    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "opt.png")
     plt.imsave(save_path, (255. * (x_opt.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
     self.iteration_counter += 1
     z.requires_grad = False
     return z
+
+  def invert_offline(self, image, num_viz=0):
+    """Inverts the given image to a latent code.
+
+    Basically, this function is based on gradient descent algorithm.
+
+    Args:
+      image: Target image to invert, which is assumed to have already been
+        preprocessed.
+      num_viz: Number of intermediate outputs to visualize. (default: 0)
+
+    Returns:
+      A two-element tuple. First one is the inverted code. Second one is a list
+        of intermediate results, where first image is the input image, second
+        one is the reconstructed result from the initial latent code, remainings
+        are from the optimization process every `self.iteration // num_viz`
+        steps.
+    """
+    #x = torch.from_numpy(image)
+    #x = self.G.to_tensor(x.astype(np.float32))
+    #x.requires_grad = False
+    os.mkdir(os.path.join(self.save_dir, str(self.iteration_counter)))
+    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "original.png")
+    plt.imsave(save_path, (255*(image.permute(0, 2, 3, 1)[0] + 1.) / 2.).cpu().numpy().astype(np.uint8))
+    self.G.net.eval()
+    x = image
+    x.requires_grad = False
+    init_z = self.get_init_code(image)
+
+    z = torch.Tensor(init_z)
+    x_rec = self.G.net.synthesis(z)#self.G.net.module.synthesis(z)
+    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.png")
+    plt.imsave(save_path, (255*(x_rec.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
+
+    z.requires_grad = True
+
+    optimizer = torch.optim.Adam([z], lr=self.learning_rate)
+
+    #viz_results = []
+    #viz_results.append(self.G.postprocess(_get_tensor_value(x))[0])
+    #x_init_inv = self.G.net.synthesis(z)
+    #viz_results.append(self.G.postprocess(_get_tensor_value(x_init_inv))[0])
+    pbar = tqdm(range(1, self.iteration + 1), leave=True)
+    for step in pbar:
+      loss = 0.0
+
+      # Reconstruction loss.
+      x_rec = self.G.net.synthesis(z)
+      loss_pix = torch.mean((x - x_rec) ** 2)
+      loss = loss + loss_pix * self.loss_pix_weight
+      log_message = f'loss_pix: {_get_tensor_value(loss_pix):.3f}'
+
+      # Perceptual loss.
+      if self.loss_feat_weight:
+        x_feat = self.F.net(x)
+        x_rec_feat = self.F.net(x_rec)
+        loss_feat = torch.mean((x_feat - x_rec_feat) ** 2)
+        loss = loss + loss_feat * self.loss_feat_weight
+        log_message += f', loss_feat: {_get_tensor_value(loss_feat):.3f}'
+
+      # Regularization loss.
+      if self.loss_reg_weight:
+        latent = self.E.net(x_rec)
+        batch_size = latent.shape[0]
+        z_rec = latent.view(batch_size, *self.encode_dim)
+        loss_reg = torch.mean((z - z_rec) ** 2)
+        loss = loss + loss_reg * self.loss_reg_weight
+        log_message += f', loss_reg: {_get_tensor_value(loss_reg):.3f}'
+
+      log_message += f', loss: {_get_tensor_value(loss):.3f}'
+      pbar.set_description_str(log_message)
+      if self.logger:
+        self.logger.debug(f'Step: {step:05d}, '
+                          f'lr: {self.learning_rate:.2e}, '
+                          f'{log_message}')
+
+      # Do optimization.
+      optimizer.zero_grad()
+      loss.backward()
+      optimizer.step()
+      """
+      if num_viz > 0 and step % (self.iteration // num_viz) == 0:
+        viz_results.append(self.G.postprocess(_get_tensor_value(x_rec))[0])
+      """
+    x_opt = self.G.net.synthesis(z)
+    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "opt.png")
+    plt.imsave(save_path, (255. * (x_opt.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
+    self.iteration_counter += 1
+    z.requires_grad = False
+    return z, x_opt, _get_tensor_value(loss)
 
   def easy_invert(self, image, num_viz=0):
     """Wraps functions `preprocess()` and `invert()` together."""
