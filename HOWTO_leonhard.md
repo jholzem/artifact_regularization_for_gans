@@ -56,7 +56,7 @@ To download the ffhq-dataset, create a folder s.t. `genforce/data`. Then:
 ```bash
 wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1wejdbBYespDiLLudtyiMHz_zqt0tPIot' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1wejdbBYespDiLLudtyiMHz_zqt0tPIot" -O ffhq.zip && rm -rf /tmp/cookies.txt
 ```
-The following commands give you a folder named 'FFHQ_256' containing the first 11000 FFHQ .png images, resized to 256x256:
+The following commands give you a folder at cd named 'FFHQ_256' containing the first 11000 FFHQ .png images, resized to 256x256:
 ```bash
 wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1TVfX2dy39agfUfRjoryLnDG9kbB4jerS' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1TVfX2dy39agfUfRjoryLnDG9kbB4jerS" -O FFHQ_256.zip && rm -rf /tmp/cookies.txt
 unzip FFHQ_256.zip
