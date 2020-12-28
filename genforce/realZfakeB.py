@@ -34,11 +34,11 @@ losses = []
 
 start = time.time()
 
-for i in range(2):
+for i in range(6, 11):
 
     # read .png files
     real_list = []
-    for j in range(10):
+    for j in range(1000):
         file = path_images + '/' + str(i * 1000 + j).zfill(5) + '.png'
         real_list.append(preprocess(plt.imread(file)))
 
