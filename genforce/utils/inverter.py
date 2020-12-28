@@ -282,7 +282,7 @@ class StyleGANInverter(object):
     init_z = self.get_init_code(image)
 
     z = torch.Tensor(init_z)
-    x_rec = self.G.net.module.synthesis(z)#self.G.net.synthesis(z)#
+    x_rec = self.G.net.synthesis(z)#self.G.net.module.synthesis(z)#
     if self.save:
       save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.png")
       plt.imsave(save_path, (255*(x_rec.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
