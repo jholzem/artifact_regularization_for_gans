@@ -50,7 +50,8 @@ class StyleGANInverter(object):
                reconstruction_loss_weight=1.0,
                perceptual_loss_weight=5e-5,
                regularization_loss_weight=2.0,
-               logger=None):
+               logger=None,
+               save=False):
     """Initializes the inverter.
 
     NOTE: Only Adam optimizer is supported in the optimization process.
@@ -73,14 +74,16 @@ class StyleGANInverter(object):
     self.logger = logger
     self.model_name = model_name
     self.gan_type = 'stylegan'
-    self.save_dir = "inversion_debugging_0"
-    index = 0
-    while os.path.isdir(self.save_dir):
-      index += 1
-      save_dir = list(self.save_dir)
-      save_dir[-1] = str(index)
-      self.save_dir = "".join(save_dir)
-    os.mkdir(self.save_dir)
+    self.save = save
+    if self.save:
+      self.save_dir = "inversion_debugging_0"
+      index = 0
+      while os.path.isdir(self.save_dir):
+        index += 1
+        save_dir = list(self.save_dir)
+        save_dir[-1] = str(index)
+        self.save_dir = "".join(save_dir)
+      os.mkdir(self.save_dir)
     self.iteration_counter = 0
 
     #self.G = StyleGANGenerator(self.model_name, self.logger)
@@ -88,7 +91,7 @@ class StyleGANInverter(object):
     self.E = StyleGANEncoder(self.model_name, self.logger)
     self.F = PerceptualModel(min_val=self.G.min_val, max_val=self.G.max_val)
     self.encode_dim = [self.G.num_layers, self.G.w_space_dim]
-    #self.run_device = self.G.run_device
+    self.run_device = self.G.run_device
     assert list(self.encode_dim) == list(self.E.encode_dim)
 
     assert self.G.gan_type == self.gan_type
@@ -176,9 +179,10 @@ class StyleGANInverter(object):
     #x = torch.from_numpy(image)
     #x = self.G.to_tensor(x.astype(np.float32))
     #x.requires_grad = False
-    os.mkdir(os.path.join(self.save_dir, str(self.iteration_counter)))
-    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "original.png")
-    plt.imsave(save_path, (255*(image.permute(0, 2, 3, 1)[0] + 1.) / 2.).cpu().numpy().astype(np.uint8))
+    if self.save:
+      os.mkdir(os.path.join(self.save_dir, str(self.iteration_counter)))
+      save_path = os.path.join(self.save_dir, str(self.iteration_counter), "original.png")
+      plt.imsave(save_path, (255*(image.permute(0, 2, 3, 1)[0] + 1.) / 2.).cpu().numpy().astype(np.uint8))
     self.G.net.eval()
     x = image
     x.requires_grad = False
@@ -186,8 +190,9 @@ class StyleGANInverter(object):
 
     z = torch.Tensor(init_z).to(self.run_device)
     x_rec = self.G.net.module.synthesis(z)
-    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.png")
-    plt.imsave(save_path, (255*(x_rec.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
+    if self.save:
+      save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.png")
+      plt.imsave(save_path, (255*(x_rec.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
 
     z.requires_grad = True
 
@@ -240,8 +245,9 @@ class StyleGANInverter(object):
         viz_results.append(self.G.postprocess(_get_tensor_value(x_rec))[0])
       """
     x_opt = self.G.net.module.synthesis(z)
-    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "opt.png")
-    plt.imsave(save_path, (255. * (x_opt.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
+    if self.save:
+      save_path = os.path.join(self.save_dir, str(self.iteration_counter), "opt.png")
+      plt.imsave(save_path, (255. * (x_opt.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
     self.iteration_counter += 1
     z.requires_grad = False
     return z
@@ -266,9 +272,10 @@ class StyleGANInverter(object):
     #x = torch.from_numpy(image)
     #x = self.G.to_tensor(x.astype(np.float32))
     #x.requires_grad = False
-    #os.mkdir(os.path.join(self.save_dir, str(self.iteration_counter)))
-    #save_path = os.path.join(self.save_dir, str(self.iteration_counter), "original.png")
-    #plt.imsave(save_path, (255*(image.permute(0, 2, 3, 1)[0] + 1.) / 2.).cpu().numpy().astype(np.uint8))
+    if self.save:
+      os.mkdir(os.path.join(self.save_dir, str(self.iteration_counter)))
+      save_path = os.path.join(self.save_dir, str(self.iteration_counter), "original.png")
+      plt.imsave(save_path, (255*(image.permute(0, 2, 3, 1)[0] + 1.) / 2.).cpu().numpy().astype(np.uint8))
     self.G.net.eval()
     x = image
     x.requires_grad = False
@@ -276,8 +283,9 @@ class StyleGANInverter(object):
 
     z = torch.Tensor(init_z)
     x_rec = self.G.net.synthesis(z)#self.G.net.module.synthesis(z)
-    #save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.png")
-    #plt.imsave(save_path, (255*(x_rec.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
+    if self.save:
+      save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.png")
+      plt.imsave(save_path, (255*(x_rec.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
 
     z.requires_grad = True
 
@@ -330,8 +338,9 @@ class StyleGANInverter(object):
         viz_results.append(self.G.postprocess(_get_tensor_value(x_rec))[0])
       """
     x_opt = self.G.net.synthesis(z)
-    #save_path = os.path.join(self.save_dir, str(self.iteration_counter), "opt.png")
-    #plt.imsave(save_path, (255. * (x_opt.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
+    if self.save:
+      save_path = os.path.join(self.save_dir, str(self.iteration_counter), "opt.png")
+      plt.imsave(save_path, (255. * (x_opt.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
     self.iteration_counter += 1
     z.requires_grad = False
     return z, x_opt, _get_tensor_value(loss)

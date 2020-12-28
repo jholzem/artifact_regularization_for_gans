@@ -47,7 +47,7 @@ for i in range(2):
 
     # create optimized latent code & fake images
     for k in range(real.shape[0]):
-        latent, fake, loss = Inverter.invert_offline(image=real[k].unsqueeze(0))
+        latent, fake, loss = Inverter.invert(image=real[k].unsqueeze(0))
         latents.append(latent.squeeze().detach().numpy())
         fakes.append(fake.squeeze().detach().numpy())
         losses.append(loss)
@@ -63,6 +63,6 @@ print((time.time() - start) / 60, 'min')
 print('=', (time.time() - start) / 3600, 'h')
 
 # save
-pickle.dump(latents, open('/cluster/scratch/lat.p', 'wb'))
-pickle.dump(fakes, open('/cluster/scratch/fak.p', 'wb'))
-pickle.dump(losses, open('/cluster/scratch/los.p', 'wb'))
+pickle.dump(latents, open('lat.p', 'wb'))
+pickle.dump(fakes, open('fak.p', 'wb'))
+pickle.dump(losses, open('los.p', 'wb'))
