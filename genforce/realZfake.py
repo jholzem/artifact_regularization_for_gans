@@ -63,6 +63,6 @@ print((time.time() - start) / 60, 'min')
 print('=', (time.time() - start) / 3600, 'h')
 
 # save
-pickle.dump(latents, open('lat.p', 'wb'))
-pickle.dump(fakes, open('fak.p', 'wb'))
-pickle.dump(losses, open('los.p', 'wb'))
+pickle.dump(latents, open('/cluster/scratch/lat.p', 'wb'))
+pickle.dump(fakes, open('/cluster/scratch/fak.p', 'wb'))
+pickle.dump(losses, open('/cluster/scratch/los.p', 'wb'))
