@@ -1,1 +1,1 @@
-python realZfake.py
+python genforce/realZfake.py
