@@ -32,14 +32,13 @@ latents = []
 fakes = []
 losses = []
 
-counter = 1
 start = time.time()
 
 for i in range(2):
 
     # read .png files
     real_list = []
-    for j in range(2):
+    for j in range(10):
         file = path_images + '/' + str(i * 1000 + j).zfill(5) + '.png'
         real_list.append(preprocess(plt.imread(file)))
 
@@ -51,9 +50,6 @@ for i in range(2):
         latents.append(latent.squeeze().detach().cpu().numpy())
         fakes.append(fake.squeeze().detach().cpu().numpy())
         losses.append(loss)
-
-        print('ETA:', (11000-counter)*(time.time()-start)/counter / 3600, 'hours')
-        counter += 1
 
 latents = np.array(latents)
 fakes = np.array(fakes)
