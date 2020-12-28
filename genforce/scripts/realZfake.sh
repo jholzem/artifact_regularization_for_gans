@@ -1,1 +1,1 @@
-python realZfake
+python ../realZfake.py
