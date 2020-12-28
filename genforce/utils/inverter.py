@@ -266,9 +266,9 @@ class StyleGANInverter(object):
     #x = torch.from_numpy(image)
     #x = self.G.to_tensor(x.astype(np.float32))
     #x.requires_grad = False
-    os.mkdir(os.path.join(self.save_dir, str(self.iteration_counter)))
-    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "original.png")
-    plt.imsave(save_path, (255*(image.permute(0, 2, 3, 1)[0] + 1.) / 2.).cpu().numpy().astype(np.uint8))
+    #os.mkdir(os.path.join(self.save_dir, str(self.iteration_counter)))
+    #save_path = os.path.join(self.save_dir, str(self.iteration_counter), "original.png")
+    #plt.imsave(save_path, (255*(image.permute(0, 2, 3, 1)[0] + 1.) / 2.).cpu().numpy().astype(np.uint8))
     self.G.net.eval()
     x = image
     x.requires_grad = False
@@ -276,8 +276,8 @@ class StyleGANInverter(object):
 
     z = torch.Tensor(init_z)
     x_rec = self.G.net.synthesis(z)#self.G.net.module.synthesis(z)
-    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.png")
-    plt.imsave(save_path, (255*(x_rec.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
+    #save_path = os.path.join(self.save_dir, str(self.iteration_counter), "enc.png")
+    #plt.imsave(save_path, (255*(x_rec.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
 
     z.requires_grad = True
 
@@ -330,8 +330,8 @@ class StyleGANInverter(object):
         viz_results.append(self.G.postprocess(_get_tensor_value(x_rec))[0])
       """
     x_opt = self.G.net.synthesis(z)
-    save_path = os.path.join(self.save_dir, str(self.iteration_counter), "opt.png")
-    plt.imsave(save_path, (255. * (x_opt.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
+    #save_path = os.path.join(self.save_dir, str(self.iteration_counter), "opt.png")
+    #plt.imsave(save_path, (255. * (x_opt.permute(0, 2, 3, 1)[0] + 1.) / 2.).detach().cpu().numpy().astype(np.uint8))
     self.iteration_counter += 1
     z.requires_grad = False
     return z, x_opt, _get_tensor_value(loss)
