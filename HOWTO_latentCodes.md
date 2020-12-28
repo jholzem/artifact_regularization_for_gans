@@ -22,6 +22,8 @@ cd $HOME/artifact_regularization_for_gans
 bsub -I -R "rusage[mem=8192,ngpus_excl_p=1]" < genforce/scripts/realZfakeA.sh
 ```
 
+### Download the results
+
 After the job is finished, download the result files *lat.p*, *fak.p*, *los.p* to your computer with a local shell (not logged into your leonhard account):
 ```bash
 scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/lat.p /<localPath>/lat.p
