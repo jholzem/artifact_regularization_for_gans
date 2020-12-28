@@ -6,7 +6,7 @@ Connect to the cluster using (VPN required)
 ```bash
 ssh username@login.leonhard.ethz.ch
 ```
-Create ssh keys for advanced safety and enter password when prompted
+On your personal computer, create ssh keys for advanced safety and enter password when prompted
 ```bash
 ssh-keygen -t ed25519 -f $HOME/.ssh/id_ed25519_leonhard
 ```
