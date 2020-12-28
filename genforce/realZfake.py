@@ -9,7 +9,7 @@ from models.stylegan_generator_idinvert import StyleGANGeneratorIdinvert
 
 # settings
 path_images = 'genforce/data/FFHQ_256'
-n_iter = 3
+n_iter = 200
 
 # initialize generator & invertor
 G = StyleGANGeneratorIdinvert('styleganinv_ffhq256')
