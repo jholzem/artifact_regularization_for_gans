@@ -22,10 +22,10 @@ cd $HOME/artifact_regularization_for_gans
 bsub -I -R "rusage[mem=8192,ngpus_excl_p=1]" < genforce/scripts/realZfakeA.sh
 ```
 
-After finishing the job is finished, download the result files *lat.p*, *fak.p*, *los.p* to your computer with a local shell (not logged into your leonhard account):
+After the job is finished, download the result files *lat.p*, *fak.p*, *los.p* to your computer with a local shell (not logged into your leonhard account):
 ```bash
 scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/lat.p /<localPath>/lat.p
 scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/fak.p /<localPath>/fak.p
 scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/los.p /<localPath>/los.p
 ```
-where you should replace <nethz> and <localPath>
+where you should replace \<nethz\> and \<localPath\>
