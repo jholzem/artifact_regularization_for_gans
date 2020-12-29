@@ -70,7 +70,7 @@ class StyleGANGeneratorIdinvert(BaseGenerator):
     self.num_layers = self.net.num_layers
     self.model_specific_vars = ['truncation.truncation']
 
-  def sample(self, num, latent_space_type='z', **kwargs):
+  def sample(self, num, seed = 0, latent_space_type='z', **kwargs):
     """Samples latent codes randomly.
 
     Args:
@@ -86,7 +86,8 @@ class StyleGANGeneratorIdinvert(BaseGenerator):
     """
     latent_space_type = latent_space_type.lower()
     if latent_space_type == 'z':
-      latent_codes = np.random.randn(num, self.z_space_dim)
+        np.random.seed(seed)
+        latent_codes = np.random.randn(num, self.z_space_dim)
     elif latent_space_type in ['w', 'wp']:
       z = self.easy_sample(num, latent_space_type='z')
       latent_codes = []

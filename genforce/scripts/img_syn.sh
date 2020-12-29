@@ -1,5 +1,3 @@
-
 #!/bin/bash
 
-cd ..
-python3 img_syn.py
+python3 img_syn.py $1 $2

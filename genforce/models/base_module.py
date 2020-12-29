@@ -91,7 +91,7 @@ class BaseModule(object):
     self.logger = logger or get_temp_logger(model_name)
 
     # Parse settings.
-    for key, val in MODEL_POOL[model_name].items():
+    for key, val in MODEL_POOL['styleganinv_ffhq256'].items():
       setattr(self, key, val)
     self.use_cuda = USE_CUDA and torch.cuda.is_available()
     self.batch_size = MAX_IMAGES_ON_DEVICE

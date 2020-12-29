@@ -1,3 +1,4 @@
+import argparse
 import math
 import os
 import time
@@ -5,19 +6,36 @@ import numpy as np
 from models import stylegan_generator_idinvert
 import cv2
 
-def main():
-    n = int(input("How many pictures do you want to produce: "))
-    folder_name = input("Enter folder name: ")
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('n', type=int, default = 10000 , help='nr of images to be created.')
+    parser.add_argument('generator', type=str, default = 'styleganinv_ffhq256' , help='choice of generator')
 
-    generator = stylegan_generator_idinvert.StyleGANGeneratorIdinvert('styleganinv_ffhq256')
+    return parser.parse_args()
+
+def main():
+    args = parse_args()
+
+    n = args.n
+    folder_name = args.generator
+    generator = stylegan_generator_idinvert.StyleGANGeneratorIdinvert(args.generator)
 
     #model_weights = torch.load('models/pretrain/styleganinv_ffhq256_generator.pth')
     #generator.net.load_state_dict(model_weights)
     #generator.net.eval()
 
-    os.mkdir('img_syn_genforce/' + folder_name)
+    folder_name_init = folder_name
+    i_pic = 1
+    while os.path.exists('img_syn_genforce/' + folder_name):
+        folder_name = folder_name_init + '_' +str(i_pic).zfill(2)
+        print(f'Careful, this generator has already been used {i_pic} times!!!!! New folder name is {folder_name}')
+        i_pic += 1
 
-    group_size = 500
+    os.mkdir('img_syn_genforce/' + folder_name)
+    print(f'folder {folder_name} created')
+
+
+    group_size = 10
     start = time.time()
     for k in range(math.ceil(n/group_size)):
 
