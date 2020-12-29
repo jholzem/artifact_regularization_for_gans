@@ -19,7 +19,7 @@ git pull origin master
 Run either *realZfakeA.sh*, *realZfakeB.sh*, *realZfakeC.sh* or *realZfakeD.sh* on the cluster, examplarily for A:
 ```bash
 cd $HOME/artifact_regularization_for_gans
-bsub -R "rusage[mem=8192,ngpus_excl_p=1]" -W 24:00 < genforce/scripts/realZfakeA.sh
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 24:00 < genforce/scripts/realZfakeA.sh
 ```
 
 ### Download the results
