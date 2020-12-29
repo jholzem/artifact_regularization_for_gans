@@ -1,6 +1,5 @@
 import torch
 import pickle
-import time
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
@@ -28,11 +27,6 @@ def preprocess(image):
 
 # process images in packages of 1000
 
-latents = []
-fakes = []
-losses = []
-
-start = time.time()
 
 for i in range(3, 6):
 
@@ -44,6 +38,10 @@ for i in range(3, 6):
 
     real = torch.from_numpy(np.array(real_list))
 
+    latents = []
+    fakes = []
+    losses = []
+
     # create optimized latent code & fake images
     for k in range(real.shape[0]):
         latent, fake, loss = Inverter.invert_offline(image=(real[k].type(torch.cuda.FloatTensor)).unsqueeze(0))
@@ -51,14 +49,11 @@ for i in range(3, 6):
         fakes.append(fake.squeeze().detach().cpu().numpy())
         losses.append(loss)
 
-latents = np.array(latents)
-fakes = np.array(fakes)
-losses = np.array(losses)
+    latents = np.array(latents)
+    fakes = np.array(fakes)
+    losses = np.array(losses)
 
-print((time.time() - start) / 60, 'min')
-print('=', (time.time() - start) / 3600, 'h')
-
-# save
-pickle.dump(latents, open('latB.p', 'wb'))
-pickle.dump(fakes, open('fakB.p', 'wb'))
-pickle.dump(losses, open('losB.p', 'wb'))
+    # save
+    pickle.dump(latents, open('latA' + str(i).zfill(2) + '.p', 'wb'))
+    pickle.dump(fakes, open('fakA' + str(i).zfill(2) + '.p', 'wb'))
+    pickle.dump(losses, open('losA' + str(i).zfill(2) + '.p', 'wb'))
