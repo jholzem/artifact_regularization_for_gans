@@ -38,4 +38,4 @@ scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/latA02.p /<
 scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/fakA02.p /<localPath>/fakA02.p
 scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/losA02.p /<localPath>/losA02.p
 ```
-where you should replace \<nethz\> and \<localPath\>
+where you should replace \<nethz\> and \<localPath\>. Finally, please upload all the .p files to the folder 'p' on our Google Drive.
