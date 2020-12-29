@@ -125,7 +125,8 @@ class FourierRegularizedLogisticGANLoss(LogisticGANLoss):
         D = runner.models['discriminator']
         labels = data.get('label', None)
         data['image'] = data['image'] / 255. * 2. - 1.
-        latents = runner.inverter.invert(data['image'])
+        #latents = runner.inverter.invert(data['image'])
+        latents = data['latent']
         G.net.train()
         fakes = G.net.module.synthesis(latents)
         fake_scores = D(fakes, label=labels, **runner.D_kwargs_train)

@@ -19,10 +19,10 @@ data = dict(
     repeat=500,
     # train=dict(root_dir='data/ffhq', resolution=resolution, mirror=0.5),
     # val=dict(root_dir='data/ffhq', resolution=resolution),
-    train=dict(root_dir='data/ffhq.zip', data_format='zip',
-               resolution=resolution, mirror=0.5),
-    val=dict(root_dir='data/ffhq.zip', data_format='zip',
-             resolution=resolution),
+    # train=dict(root_dir='data/ffhq.zip', data_format='zip', resolution=resolution, mirror=0.5),
+    # val=dict(root_dir='data/ffhq.zip', data_format='zip', resolution=resolution),
+    train=dict(root_dir='data', data_format='dir', resolution=resolution, mirror=0.0),
+    val=dict(root_dir='data', data_format='dir', resolution=resolution),
 )
 
 controllers = dict(

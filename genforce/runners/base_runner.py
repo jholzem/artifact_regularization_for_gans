@@ -12,6 +12,7 @@ import torch
 import torch.distributed as dist
 
 from datasets import BaseDataset
+from datasets import BaseDatasetWithLatent
 from datasets import IterDataLoader
 from models import build_model
 from . import controllers
@@ -142,7 +143,7 @@ class BaseRunner(object):
         self.logger.info(f'Building `{mode}` dataset ...')
         if mode not in ['train', 'val']:
             raise ValueError(f'Invalid dataset mode `{mode}`!')
-        dataset = BaseDataset(**self.config.data[mode])
+        dataset = BaseDatasetWithLatent(**self.config.data[mode])
         if mode == 'train':
             self.train_loader = IterDataLoader(
                 dataset=dataset,
