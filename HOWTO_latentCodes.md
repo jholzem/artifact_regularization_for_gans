@@ -24,7 +24,7 @@ bsub -R "rusage[mem=8192,ngpus_excl_p=1]" -W 24:00 < genforce/scripts/realZfakeA
 
 ### Download the results
 
-After the job is finished, download the result files *lat\<X\>.p*, *fak\<X\>.p*, *los\<X\>.p* to your computer with a local shell (not logged into your leonhard account), examplarily for A:
+After the job is finished, download the result files *lat\<X\>.p*, *fak\<X\>.p*, *los\<X\>.p* to your computer with a local shell (not logged into your leonhard account), examplarily for A (for D, you only have to download the first 6 files):
 ```bash
 scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/latA01.p /<localPath>/latA01.p
 scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/fakA01.p /<localPath>/fakA01.p
