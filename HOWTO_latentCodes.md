@@ -16,18 +16,18 @@ git pull origin master
 
 ### Run the job
 
-Run either *realZfakeA.sh* or *realZfakeB.sh* on the cluster, examplarily for A:
+Run either *realZfakeA.sh*, *realZfakeB.sh*, *realZfakeC.sh* or *realZfakeD.sh* on the cluster, examplarily for A:
 ```bash
 cd $HOME/artifact_regularization_for_gans
-bsub -R "rusage[mem=20480,ngpus_excl_p=1]" -W 40:00 < genforce/scripts/realZfakeA.sh
+bsub -R "rusage[mem=8192,ngpus_excl_p=1]" -W 24:00 < genforce/scripts/realZfakeA.sh
 ```
 
 ### Download the results
 
-After the job is finished, download the result files *lat.p*, *fak.p*, *los.p* to your computer with a local shell (not logged into your leonhard account):
+After the job is finished, download the result files *lat\<X\>.p*, *fak\<X\>.p*, *los\<X\>.p* to your computer with a local shell (not logged into your leonhard account), examplarily for A:
 ```bash
-scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/lat.p /<localPath>/lat.p
-scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/fak.p /<localPath>/fak.p
-scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/los.p /<localPath>/los.p
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/latA.p /<localPath>/latA.p
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/fakA.p /<localPath>/fakA.p
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/losA.p /<localPath>/losA.p
 ```
 where you should replace \<nethz\> and \<localPath\>
