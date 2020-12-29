@@ -34,7 +34,7 @@ losses = []
 
 start = time.time()
 
-for i in range(3):
+for i in range(6, 9):
 
     # read .png files
     real_list = []
