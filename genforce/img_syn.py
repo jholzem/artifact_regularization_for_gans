@@ -1,7 +1,8 @@
 import math
 import os
+import time
 import numpy as np
-from genforce.models import stylegan_generator_idinvert
+from models import stylegan_generator_idinvert
 import cv2
 
 def main():
@@ -17,7 +18,7 @@ def main():
     os.mkdir('img_syn_genforce/' + folder_name)
 
     group_size = 500
-
+    start = time.time()
     for k in range(math.ceil(n/group_size)):
 
         latent_codes = generator.sample(group_size, seed = k)
@@ -33,6 +34,8 @@ def main():
             cv2.imwrite(f'img_syn_genforce/{folder_name}/img{str(k).zfill(2)}{str(i).zfill(6)}.png',img_rgb)
         print(f'saved nr {str(k)}')
     print(f'saved all')
+    end = time.time()
+    print(f'time elapsed: {end - start}')
 
 if __name__ == '__main__':
     main()
