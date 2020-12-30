@@ -95,6 +95,7 @@ class IterDataLoader(object):
             self.iter_loader = iter(self._dataloader)
             data = next(self.iter_loader)
             self._iter += 1
+            # TODO: runner.save()
         return data
 
     def __len__(self):
