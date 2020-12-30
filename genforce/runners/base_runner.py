@@ -134,6 +134,7 @@ class BaseRunner(object):
     def convert_epoch_to_iter(self, epoch):
         """Converts number of epochs to number of iterations."""
         #return int(epoch * len(self.train_loader) + 0.5)
+        print(self.iters_per_epoch)
         return epoch * self.iters_per_epoch
 
     def build_dataset(self, mode):
