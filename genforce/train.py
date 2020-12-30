@@ -44,9 +44,9 @@ def parse_args():
                         help='Rank of the current node. (default: %(default)s)')
     parser.add_argument('--options', nargs='+', action=DictAction,
                         help='arguments in dict')
-    parser.add_argument('--lambda', type=int)
-    parser.add_argument('--metric', type=int)
-    parser.add_argument('--baseLR', type=int)
+    parser.add_argument('--lamb', type=str)
+    parser.add_argument('--metric', type=str)
+    parser.add_argument('--baseLR', type=str)
 
     return parser.parse_args()
 
@@ -65,6 +65,12 @@ def main():
     config.seed = args.seed
     config.launcher = args.launcher
     config.backend = args.backend
+    if args.lamb != None:
+        config.loss['g_loss_kwargs']['lamb'] = float(args.lamb)
+    if args.metric != None:
+        config.loss['g_loss_kwargs']['metric'] = float(args.metric)
+    if args.baseLR != None:
+        config.modules['generator']['opt']['base_lr'] = float(args.baseLR)
 
     # Set CUDNN.
     config.cudnn_benchmark = config.get('cudnn_benchmark', True)
@@ -115,7 +121,7 @@ def main():
                     optimizer=False,
                     running_stats=False)
     runner.train()
-    runner.save('$SCRATCH/test_generator.pth', optimizer=False)
+    runner.save('test_generator.pth', optimizer=False)
 
 
 if __name__ == '__main__':
