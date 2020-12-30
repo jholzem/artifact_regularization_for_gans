@@ -9,7 +9,7 @@ def rgb2gray(images):
 # metric can be one of the following: '1' (1-norm of difference),
 #                                     '2' (frobenius norm of difference),
 #                                     'cos' (cosine dissimilarity)
-def fourier_dissimilarity(fake_images, real_images, metric, thres=1):
+def fourier_dissimilarity(fake_images, real_images, metric, thres=20):
     fake_images = fake_images.permute(0, 2, 3, 1)
     real_images = real_images.permute(0, 2, 3, 1)
     fake_ft = torch.norm(torch.rfft(rgb2gray(fake_images), signal_ndim=2), dim=3)
