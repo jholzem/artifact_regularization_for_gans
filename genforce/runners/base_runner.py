@@ -318,7 +318,7 @@ class BaseRunner(object):
             self.seen_img += self.batch_size * self.world_size
             self.timer.post_execute(self)
             self.post_execute_controllers()
-            if self.total_iters % self.iter == 0:
+            if self.iter % self.iters_per_epoch == 0:
                 self.save('/cluster/scratch/' + self.config.get('nethz') + '/' + str(idx_save) + '_generator.pth')
                 idx_save += 1
         self.finish()
