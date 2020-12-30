@@ -48,7 +48,7 @@ def main():
         print(f'saved nr {str(k)}')
     print(f'saved {str(k)} x {str(group_size)} images')
     end = time.time()
-    #print(f'time elapsed: {end - start}')
+    print(f'time elapsed: {end - start}')
 
 if __name__ == '__main__':
     main()
