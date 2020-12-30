@@ -69,7 +69,7 @@ def main():
     if args.lamb != None:
         config.loss['g_loss_kwargs']['lamb'] = float(args.lamb)
     if args.metric != None:
-        config.loss['g_loss_kwargs']['metric'] = float(args.metric)
+        config.loss['g_loss_kwargs']['metric'] = args.metric
     if args.baseLR != None:
         config.modules['generator']['opt']['base_lr'] = float(args.baseLR)
     if args.nethz != None:
