@@ -32,6 +32,7 @@ def main():
         i_pic += 1
 
     os.mkdir('img_syn_genforce/' + folder_name)
+    os.mkdir('img_syn_genforce/' + folder_name + '/1_fake')
     print(f'folder {folder_name} created')
 
 
@@ -49,7 +50,7 @@ def main():
             img_reshape = np.moveaxis(img, 0, -1)
             img_reshape =( img_reshape + 1) * 128
             img_rgb = cv2.cvtColor(img_reshape, cv2.COLOR_RGB2BGR)
-            cv2.imwrite(f'img_syn_genforce/{folder_name}/img{str(k).zfill(2)}{str(i).zfill(6)}.png',img_rgb)
+            cv2.imwrite(f'img_syn_genforce/{folder_name}/1_fake/img{str(k).zfill(2)}{str(i).zfill(6)}.png',img_rgb)
         print(f'saved nr {str(k)}')
     print(f'saved all')
     end = time.time()
