@@ -22,9 +22,7 @@ python -m torch.distributed.launch \
            --nethz=${NETHZ}
 	   ${@:4}
 
-python img_syn.py ${N_IMAGES} 'test_generator.pth'
+# python img_syn.py ${N_IMAGES} 'test_generator.pth'
+# python demo_dir.py -d test_syn -m weights/blur_jpg_prob0.1.pth
 
-python demo_dir.py -d test_syn -m weights/blur_jpg_prob0.1.pth
-
-rm -r test_syn
-rm test_generator.pth
+# rm -r test_syn
