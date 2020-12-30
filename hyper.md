@@ -11,10 +11,10 @@ Metric: '2', 'cos'                                                              
 
 ### Division
 
-Amir:   LR: all,    Lambda: 1, 0.5, 0.1,          Metric: '2'
+Amir:   LR: all,    Lambda: 1, 0.5, 0.1,          Metric: '2'   nethz: 'hadzica'
 
-Jonas:  LR: all,    Lambda: 0.05, 0.01, 0.005,    Metric: '2'
+Jonas:  LR: all,    Lambda: 0.05, 0.01, 0.005,    Metric: '2'   nethz: 'jholzem'
 
-Max:    LR: all,    Lambda: 1, 0.5, 0.1,          Metric: 'cos'
+Max:    LR: all,    Lambda: 1, 0.5, 0.1,          Metric: 'cos'   nethz: 'mschaller'
 
-Oli:    LR: all,    Lambda: 0.05, 0.01, 0.005,    Metric: 'cos'
+Oli:    LR: all,    Lambda: 0.05, 0.01, 0.005,    Metric: 'cos'   nethz: 'steffeol'
