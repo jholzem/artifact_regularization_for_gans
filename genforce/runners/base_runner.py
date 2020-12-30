@@ -71,7 +71,8 @@ class BaseRunner(object):
         self._iter = 0
         self._start_iter = 0
         self.seen_img = 0
-        self.total_iters = self.config.get('total_iters', 0)
+        self.iters_per_epoch = self.config.get('total_iters', 0)
+        self.total_iters = None
 
         self.mode = None
         self.train_loader = None
@@ -133,7 +134,7 @@ class BaseRunner(object):
     def convert_epoch_to_iter(self, epoch):
         """Converts number of epochs to number of iterations."""
         #return int(epoch * len(self.train_loader) + 0.5)
-        return epoch * self.total_iters
+        return epoch * self.iters_per_epoch
 
     def build_dataset(self, mode):
         """Builds train/val dataset."""
@@ -316,6 +317,8 @@ class BaseRunner(object):
             self.seen_img += self.batch_size * self.world_size
             self.timer.post_execute(self)
             self.post_execute_controllers()
+            if self.total_iters % self.iter == 0:
+                self.save('/cluster/scratch/' + self.config.get('nethz') + '.pth')
         self.finish()
 
     def val(self, **val_kwargs):
