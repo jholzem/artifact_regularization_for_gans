@@ -111,6 +111,7 @@ def main():
                     optimizer=False,
                     running_stats=False)
     runner.train()
+    runner.save('$SCRATCH/test.pth', optimizer=False)
 
 
 if __name__ == '__main__':
