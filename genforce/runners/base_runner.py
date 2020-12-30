@@ -132,6 +132,8 @@ class BaseRunner(object):
 
     def convert_epoch_to_iter(self, epoch):
         """Converts number of epochs to number of iterations."""
+        print(epoch, 'epochs')
+        print(len(self.train_loader), 'iterations per epoch')
         return int(epoch * len(self.train_loader) + 0.5)
 
     def build_dataset(self, mode):
@@ -299,9 +301,8 @@ class BaseRunner(object):
         if self.total_iters == 0:
             total_epochs = self.config.get('total_epochs', 0)
             self.total_iters = self.convert_epoch_to_iter(total_epochs)
-            print(self.total_iters)
         assert self.total_iters > 0
-        print(self.total_iters)
+        print(self.total_iters, 'total iterations')
         while self.iter < self.total_iters:
             self._iter += 1
             self.pre_execute_controllers()
