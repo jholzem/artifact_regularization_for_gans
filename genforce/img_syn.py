@@ -6,6 +6,8 @@ import numpy as np
 from models import stylegan_generator_idinvert
 import cv2
 
+# test['models']['generator']
+
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('n', type=int, default = 10000 , help='nr of images to be created.')
@@ -32,7 +34,9 @@ def main():
         i_pic += 1
 
     os.mkdir('img_syn_genforce/' + folder_name)
-    print(f'folder {folder_name} created')
+    os.mkdir('img_syn_genforce/' + folder_name + '/0_real')
+    os.mkdir('img_syn_genforce/' + folder_name + '/1_fake')
+    # print(f'folder {folder_name} created')
 
 
     group_size = 10
@@ -49,11 +53,11 @@ def main():
             img_reshape = np.moveaxis(img, 0, -1)
             img_reshape =( img_reshape + 1) * 128
             img_rgb = cv2.cvtColor(img_reshape, cv2.COLOR_RGB2BGR)
-            cv2.imwrite(f'img_syn_genforce/{folder_name}/img{str(k).zfill(2)}{str(i).zfill(6)}.png',img_rgb)
+            cv2.imwrite(f'img_syn_genforce/{folder_name}/1_fake/img{str(k).zfill(2)}{str(i).zfill(6)}.png',img_rgb)
         print(f'saved nr {str(k)}')
-    print(f'saved all')
+    print(f'saved {str(k)} x {str(group_size)} images')
     end = time.time()
-    print(f'time elapsed: {end - start}')
+    #print(f'time elapsed: {end - start}')
 
 if __name__ == '__main__':
     main()
