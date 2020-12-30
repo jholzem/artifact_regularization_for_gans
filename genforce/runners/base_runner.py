@@ -72,6 +72,8 @@ class BaseRunner(object):
         self._start_iter = 0
         self.seen_img = 0
         self.total_iters = self.config.get('total_iters', 0)
+        self.n_epochs = self.config.n_epochs
+        print(self.n_epochs)
 
         self.mode = None
         self.train_loader = None
