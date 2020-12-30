@@ -1,7 +1,7 @@
 #!/bin/bash
 
-N_IMAGES = $1
-GENERATOR = $2
+N_IMAGES=$1
+GENERATOR=$2
 
 python img_syn.py ${N_IMAGES} ${GENERATOR}
 
