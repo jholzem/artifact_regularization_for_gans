@@ -125,11 +125,14 @@ class BaseModule(object):
       else:
         self.logger.warning(f'No pre-trained weights will be loaded!')
     else:
-      if os.path.isfile('test.pth'):
+      if os.path.isfile('$SCRATCH/test.pth'):
         state_dict = torch.load('$SCRATCH/test.pth')
         for var_name in self.model_specific_vars:
           state_dict[var_name] = self.net.state_dict()[var_name]
         self.net.load_state_dict(state_dict)
+        self.logger.info('test weights loaded')
+      else:
+        self.logger.warning(f'No pre-trained weights will be loaded!')
 
 
     # Change to inference mode and GPU mode if needed.
