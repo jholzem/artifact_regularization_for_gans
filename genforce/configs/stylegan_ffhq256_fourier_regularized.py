@@ -13,6 +13,7 @@ val_batch_size = 64
 total_img = 9834
 total_epochs = 2
 
+
 # Training dataset is repeated at the beginning to avoid loading dataset
 # repeatedly at the end of each epoch. This can save some I/O time.
 data = dict(
@@ -49,6 +50,7 @@ modules = dict(
     generator=dict(
         model=dict(gan_type="stylegan_idinvert", resolution=resolution),
         lr=dict(lr_type='FIXED'),
+        # base_lr to be optimized [1e-3, ... , 1e-6]
         opt=dict(opt_type='Adam', base_lr=1e-3, betas=(0.0, 0.99)),
         kwargs_train=dict(w_moving_decay=0.995, style_mixing_prob=0.9,
                           trunc_psi=1.0, trunc_layers=0, randomize_noise=True),
@@ -60,5 +62,8 @@ modules = dict(
 loss = dict(
     type='FourierRegularizedLogisticGANLoss',
     d_loss_kwargs=dict(r1_gamma=10.0),
-    g_loss_kwargs=dict(lamb=0.0001, metric='2'),
+    g_loss_kwargs=dict(lamb=0.0001, metric='2', threshold=20),
 )
+# lambda weight fourier loss
+# metric is norm of fourier loss
+# cut-off frequency
