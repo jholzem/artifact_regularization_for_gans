@@ -71,7 +71,7 @@ class BaseRunner(object):
         self._iter = 0
         self._start_iter = 0
         self.seen_img = 0
-        self.iters_per_epoch = self.config.get('total_iters', 0)
+        self.iters_per_epoch = self.config.get('total_img')
         self.total_iters = None
 
         self.mode = None
