@@ -304,6 +304,7 @@ class BaseRunner(object):
         self.total_iters = self.convert_epoch_to_iter(self.config.get('total_epochs', 0))
         assert self.total_iters > 0
         print(self.total_iters, 'total iterations')
+        idx_save = 0
         while self.iter < self.total_iters:
             self._iter += 1
             self.pre_execute_controllers()
@@ -318,7 +319,8 @@ class BaseRunner(object):
             self.timer.post_execute(self)
             self.post_execute_controllers()
             if self.total_iters % self.iter == 0:
-                self.save('/cluster/scratch/' + self.config.get('nethz') + '.pth')
+                self.save('/cluster/scratch/' + self.config.get('nethz') + '/' + str(idx_save) + '_generator.pth')
+                idx_save += 1
         self.finish()
 
     def val(self, **val_kwargs):
