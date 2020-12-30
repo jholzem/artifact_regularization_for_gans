@@ -119,14 +119,14 @@ class BaseModule(object):
                      f'model `{self.model_name}`.')
     self.model_specific_vars = []
     self.build()
-    if model_name.find("test") < 0:
+    if model_name.find(".pth") < 0:
       if os.path.isfile(self.weight_path):
         self.load()
       else:
         self.logger.warning(f'No pre-trained weights will be loaded!')
     else:
-      if os.path.isfile('$SCRATCH/test.pth'):
-        state_dict = torch.load('$SCRATCH/test.pth')
+      if os.path.isfile(self.model_name):
+        state_dict = torch.load(self.model_name)
         for var_name in self.model_specific_vars:
           state_dict[var_name] = self.net.state_dict()[var_name]
         self.net.load_state_dict(state_dict)

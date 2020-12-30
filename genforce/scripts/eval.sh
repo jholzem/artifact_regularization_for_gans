@@ -22,7 +22,21 @@ python -m torch.distributed.launch \
            --nethz=${NETHZ}
 	   ${@:8}
 
-# python img_syn.py ${N_IMAGES} 'test_generator.pth'
-# python demo_dir.py -d test_syn -m weights/blur_jpg_prob0.1.pth
 
-# rm -r test_syn
+for idx in {1..9};
+
+do
+
+BAR="_"
+SAVENAME="${LAMB}$BAR${METRIC}$BAR${BASELR}"
+
+FOLDER="/cluster/scratch/"
+SLASH="/"
+ENDING="_generator.pth"
+
+python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$SLASH$SAVENAME$BAR$idx$ENDING"
+python demo_dir.py -d test_syn -m weights/blur_jpg_prob0.1.pth
+
+rm -r test_syn
+
+done
