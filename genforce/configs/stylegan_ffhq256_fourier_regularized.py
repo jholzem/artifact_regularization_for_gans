@@ -10,9 +10,9 @@ gan_type = 'stylegan'
 resolution = 256
 batch_size = 1
 val_batch_size = 64
-total_img = 3
+total_img = 9834
 total_epochs = 9
-nethz = 'mschaller'
+nethz = ''
 
 
 # Training dataset is repeated at the beginning to avoid loading dataset
@@ -63,7 +63,7 @@ modules = dict(
 loss = dict(
     type='FourierRegularizedLogisticGANLoss',
     d_loss_kwargs=dict(r1_gamma=10.0),
-    g_loss_kwargs=dict(lamb=1, metric='cos', threshold=20),
+    g_loss_kwargs=dict(lamb=1, metric='cos', threshold=40),
 )
 # lambda weight fourier loss
 # metric is norm of fourier loss
