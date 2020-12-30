@@ -304,7 +304,7 @@ class BaseRunner(object):
         self.total_iters = self.convert_epoch_to_iter(self.config.get('total_epochs', 0))
         assert self.total_iters > 0
         print(self.total_iters, 'total iterations')
-        idx_save = 0
+        idx_save = 1
         while self.iter < self.total_iters:
             self._iter += 1
             self.pre_execute_controllers()
