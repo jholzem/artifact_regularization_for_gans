@@ -32,6 +32,7 @@ def main():
         i_pic += 1
 
     os.mkdir('img_syn_genforce/' + folder_name)
+    os.mkdir('img_syn_genforce/' + folder_name + '/0_real')
     os.mkdir('img_syn_genforce/' + folder_name + '/1_fake')
     print(f'folder {folder_name} created')
 
