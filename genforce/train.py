@@ -47,6 +47,7 @@ def parse_args():
     parser.add_argument('--lamb', type=str)
     parser.add_argument('--metric', type=str)
     parser.add_argument('--baseLR', type=str)
+    parser.add_argument('--nethz', type=str)
 
     return parser.parse_args()
 
@@ -71,6 +72,9 @@ def main():
         config.loss['g_loss_kwargs']['metric'] = float(args.metric)
     if args.baseLR != None:
         config.modules['generator']['opt']['base_lr'] = float(args.baseLR)
+    if args.nethz != None:
+        config.nethz = args.nethz
+    config.savename = args.lamb.replace('.','dot') + '_' + args.metric.replace('.','dot') + '_' + args.baseLR.replace('.','dot')
 
     # Set CUDNN.
     config.cudnn_benchmark = config.get('cudnn_benchmark', True)
@@ -121,7 +125,7 @@ def main():
                     optimizer=False,
                     running_stats=False)
     runner.train()
-    runner.save('test_generator.pth', optimizer=False)
+    runner.save('$SCRATCH/test_generator.pth', optimizer=False)
 
 
 if __name__ == '__main__':

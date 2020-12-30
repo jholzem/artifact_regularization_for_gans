@@ -9,9 +9,9 @@ Reqs:
 2. run 'pip install -r requirements.txt'
             ... to install the requirements for the cnn detection
 
-3. use './scripts/img_syn.sh number_of_images 'name_of_generator''
-            ... to start an evaluation of a generator
-            ... i.e. ./scripts/img_syn.sh 10000 'styleganinv_ffhq256'
+3. use 'bsub -R "rusage[mem=20480,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 4:00 scripts/dist_train.sh <lamb> <metric> <baseLR> <n_images>'
+            ... to start an evaluation of a combination of parameters
+            ... bsub -R "rusage[mem=20480,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 2:00 scripts/dist_train.sh 0.1 0.1 0.1 10000
 
 Make sure to
 - Not evaluate one generator twice
