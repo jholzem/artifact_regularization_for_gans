@@ -19,25 +19,16 @@ def main():
     args = parse_args()
 
     n = args.n
-    folder_name = args.generator
     generator = stylegan_generator_idinvert.StyleGANGeneratorIdinvert(args.generator)
 
     #model_weights = torch.load('models/pretrain/styleganinv_ffhq256_generator.pth')
     #generator.net.load_state_dict(model_weights)
     #generator.net.eval()
 
-    folder_name_init = folder_name
-    i_pic = 1
-    while os.path.exists('img_syn_genforce/' + folder_name):
-        folder_name = folder_name_init + '_' +str(i_pic).zfill(2)
-        print(f'Careful, this generator has already been used {i_pic} times!!!!! New folder name is {folder_name}')
-        i_pic += 1
-
-    os.mkdir('img_syn_genforce/' + folder_name)
-    os.mkdir('img_syn_genforce/' + folder_name + '/0_real')
-    os.mkdir('img_syn_genforce/' + folder_name + '/1_fake')
+    os.mkdir('test_syn')
+    os.mkdir('test_syn' + '/0_real')
+    os.mkdir('test_syn' + '/1_fake')
     # print(f'folder {folder_name} created')
-
 
     group_size = 10
     start = time.time()
@@ -53,7 +44,7 @@ def main():
             img_reshape = np.moveaxis(img, 0, -1)
             img_reshape =( img_reshape + 1) * 128
             img_rgb = cv2.cvtColor(img_reshape, cv2.COLOR_RGB2BGR)
-            cv2.imwrite(f'img_syn_genforce/{folder_name}/1_fake/img{str(k).zfill(2)}{str(i).zfill(6)}.png',img_rgb)
+            cv2.imwrite(f'test_syn/1_fake/img{str(k).zfill(2)}{str(i).zfill(6)}.png',img_rgb)
         print(f'saved nr {str(k)}')
     print(f'saved {str(k)} x {str(group_size)} images')
     end = time.time()
