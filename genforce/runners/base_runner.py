@@ -367,7 +367,7 @@ class BaseRunner(object):
             checkpoint['running_stats'] = self.running_stats
         # Save checkpoint.
         os.makedirs(os.path.dirname(filepath), exist_ok=True)
-        torch.save(checkpoint, filepath)
+        torch.save(checkpoint['models']['generator'], filepath)
         self.logger.info(f'Successfully saved checkpoint to `{filepath}`.')
 
     def load(self,

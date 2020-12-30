@@ -18,3 +18,8 @@ pytorch_implementation/pretrained_models/vgg16.pth
 pytorch_implementation/idinvert_pytorch/examples
 pytorch_implementation/tf_to_pytorch/weights
 pytorch_implementation/tf_to_pytorch/dnnlib
+/cnn_detection/weights/blur_jpg_prob0.1.pth
+/cnn_detection/weights/blur_jpg_prob0.5.pth
+/genforce/weights/blur_jpg_prob0.1.pth
+/genforce/weights/blur_jpg_prob0.5.pth
+

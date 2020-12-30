@@ -1,0 +1,17 @@
+## What is required to use the evaluation pipeline
+
+### Run everything from genforce folder
+
+Reqs:
+1. run 'bash weights/download_weights.sh'
+            ... to download the weights of cnn detection
+
+2. run 'pip install -r requirements.txt'
+            ... to install the requirements for the cnn detection
+
+3. use './scripts/img_syn.sh number_of_images 'name_of_generator''
+            ... to start an evaluation of a generator
+            ... i.e. ./scripts/img_syn.sh 10000 'styleganinv_ffhq256'
+
+Make sure to
+- Not evaluate one generator twice

@@ -44,6 +44,10 @@ def parse_args():
                         help='Rank of the current node. (default: %(default)s)')
     parser.add_argument('--options', nargs='+', action=DictAction,
                         help='arguments in dict')
+    parser.add_argument('--lambda', type=int)
+    parser.add_argument('--metric', type=int)
+    parser.add_argument('--baseLR', type=int)
+
     return parser.parse_args()
 
 
@@ -111,6 +115,7 @@ def main():
                     optimizer=False,
                     running_stats=False)
     runner.train()
+    runner.save('$SCRATCH/test_generator.pth', optimizer=False)
 
 
 if __name__ == '__main__':

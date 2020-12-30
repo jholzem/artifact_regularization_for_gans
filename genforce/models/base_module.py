@@ -91,7 +91,7 @@ class BaseModule(object):
     self.logger = logger or get_temp_logger(model_name)
 
     # Parse settings.
-    for key, val in MODEL_POOL[model_name].items():
+    for key, val in MODEL_POOL['styleganinv_ffhq256'].items():
       setattr(self, key, val)
     self.use_cuda = USE_CUDA and torch.cuda.is_available()
     self.batch_size = MAX_IMAGES_ON_DEVICE
@@ -119,10 +119,21 @@ class BaseModule(object):
                      f'model `{self.model_name}`.')
     self.model_specific_vars = []
     self.build()
-    if os.path.isfile(self.weight_path):
-      self.load()
+    if model_name.find("test") < 0:
+      if os.path.isfile(self.weight_path):
+        self.load()
+      else:
+        self.logger.warning(f'No pre-trained weights will be loaded!')
     else:
-      self.logger.warning(f'No pre-trained weights will be loaded!')
+      if os.path.isfile('$SCRATCH/test.pth'):
+        state_dict = torch.load('$SCRATCH/test.pth')
+        for var_name in self.model_specific_vars:
+          state_dict[var_name] = self.net.state_dict()[var_name]
+        self.net.load_state_dict(state_dict)
+        self.logger.info('test weights loaded')
+      else:
+        self.logger.warning(f'No pre-trained weights will be loaded!')
+
 
     # Change to inference mode and GPU mode if needed.
     assert self.net

@@ -19,15 +19,23 @@ git pull origin master
 Run either *realZfakeA.sh*, *realZfakeB.sh*, *realZfakeC.sh* or *realZfakeD.sh* on the cluster, examplarily for A:
 ```bash
 cd $HOME/artifact_regularization_for_gans
-bsub -R "rusage[mem=8192,ngpus_excl_p=1]" -W 24:00 < genforce/scripts/realZfakeA.sh
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 24:00 < genforce/scripts/realZfakeA.sh
 ```
 
 ### Download the results
 
-After the job is finished, download the result files *lat\<X\>.p*, *fak\<X\>.p*, *los\<X\>.p* to your computer with a local shell (not logged into your leonhard account), examplarily for A:
+After the job is finished, download the result files *lat\<X\>.p*, *fak\<X\>.p*, *los\<X\>.p* to your computer with a local shell (not logged into your leonhard account), for A: A00-A02, for B: A03-A05, for C: A06-A08, for D: A09-A10, here shown for A:
 ```bash
-scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/latA.p /<localPath>/latA.p
-scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/fakA.p /<localPath>/fakA.p
-scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/losA.p /<localPath>/losA.p
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/latA00.p /<localPath>/latA00.p
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/fakA00.p /<localPath>/fakA00.p
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/losA00.p /<localPath>/losA00.p
+
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/latA01.p /<localPath>/latA01.p
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/fakA01.p /<localPath>/fakA01.p
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/losA01.p /<localPath>/losA01.p
+
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/latA02.p /<localPath>/latA02.p
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/fakA02.p /<localPath>/fakA02.p
+scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/losA02.p /<localPath>/losA02.p
 ```
-where you should replace \<nethz\> and \<localPath\>
+where you should replace \<nethz\> and \<localPath\>. Finally, please upload all the .p files to the folder 'p' on our Google Drive.
