@@ -20,7 +20,7 @@ python -m torch.distributed.launch \
            --metric=${METRIC} \
            --baseLR=${BASELR} \
            --nethz=${NETHZ}
-	   ${@:4}
+	   ${@:8}
 
 # python img_syn.py ${N_IMAGES} 'test_generator.pth'
 # python demo_dir.py -d test_syn -m weights/blur_jpg_prob0.1.pth
