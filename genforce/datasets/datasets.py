@@ -328,7 +328,7 @@ class BaseDatasetWithLatent(Dataset):
         data.update({'image': image})
 
         latent = latent.astype(np.float32)
-        latent = torch.cuda.FloatTensor(latent)
+        #latent = torch.cuda.FloatTensor(latent)
 
         data.update({'latent': latent})
 
