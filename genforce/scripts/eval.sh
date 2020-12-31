@@ -23,7 +23,8 @@ python -m torch.distributed.launch \
 	   ${@:8}
 
 
-for idx in {1..2};
+#for idx in {1..2};
+for idx in {1..20};
 
 do
 
