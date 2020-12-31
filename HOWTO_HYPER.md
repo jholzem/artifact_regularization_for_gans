@@ -72,26 +72,26 @@ bash scripts/hyper.sh <LAMBDAS> <METRIC> <LRS> <NETHZ>
 example:
 
 ```bash
-bash scripts/hyper.sh "1 5e-1 1e-1" "cos" "1e-3 1e-4 1e-5 1e-6 1e-7 1e-8" "mschaller"
+bash scripts/hyper.sh "1 5e-1 1e-1" "cos" "1e-2 1e-3 1e-4 1e-5 1e-6 1e-7" "mschaller"
 ```
 
 ### Strategy
 
-Lambda | 1 | 0.5 | 0.1 | 0.05 | 0.01 | 0.005 
+Lambda | 1 | 0.5 | 0.1 | 0.05 | 0.01 | 0.005 | 0.001 | 0.0005
 
 Metric | '2' | 'cos'
 
-Learning rate | 1e-3 | 1e-4 | 1e-5 | 1e-6 | 1e-7 | 1e-8
+Learning rate | 1e-3 | 1e-4 | 1e-5 | 1e-6
 
 Maximum number of epochs: 20, with checkpoints after every epoch.
 
 
 ### Division
 
-Amir:   Lambda: 1, 5e-1, 1e-1,          Metric: 2   LR: all,    nethz: hadzica
+Amir:   Lambda: 1, 5e-1, 1e-1, 5e-2,         Metric: 2   LR: all,    nethz: hadzica
 
-Jonas:  Lambda: 5e-2, 1e-2, 5e-3,       Metric: 2   LR: all,    nethz: jholzem
+Jonas:  Lambda: 1e-2, 5e-3, 1e-3, 5e-4,      Metric: 2   LR: all,    nethz: jholzem
 
-Max:    Lambda: 1, 5e-1, 1e-1,          Metric: cos   LR: all,    nethz: mschaller
+Max:    Lambda: 1, 5e-1, 1e-1, 5e-2,          Metric: cos   LR: all,    nethz: mschaller
 
-Oli:    Lambda: 5e-2, 1e-2, 5e-3,       Metric: cos   LR: all,    nethz: steffeol
+Oli:    Lambda: 1e-2, 5e-3, 1e-3, 5e-4,       Metric: cos   LR: all,    nethz: steffeol
