@@ -45,6 +45,7 @@ conda deactivate
 conda remove -n DL --all
 conda env create -f environment.yml
 conda activate DL
+module load eth_proxy
 ```
 
 ## Perform Search
