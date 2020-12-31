@@ -8,6 +8,12 @@ git checkout fixedLatents
 git pull
 ```
 
+Configure ETH proxy:
+```bash
+cd $HOME
+module load eth_proxy
+```
+
 Download the pairs of real FFHQ .png images and their corresponding optimized latent codes:
 ```bash
 # mkdir $SCRATCH/data
@@ -39,6 +45,7 @@ conda deactivate
 conda remove -n DL --all
 conda env create -f environment.yml
 conda activate DL
+module load eth_proxy
 ```
 
 ## Perform Search
@@ -95,3 +102,12 @@ Jonas:  Lambda: 1e-2, 5e-3, 1e-3, 5e-4,      Metric: 2   LR: all,    nethz: jhol
 Max:    Lambda: 1, 5e-1, 1e-1, 5e-2,          Metric: cos   LR: all,    nethz: mschaller
 
 Oli:    Lambda: 1e-2, 5e-3, 1e-3, 5e-4,       Metric: cos   LR: all,    nethz: steffeol
+
+## Download the results
+
+To download the .txt accuracy files, execute the following command from a local terminal:
+```bash
+scp <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/results/*.txt <localFolder>
+```
+where you should replace \<nethz\> and \<localFolder\>
+
