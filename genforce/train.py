@@ -76,6 +76,9 @@ def main():
         config.nethz = args.nethz
     config.savename = args.lamb.replace('.','dot') + '_' + args.metric.replace('.','dot') + '_' + args.baseLR.replace('.','dot')
 
+    config.data['train']['root_dir'] = '/cluster/scratch/' + config.nethz + '/data'
+    config.data['val']['root_dir'] = '/cluster/scratch/' + config.nethz + '/data'
+
     # Set CUDNN.
     config.cudnn_benchmark = config.get('cudnn_benchmark', True)
     config.cudnn_deterministic = config.get('cudnn_deterministic', False)
