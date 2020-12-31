@@ -109,5 +109,5 @@ To download the .txt accuracy files, execute the following command from a local 
 ```bash
 scp <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/results/*.txt <localFolder>
 ```
-where you should replace <nethz> and <localFolder>
+where you should replace \<nethz\> and \<localFolder\>
 
