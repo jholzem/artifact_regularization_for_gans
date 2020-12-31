@@ -31,12 +31,12 @@ BAR="_"
 SAVENAME="${LAMB}$BAR${METRIC}$BAR${BASELR}"
 
 FOLDER="/cluster/scratch/"
-SLASH="/"
+RES="/results/"
 ENDING="_generator.pth"
 
-SYNFOLDER="$FOLDER${NETHZ}$SLASH$SAVENAME"
+SYNFOLDER="$FOLDER${NETHZ}$RES$SAVENAME"
 
-python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$SLASH$SAVENAME$BAR$idx$ENDING" ${SYNFOLDER}
+python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$RES$SAVENAME$BAR$idx$ENDING" ${SYNFOLDER}
 python demo_dir.py -d ${SYNFOLDER} -m weights/blur_jpg_prob0.1.pth
 
 rm -r ${SYNFOLDER}
