@@ -76,6 +76,10 @@ bash scripts/hyper.sh "1 1e-1 5e-2 " "cos" "1e-3 1e-4 1e-5 1e-6 1e-7 1e-8" "msch
 
 ### Strategy
 
+Attempt | #1 | #2 | #3 | #4 | #5 | #6 | #7 | #8 | #9 | #10 | #11
+--- | --- | --- | --- |--- |--- |--- |--- |--- |--- |--- |---
+Seconds | 301 | 283 | 290 | 286 | 289 | 285 | 287 | 287 | 272 | 276 | 269
+
 Maximum number of epochs: 20                                                    (1 value with 20 checkpoints - 9 hours (20 min per epoch + 5 min per evaluation))
 
 Learning rate (LR): 1e-3, 1e-4, 1e-5, 1e-6, 1e-7, 1e-8                          (6 values)
