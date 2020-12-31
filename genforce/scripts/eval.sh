@@ -6,9 +6,20 @@ BASELR=$3
 N_IMAGES=$4
 NETHZ=$5
 PORT=${PORT:-29500}
+
+BAR="_"
+SAVENAME="${LAMB}$BAR${METRIC}$BAR${BASELR}"
+FOLDER="/cluster/scratch/"
+RES="/results/"
+ENDING="_generator.pth"
+TEMP="_workdir"
+
+SYNFOLDER="$FOLDER${NETHZ}$RES$SAVENAME"
+WORK_DIR="$FOLDER${NETHZ}$RES$SAVENAME$TEMP"
+
 GPUS=1
 CONFIG=configs/stylegan_ffhq256_fourier_regularized.py
-WORK_DIR=work_dirs/stylegan_ffhq256_f_reg_train
+#WORK_DIR=work_dirs/stylegan_ffhq256_f_reg_train
 
 python -m torch.distributed.launch \
        --nproc_per_node=${GPUS} \
@@ -27,15 +38,6 @@ python -m torch.distributed.launch \
 for idx in {1..20};
 
 do
-
-BAR="_"
-SAVENAME="${LAMB}$BAR${METRIC}$BAR${BASELR}"
-
-FOLDER="/cluster/scratch/"
-RES="/results/"
-ENDING="_generator.pth"
-
-SYNFOLDER="$FOLDER${NETHZ}$RES$SAVENAME"
 
 python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$RES$SAVENAME$BAR$idx$ENDING" ${SYNFOLDER}
 python demo_dir.py -d ${SYNFOLDER} -m weights/blur_jpg_prob0.1.pth
