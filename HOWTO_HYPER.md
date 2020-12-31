@@ -30,6 +30,7 @@ If not done already, remove the 'data' folder from 'genforce'
 cd $HOME/artifact_regularization_for_gans/genforce
 rm -r data
 ```
+In addition, make sure that no unnecessary .zip files with data / weights are stored anywhere.
 
 If not done already, re-install the conda environment (new enviroment more storage efficient):
 ```bash
