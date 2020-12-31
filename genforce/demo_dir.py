@@ -1,5 +1,6 @@
 
 import argparse
+import os
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
 import torch.utils.data
@@ -20,6 +21,9 @@ parser.add_argument('--use_cpu', action='store_true', help='uses gpu by default,
 parser.add_argument('--size_only', action='store_true', help='only look at sizes of images in dataset')
 
 opt = parser.parse_args()
+
+txt_dir, name = os.path.split(opt.dir)
+txt_name = name + '_accuracies.txt'
 
 # Load model
 if(not opt.size_only):
@@ -84,5 +88,9 @@ if(not opt.size_only):
   ap = average_precision_score(y_true, y_pred)
 
   print('AP: {:2.2f}, Acc: {:2.2f}, Acc (real): {:2.2f}, Acc (fake): {:2.2f}'.format(ap*100., acc*100., r_acc*100., f_acc*100.))
+
+  txt_file = open(os.path.join(txt_dir, txt_name), 'a')
+  txt_file.write(str(f_acc) + '\n')
+  txt_file.close()
 
 

@@ -34,9 +34,9 @@ FOLDER="/cluster/scratch/"
 SLASH="/"
 ENDING="_generator.pth"
 
-python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$SLASH$SAVENAME$BAR$idx$ENDING"
-python demo_dir.py -d test_syn -m weights/blur_jpg_prob0.1.pth
+python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$SLASH$SAVENAME$BAR$idx$ENDING" "$FOLDER${NETHZ}$SLASH$SAVENAME"
+python demo_dir.py -d "$FOLDER${NETHZ}$SLASH$SAVENAME" -m weights/blur_jpg_prob0.1.pth
 
-rm -r test_syn
+rm -r "$FOLDER${NETHZ}$SLASH$SAVENAME"
 
 done
