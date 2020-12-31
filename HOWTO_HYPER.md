@@ -87,10 +87,10 @@ Maximum number of epochs: 20, with checkpoints after every epoch.
 
 ### Division
 
-Amir:   LR: all,    Lambda: 1, 5e-1, 1e-1,          Metric: 2   nethz: hadzica
+Amir:   Lambda: 1, 5e-1, 1e-1,          Metric: 2   LR: all,    nethz: hadzica
 
-Jonas:  LR: all,    Lambda: 5e-2, 1e-2, 5e-3,       Metric: 2   nethz: jholzem
+Jonas:  Lambda: 5e-2, 1e-2, 5e-3,       Metric: 2   LR: all,    nethz: jholzem
 
-Max:    LR: all,    Lambda: 1, 5e-1, 1e-1,          Metric: cos   nethz: mschaller
+Max:    Lambda: 1, 5e-1, 1e-1,          Metric: cos   LR: all,    nethz: mschaller
 
-Oli:    LR: all,    Lambda: 5e-2, 1e-2, 5e-3,       Metric: cos   nethz: steffeol
+Oli:    Lambda: 5e-2, 1e-2, 5e-3,       Metric: cos   LR: all,    nethz: steffeol
