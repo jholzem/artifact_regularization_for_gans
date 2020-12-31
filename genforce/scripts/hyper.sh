@@ -15,7 +15,7 @@ do
 
     do
 
-    bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 1:00 scripts/eval.sh ${LAMBDA} ${METRIC} ${LR} 10000 ${NETHZ}
+    bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 1:00 scripts/eval.sh ${LAMBDA} ${METRIC} ${LR} 10 ${NETHZ}
 
     done
 
