@@ -76,10 +76,10 @@ bash scripts/hyper.sh "1 1e-1 5e-2 " "cos" "1e-3 1e-4 1e-5 1e-6 1e-7 1e-8" "msch
 
 ### Strategy
 
-Parameter |  |  |  |  |  | 
---- | --- | --- | --- |--- |--- |--- 
 Lambda | 1 | 0.5 | 0.1 | 0.05 | 0.01 | 0.005 
+
 Metric | '2' | 'cos'
+
 Learning rate | 1e-3 | 1e-4 | 1e-5 | 1e-6 | 1e-7 | 1e-8
 
 Maximum number of epochs: 20, with checkpoints after every epoch.
