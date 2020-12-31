@@ -8,6 +8,12 @@ git checkout fixedLatents
 git pull
 ```
 
+Configure ETH proxy:
+```bash
+cd $HOME
+module load eth_proxy
+```
+
 Download the pairs of real FFHQ .png images and their corresponding optimized latent codes:
 ```bash
 # mkdir $SCRATCH/data
