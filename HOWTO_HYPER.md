@@ -58,7 +58,7 @@ Clean up your scratch folder (always before executing hyper.sh, see below):
 ```bash
 # mkdir $SCRATCH/results
 cd $SCRATCH/results
-# mkdir bak
+mkdir bak
 find . -maxdepth 1 -name "*.pth" -exec mv "{}" ./bak \;
 find . -maxdepth 1 -name "*.txt" -exec mv "{}" ./bak \;
 ```
