@@ -72,7 +72,7 @@ bash scripts/hyper.sh <LAMBDAS> <METRIC> <LRS> <NETHZ>
 example:
 
 ```bash
-bash scripts/hyper.sh "1 5e-1 1e-1 " "cos" "1e-3 1e-4 1e-5 1e-6 1e-7 1e-8" "mschaller"
+bash scripts/hyper.sh "1 5e-1 1e-1" "cos" "1e-3 1e-4 1e-5 1e-6 1e-7 1e-8" "mschaller"
 ```
 
 ### Strategy
