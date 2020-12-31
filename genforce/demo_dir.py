@@ -22,7 +22,7 @@ parser.add_argument('--size_only', action='store_true', help='only look at sizes
 
 opt = parser.parse_args()
 
-txt_dir, name = os.path.split(opt.dir)
+txt_dir, name = os.path.split(opt.dir[0])
 txt_name = name + '_accuracies.txt'
 
 # Load model

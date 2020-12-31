@@ -23,7 +23,7 @@ python -m torch.distributed.launch \
 	   ${@:8}
 
 
-for idx in {1..9};
+for idx in {1..2};
 
 do
 
@@ -34,9 +34,11 @@ FOLDER="/cluster/scratch/"
 SLASH="/"
 ENDING="_generator.pth"
 
-python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$SLASH$SAVENAME$BAR$idx$ENDING" "$FOLDER${NETHZ}$SLASH$SAVENAME"
-python demo_dir.py -d "$FOLDER${NETHZ}$SLASH$SAVENAME" -m weights/blur_jpg_prob0.1.pth
+SYNFOLDER="$FOLDER${NETHZ}$SLASH$SAVENAME"
 
-rm -r "$FOLDER${NETHZ}$SLASH$SAVENAME"
+python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$SLASH$SAVENAME$BAR$idx$ENDING" ${SYNFOLDER}
+python demo_dir.py -d ${SYNFOLDER} -m weights/blur_jpg_prob0.1.pth
+
+rm -r ${SYNFOLDER}
 
 done

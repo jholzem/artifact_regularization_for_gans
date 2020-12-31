@@ -10,8 +10,8 @@ gan_type = 'stylegan'
 resolution = 256
 batch_size = 1
 val_batch_size = 64
-total_img = 2
-total_epochs = 9
+total_img = 2#9834
+total_epochs = 2#20
 nethz = ''
 
 
