@@ -111,5 +111,3 @@ scp <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/results/*.txt <local
 cd <repo>/genforce
 bash download_log.sh <LAMBDAS> <METRIC> <LRS> <NETHZ> <LOCALFOLDER>
 ```
-where you should replace \<nethz\> and \<localFolder\>
-
