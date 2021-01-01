@@ -111,3 +111,9 @@ scp <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/results/*.txt <local
 cd <repo>/genforce
 bash download_log.sh <LAMBDAS> <METRIC> <LRS> <NETHZ> <LOCALFOLDER>
 ```
+
+example:
+```bash
+bash download_log.sh "1 5e-1 1e-1 5e-2" "cos" "1e-3 1e-4 1e-5 1e-6" "mschaller" "/Users/max/Desktop/log"
+```
+
