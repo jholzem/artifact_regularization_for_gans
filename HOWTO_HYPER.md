@@ -105,9 +105,10 @@ Oli:    Lambda: 1e-2, 5e-3, 1e-3, 5e-4,       Metric: cos   LR: all,    nethz: s
 
 ## Download the results
 
-To download the .txt accuracy files, execute the following command from a local terminal:
+To download the .txt accuracy files and log files, execute the following commands from a local terminal:
 ```bash
 scp <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/results/*.txt <localFolder>
+scp <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/genforce/*.o* <localFolder>
 ```
 where you should replace \<nethz\> and \<localFolder\>
 
