@@ -7,6 +7,8 @@ N_IMAGES=$4
 NETHZ=$5
 PORT=$RANDOM #{PORT:-29500}
 
+EPOCHS=1
+
 BAR="_"
 SAVENAME="${LAMB}$BAR${METRIC}$BAR${BASELR}"
 FOLDER="/cluster/scratch/"
@@ -33,7 +35,7 @@ python -m torch.distributed.launch \
 	   ${@:8}
 
 
-python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$RES$SAVENAME$BAR$idx$ENDING" ${SYNFOLDER}
-python ./CNNDetection/demo_dir.py -d ${SYNFOLDER} -m weights/blur_jpg_prob0.1.pth
+python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$RES$SAVENAME$BAR$EPOCHS$ENDING" ${SYNFOLDER}
+python ./CNNDetection/demo_dir.py -d ${SYNFOLDER} -m ./weights/blur_jpg_prob0.1.pth
 
 rm -r ${SYNFOLDER}
