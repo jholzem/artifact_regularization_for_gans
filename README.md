@@ -1,62 +1,75 @@
 ## Installation
 
-Clone github repo
+Clone the GitHub repository in the cluster's $SCRATCH folder and update its cited submodules
 ```bash
+cd $SCRATCH
 git clone https://github.com/hadzica/artifact_regularization_for_gans.git
+git submodule update --remote
 ```
 
-For easier handling, we use conda environments. Install conda using the following commands
+Install conda using the following commands
 ```bash
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 chmod +x Miniconda3-latest-Linux-x86_64.sh
 ./Miniconda3-latest-Linux-x86_64.sh
 ```
-Inside the artifact...-folder, run
+
+Create and activate the conda environment
 ```bash
+cd $SCRATCH/artifact_regularization_for_gans
 conda env create -f environment.yml
+conda activate DL
 ```
 
-Restart the shell after the environment has been installed. Make sure that you always activate `dl_env` before running scripts, files etc.
+Restart the shell after the environment has been installed. Make sure that you always activate `DL` before running scripts, files etc.
 
-Download weights and data:
+Download pre-trained weights and FFHQ data
 ```bash
+cd $SCRATCH/artifact_regularization_for_gans
 bash scripts/download.sh
 ```
 
-## How to optimize latent codes on the leonhard cluster
+## Preparation
 
-### Getting started
+As described in the report, we compute the optimized latent codes of the in-domain GAN inversion prior to the actual fine-tuning of the StyleGAN generator. The following steps can be followed to reproduce the results that have been downloaded already in the previous step.
 
-### Run the job
+### Create triplets of real images, latent codes, and fake images
 
-Run either *realZfake.sh* on the cluster:
+Run *realZfake.sh* on the cluster:
 ```bash
-cd $HOME/artifact_regularization_for_gans
-bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 24:00 scripts/realZfake.sh
+cd $SCRATCH/artifact_regularization_for_gans
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh
 ```
 
 ### Download the results
 
-After the job is finished, download the result files *lat\<X\>.p*, *fak\<X\>.p*, *los\<X\>.p* to your computer with a local shell (not logged into your leonhard account), for A: A00-A02, for B: A03-A05, for C: A06-A08, for D: A09-A10, here shown for A:
+After the job is finished, download the result files *lat\<X\>.p*, *fak\<X\>.p*, *los\<X\>.p*
 ```bash
-scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/lat<X>.p /<localPath>/lat<X>.p
-scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/fak<X>.p /<localPath>/fak<X>.p
-scp  <nethz>@login.leonhard.ethz.ch:artifact_regularization_for_gans/los<X>.p /<localPath>/los<X>.p
+scp  <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/artifact_regularization_for_gans/lat<X>.p /<localPath>/lat<X>.p
+scp  <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/artifact_regularization_for_gans/fak<X>.p /<localPath>/fak<X>.p
+scp  <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/artifact_regularization_for_gans/los<X>.p /<localPath>/los<X>.p
 ```
-where you should replace \<nethz\> and \<localPath\>. Finally, please upload all the .p files to the folder 'p' on our Google Drive.
+where you should replace \<nethz\>, \<X\> and \<localPath\>.
 
-## Training
+### Post-process the results
+
+Convert the .p files into .png files containing real and fake images and .csv files containing latent codes with
+```bash
+TODO
+```
+
+## Fine-tuning the StyleGAN generator
 
 Configure ETH proxy:
 ```bash
-cd $HOME
+cd $SCRATCH
 module load eth_proxy
 ```
 
-Start training:
+Start training and subsequent evaluation with CNNDetection:
 ```bash
-cd $HOME/artifact_regularization_for_gans
+cd $SCRATCH/artifact_regularization_for_gans
 bash scripts/train_eval.sh <LAMBDA> <METRIC> <LR> <NETHZ>
 ```
 
-
+...
