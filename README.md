@@ -66,7 +66,7 @@ cd $SCRATCH
 module load eth_proxy
 ```
 
-Start training:
+Start training and subsequent evaluation with CNNDetection:
 ```bash
 cd $SCRATCH/artifact_regularization_for_gans
 bash scripts/train_eval.sh <LAMBDA> <METRIC> <LR> <NETHZ>
