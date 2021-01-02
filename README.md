@@ -27,14 +27,6 @@ bash scripts/download.sh
 
 ### Getting started
 
-Download the FFHQ **.png** images to the folder structure on the cluster:
-```bash
-cd $HOME/artifact_regularization_for_gans/genforce/data
-wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1TVfX2dy39agfUfRjoryLnDG9kbB4jerS' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1TVfX2dy39agfUfRjoryLnDG9kbB4jerS" -O FFHQ_256.zip && rm -rf /tmp/cookies.txt
-unzip FFHQ_256.zip
-rm -r __MACOSX
-```
-
 ### Run the job
 
 Run either *realZfake.sh* on the cluster:
