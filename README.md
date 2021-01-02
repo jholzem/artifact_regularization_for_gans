@@ -14,6 +14,7 @@ chmod +x Miniconda3-latest-Linux-x86_64.sh
 Inside the artifact...-folder, run
 ```bash
 conda env create -f environment.yml
+conda activate DL
 ```
 
 Restart the shell after the environment has been installed. Make sure that you always activate `dl_env` before running scripts, files etc.
