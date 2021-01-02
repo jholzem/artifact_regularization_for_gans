@@ -3,11 +3,11 @@ import pickle
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-import utils.inverter as inv
+import idinvert.inverter as inv
 from models.stylegan_generator_idinvert import StyleGANGeneratorIdinvert
 
 # settings
-path_images = 'genforce/data/FFHQ_256'
+path_images = 'data/FFHQ_256'
 n_iter = 200
 
 # initialize generator & invertor
