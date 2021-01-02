@@ -4,6 +4,3 @@
 [submodule "genforce"]
 	path = genforce
 	url = https://github.com/maximilianschaller/genforce
-[submodule "idinvert"]
-	path = idinvert
-	url = https://github.com/maximilianschaller/idinvert
