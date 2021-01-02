@@ -4,3 +4,6 @@
 [submodule "idinvert_pytorch"]
 	path = idinvert_pytorch
 	url = https://github.com/maximilianschaller/idinvert_pytorch
+[submodule "CNNDetection"]
+	path = CNNDetection
+	url = https://github.com/jholzem/CNNDetection
