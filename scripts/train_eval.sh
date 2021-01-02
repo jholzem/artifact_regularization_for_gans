@@ -23,7 +23,7 @@ CONFIG=genforce/configuration.py
 python -m torch.distributed.launch \
        --nproc_per_node=${GPUS} \
        --master_port=${PORT} \
-       ./train.py ${CONFIG} \
+       ./genforce/train.py ${CONFIG} \
            --work_dir ${WORK_DIR} \
            --launcher="pytorch" \
            --lamb=${LAMB} \
@@ -34,6 +34,6 @@ python -m torch.distributed.launch \
 
 
 python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$RES$SAVENAME$BAR$idx$ENDING" ${SYNFOLDER}
-python demo_dir.py -d ${SYNFOLDER} -m weights/blur_jpg_prob0.1.pth
+python ./CNNDetection/demo_dir.py -d ${SYNFOLDER} -m weights/blur_jpg_prob0.1.pth
 
 rm -r ${SYNFOLDER}
