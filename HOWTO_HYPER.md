@@ -82,7 +82,7 @@ example:
 bash scripts/hyper.sh "1 5e-1 1e-1 5e-2" "cos" "1e-3 1e-4 1e-5 1e-6" "mschaller"
 ```
 
-### Strategy
+### Rough Grid
 
 Lambda | 1 | 0.5 | 0.1 | 0.05 | 0.01 | 0.005 | 0.001 | 0.0005
 
@@ -93,7 +93,7 @@ Learning rate | 1e-3 | 1e-4 | 1e-5 | 1e-6
 Maximum number of epochs: 20, with checkpoints after every epoch.
 
 
-### Division
+Division
 
 Amir:   Lambda: 1, 5e-1, 1e-1, 5e-2,         Metric: 2   LR: all,    nethz: hadzica
 
@@ -117,3 +117,27 @@ example:
 bash download_log.sh "1 5e-1 1e-1 5e-2" "cos" "1e-3 1e-4 1e-5 1e-6" "mschaller" "/Users/max/Desktop/log"
 ```
 
+### Fine grid
+
+Metric 2: lambda=[1e-3, 3e-4, 1e-4, 3e-5] lr=[1e-6, 3e-7, 1e-7, 3e-8]
+
+Metric cos: lambda=[3, 1, 3e-1, 1e-1] lr=[1e-6, 3e-7, 1e-7, 3e-8]
+
+Division:
+
+Amir:   Lambda: 1e-3, 3e-4                    Metric: 2   LR: all,    nethz: hadzica
+
+Jonas:  Lambda: 1e-4, 3e-5                    Metric: 2   LR: all,    nethz: jholzem
+
+Max:    Lambda: 3, 1                          Metric: cos   LR: all,    nethz: mschaller
+
+Oli:    Lambda: 3e-1, 1e-1                    Metric: cos   LR: all,    nethz: steffeol
+
+```bash
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24:00 scripts/hyper_sequential.sh <LAMBDAS> <METRIC> <LRS> <NETHZ>
+```
+
+example
+```bash
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24:00 scripts/hyper_sequential.sh "1e-3 3e-4" "2" "1e-6 3e-7 1e-7 3e-8" "hadzica"
+```
