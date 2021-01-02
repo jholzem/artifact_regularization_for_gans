@@ -38,7 +38,7 @@ As described in the report, we compute the optimized latent codes of the in-doma
 Run *realZfake.sh* on the cluster:
 ```bash
 cd $SCRATCH/artifact_regularization_for_gans
-bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 24:00 scripts/realZfake.sh
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh
 ```
 
 ### Download the results
