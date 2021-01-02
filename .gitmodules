@@ -1,6 +1,3 @@
-[submodule "CNNDetection"]
-	path = CNNDetection
-	url = https://github.com/jholzem/CNNDetection.git
 [submodule "genforce"]
 	path = genforce
 	url = https://github.com/maximilianschaller/genforce
