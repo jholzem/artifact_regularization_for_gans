@@ -4,3 +4,6 @@
 [submodule "genforce"]
 	path = genforce
 	url = https://github.com/maximilianschaller/genforce
+[submodule "idinvert_pytorch"]
+	path = idinvert_pytorch
+	url = https://github.com/maximilianschaller/idinvert_pytorch
