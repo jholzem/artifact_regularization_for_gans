@@ -1,3 +1,0 @@
-TODO
-
-combine HOWTO_leonhard.md, HOWTO_latentCodes.md, HOWTO_HYPER.md into README.md
