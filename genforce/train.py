@@ -71,7 +71,7 @@ def main():
     if args.metric != None:
         config.loss['g_loss_kwargs']['metric'] = args.metric
     if args.baseLR != None:
-        config.modules['generator']['opt']['base_lr'] = float(args.baseLR)
+        config.modules['generator']['opt']['base_lr'] = float(args.baseLR)/2
     if args.nethz != None:
         config.nethz = args.nethz
     config.savename = args.lamb.replace('.','dot') + '_' + args.metric.replace('.','dot') + '_' + args.baseLR.replace('.','dot')

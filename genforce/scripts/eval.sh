@@ -35,7 +35,7 @@ python -m torch.distributed.launch \
 
 
 #for idx in {1..2};
-for idx in {1..20};
+for idx in {1..9};
 
 do
 

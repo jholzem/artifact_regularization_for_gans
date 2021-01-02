@@ -13,7 +13,7 @@ val_batch_size = 64
 #total_img = 2
 total_img = 9834
 #total_epochs = 2
-total_epochs = 20
+total_epochs = 3
 nethz = ''
 
 
