@@ -1,0 +1,3 @@
+[submodule "CNNDetection"]
+	path = CNNDetection
+	url = https://github.com/jholzem/CNNDetection.git
