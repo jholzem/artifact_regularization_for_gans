@@ -25,7 +25,7 @@ conda activate DL
 ```
 Make sure that you always activate `DL` before running scripts, files etc.
 
-Download pre-trained weights and FFHQ data
+Download pre-trained weights, FFHQ images, and optimized latent codes
 ```bash
 bash scripts/download.sh
 ```
@@ -33,9 +33,8 @@ bash scripts/download.sh
 
 ## Fine-tuning the StyleGAN generator
 
-Configure ETH proxy:
+Load ETH proxy:
 ```bash
-cd $SCRATCH
 module load eth_proxy
 ```
 
@@ -52,19 +51,19 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 4:
 <details><summary>Create triplets of real images, latent codes, and fake images</summary>
 <p>
 
-## Preparation
-
 As described in the report, we compute the optimized latent codes of the in-domain GAN inversion prior to the actual fine-tuning of the StyleGAN generator. The following steps can be followed to reproduce the results that have been downloaded already in the previous step.
 
-### Create triplets of real images, latent codes, and fake images
+Download FFHQ data:
+Download pre-trained weights and FFHQ data
+```bash
+bash scripts/download_FFHQ.sh
+```
 
 Run *realZfake.sh* on the cluster:
 ```bash
 cd $SCRATCH/artifact_regularization_for_gans
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh
 ```
-
-### Download the results
 
 After the job is finished, download the result files *lat\<X\>.p*, *fak\<X\>.p*, *los\<X\>.p*
 ```bash
