@@ -15,9 +15,6 @@ def fourier_dissimilarity(fake_images, real_images, metric, thres=20):
     fake_ft = torch.norm(torch.rfft(rgb2gray(fake_images), signal_ndim=2), dim=3)
     real_ft = torch.norm(torch.rfft(rgb2gray(real_images), signal_ndim=2), dim=3)
 
-    print('fake_ft requires gradient', fake_ft.requires_grad)
-    print('real_ft requires gradient', real_ft.requires_grad)
-
     if metric == '1':
         return torch.norm((fake_ft[:,thres:-thres,thres:]-real_ft[:,thres:-thres,thres:]).cpu(), p=1, dim=(1, 2))*1e-8
     elif metric == '2':
