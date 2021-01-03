@@ -66,7 +66,6 @@ class FourierRegularizedStyleGANRunner(BaseGANRunner):
 
             g_loss = self.loss.g_loss(self, data)
             self.optimizers['generator'].zero_grad()
-            print('g_loss requires gradient', g_loss.requires_grad)
             g_loss.backward()
             self.optimizers['generator'].step()
 
