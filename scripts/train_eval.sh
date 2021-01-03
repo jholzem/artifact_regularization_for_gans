@@ -34,6 +34,6 @@ python -m torch.distributed.launch \
 
 
 python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$RES$SAVENAME$BAR$EPOCHS$ENDING" ${SYNFOLDER}
-python CNNDetection/detection.py -d ${SYNFOLDER} -m weights/blur_jpg_prob0.1.pth
+python CNNDetection/detection.py -d ${SYNFOLDER}
 
 rm -r ${SYNFOLDER}
