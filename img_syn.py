@@ -3,7 +3,7 @@ import math
 import os
 import time
 import numpy as np
-from models import stylegan_generator_idinvert
+from idinvert_pytorch.models import stylegan_generator_idinvert
 import cv2
 
 # test['models']['generator']
