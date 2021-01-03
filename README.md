@@ -27,17 +27,9 @@ Make sure that you always activate `DL` before running scripts, files etc.
 
 Download pre-trained weights and FFHQ data
 ```bash
-cd $SCRATCH/artifact_regularization_for_gans
 bash scripts/download.sh
 ```
 
-
-### Post-process the results
-
-Convert the .p files into .png files containing real and fake images and .csv files containing latent codes with
-```bash
-TODO
-```
 
 ## Fine-tuning the StyleGAN generator
 
@@ -82,6 +74,12 @@ scp  <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/artifact_regulariza
 ```
 where you should replace \<nethz\>, \<X\> and \<localPath\>.
 
+### Post-process the results
+
+Convert the .p files into .png files containing real and fake images and .csv files containing latent codes with
+```bash
+TODO
+```
 
 </p>
 </details>
