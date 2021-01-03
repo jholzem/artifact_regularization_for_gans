@@ -3,16 +3,19 @@
 Clone the GitHub repository in the cluster's $SCRATCH folder and update its cited submodules
 ```bash
 cd $SCRATCH
-git clone https://github.com/hadzica/artifact_regularization_for_gans.git
-git submodule update --remote
+git clone --branch submission https://github.com/hadzica/artifact_regularization_for_gans.git
+cd artifact_regularization_for_gans
+git submodule update --init
 ```
 
 Install conda using the following commands
 ```bash
+cd $SCRATCH
 wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 chmod +x Miniconda3-latest-Linux-x86_64.sh
 ./Miniconda3-latest-Linux-x86_64.sh
 ```
+Specify the installation path when asked to. Restart the shell after conda has successfully been installed.
 
 Create and activate the conda environment
 ```bash
@@ -20,14 +23,41 @@ cd $SCRATCH/artifact_regularization_for_gans
 conda env create -f environment.yml
 conda activate DL
 ```
-
-Restart the shell after the environment has been installed. Make sure that you always activate `DL` before running scripts, files etc.
+Make sure that you always activate `DL` before running scripts, files etc.
 
 Download pre-trained weights and FFHQ data
 ```bash
 cd $SCRATCH/artifact_regularization_for_gans
 bash scripts/download.sh
 ```
+
+
+### Post-process the results
+
+Convert the .p files into .png files containing real and fake images and .csv files containing latent codes with
+```bash
+TODO
+```
+
+## Fine-tuning the StyleGAN generator
+
+Configure ETH proxy:
+```bash
+cd $SCRATCH
+module load eth_proxy
+```
+
+Start training and subsequent evaluation with CNNDetection:
+```bash
+cd $SCRATCH/artifact_regularization_for_gans
+bash scripts/train_eval.sh <LAMBDA> <METRIC> <LR> <NETHZ>
+```
+
+
+## Appendix
+
+<details><summary>Create triplets of real images, latent codes, and fake images</summary>
+<p>
 
 ## Preparation
 
@@ -51,25 +81,7 @@ scp  <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/artifact_regulariza
 ```
 where you should replace \<nethz\>, \<X\> and \<localPath\>.
 
-### Post-process the results
 
-Convert the .p files into .png files containing real and fake images and .csv files containing latent codes with
-```bash
-TODO
-```
-
-## Fine-tuning the StyleGAN generator
-
-Configure ETH proxy:
-```bash
-cd $SCRATCH
-module load eth_proxy
-```
-
-Start training and subsequent evaluation with CNNDetection:
-```bash
-cd $SCRATCH/artifact_regularization_for_gans
-bash scripts/train_eval.sh <LAMBDA> <METRIC> <LR> <NETHZ>
-```
-
+</p>
+</details>
 ...
