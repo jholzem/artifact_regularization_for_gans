@@ -56,12 +56,12 @@ As described in the report, we compute the optimized latent codes of the in-doma
 Download FFHQ data:
 Download pre-trained weights and FFHQ data
 ```bash
+cd $SCRATCH/artifact_regularization_for_gans
 bash scripts/download_FFHQ.sh
 ```
 
 Run *realZfake.sh* on the cluster:
 ```bash
-cd $SCRATCH/artifact_regularization_for_gans
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh
 ```
 
