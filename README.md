@@ -80,10 +80,14 @@ cd artifact_regularization_for_gans
 bash scripts/download_FFHQ.sh
 ```
 
-Add the conda environment to the notebook
+Install `ipykernel` to be able to add the conda environment to the notebook
 ```bash
 conda activate DL
 conda install -c anaconda ipykernel
+```
+
+Add the the conda environment to the notebook
+```bash
 python -m ipykernel install --user --name=DL
 ```
 
