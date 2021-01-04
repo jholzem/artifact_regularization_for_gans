@@ -38,10 +38,11 @@ Load ETH proxy:
 module load eth_proxy
 ```
 
-Start training and subsequent evaluation with CNNDetection:
+Start training and subsequent evaluation with CNNDetection, where you should specify your \<NETHZ\>:
 ```bash
 mkdir $SCRATCH/results
 cd $SCRATCH/artifact_regularization_for_gans
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 4:00 scripts/train_eval.sh 0 2 1e-6 10000 <NETHZ>
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 4:00 scripts/train_eval.sh 1e-3 2 1e-6 10000 <NETHZ>
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 4:00 scripts/train_eval.sh 3e-1 cos 1e-6 10000 <NETHZ>
 ```
