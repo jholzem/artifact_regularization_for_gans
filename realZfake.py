@@ -25,7 +25,8 @@ def main():
     path_save = 'data/reproduced'
     path_images = 'data/reproduced/FFHQ_256'
     n_iter = 200
-    n_thousands = 11
+    n_outer = 11
+    n_inner = 2
 
     if not os.path.isdir(os.path.join(path_save, 'real')):
         os.mkdir(os.path.join(path_save, 'real'))
@@ -44,12 +45,12 @@ def main():
     fakes = []
     losses = []
 
-    for i in range(n_thousands):
+    for i in range(n_outer):
 
         # read .png files
         real_list = []
-        for j in range(2):
-            file = path_images + '/' + str(i * 1000 + j).zfill(5) + '.png'
+        for j in range(n_inner):
+            file = path_images + '/' + str(i * n_inner + j).zfill(5) + '.png'
             real_list.append(preprocess(plt.imread(file)))
 
         real = torch.from_numpy(np.array(real_list))
@@ -65,11 +66,11 @@ def main():
     fakes = np.array(fakes)
     losses = np.array(losses)
 
-    ids = np.arange(1000*n_thousands)
+    ids = np.arange(n_inner*n_outer)
 
     loss_threshold = 0.3
 
-    index_keep = np.arange(1000 * n_thousands)[losses < loss_threshold]
+    index_keep = np.arange(n_inner * n_outer)[losses < loss_threshold]
     print('Accepting', str(np.round(1000 * len(index_keep) / len(ids)) / 10), '% of examples.')
 
     counter = 1
