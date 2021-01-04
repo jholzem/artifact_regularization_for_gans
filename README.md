@@ -31,7 +31,7 @@ bash scripts/download.sh
 ```
 
 
-## Fine-tuning the StyleGAN generator
+## Fine-Tuning the StyleGAN Generator
 
 Load ETH proxy:
 ```bash
