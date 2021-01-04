@@ -15,7 +15,7 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 chmod +x Miniconda3-latest-Linux-x86_64.sh
 ./Miniconda3-latest-Linux-x86_64.sh
 ```
-Specify the installation path when asked to. Restart the shell after conda has successfully been installed.
+where you should specify the installation path when asked to and type `yes` when asked if the installer should intiliaze Miniconda3. Restart the shell after conda has been successfully installed.
 
 Create and activate the conda environment
 ```bash
@@ -63,7 +63,7 @@ bash scripts/download_FFHQ.sh
 
 Utilize in-domain GAN inversion to optimize latent codes for real FFHQ images and pass those through the StyleGAN generator to retrieve associated "fake" images.
 ```bash
-bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh 11
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh
 ```
 
 </p>
@@ -74,19 +74,18 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh 11
 
 To determine the frequency range of interest, we analyze Fourier dissimilarity values for different truncations of the spectra of real and generated images. Since a Jupyter notebook is included in the subsequent steps, it might be convenient to follow these on a machine where you can open .ipynb files with a GUI. All **Installation** steps should be finished.
 
-First, download the pairs of real and generated images:
-```bash
-bash scripts/download_FFHQ.sh
-```
-
-Add the conda environment to the notebook
+Install `ipykernel` to be able to add the conda environment to the notebook
 ```bash
 conda activate DL
 conda install -c anaconda ipykernel
+```
+
+Add the the conda environment to the notebook
+```bash
 python -m ipykernel install --user --name=DL
 ```
 
-Select `DL` as kernel and follow the steps in `fourier_analysis.ipynb`
+Follow the steps in `fourier_analysis.ipynb`, where you should select `DL` as kernel.
 
 </p>
 </details>
