@@ -4,7 +4,7 @@ To reproduce our results, please follow the subsequent tutorial. The code is tes
 
 ## Installation
 
-Clone the GitHub repository in the cluster's $SCRATCH folder and update its cited submodules
+Clone the GitHub repository in the Leonhard cluster's $SCRATCH folder and update its cited submodules
 ```bash
 cd $SCRATCH
 git clone --branch submission https://github.com/hadzica/artifact_regularization_for_gans.git
