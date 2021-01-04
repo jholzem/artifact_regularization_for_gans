@@ -22,8 +22,8 @@ def preprocess(image):
 def main():
 
     # settings
-    path_save = 'data/reproduced'
-    path_images = 'data/reproduced/FFHQ_256'
+    path_save = 'data/reproduced/'
+    path_images = 'data/reproduced/FFHQ_256/'
     n_iter = 200
     n_outer = 11
     n_inner = 2
@@ -50,7 +50,7 @@ def main():
         # read .png files
         real_list = []
         for j in range(n_inner):
-            file = path_images + '/' + str(i * n_inner + j).zfill(5) + '.png'
+            file = path_images + str(i * n_inner + j).zfill(5) + '.png'
             real_list.append(preprocess(plt.imread(file)))
 
         real = torch.from_numpy(np.array(real_list))
