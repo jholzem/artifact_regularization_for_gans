@@ -1,3 +1,7 @@
+Recent research has shown that GAN-generated images are easy to detect for dedicated detection algorithms. They rely on artifacts in the Fourier representation of   the generated images. As the goal for image synthesis is to produce images which are indistinguishable from real ones, this is a major drawback. We propose a novel training framework which penalizes synthesis artifacts by computing a Fourier dissimilarity between synthesized and real images. In this work, we investigate in which bandwidth in the Fourier domain the artifacts occur ands how that they can be reduced by using an appropriate training strategy.
+
+To reproduce our results, please follow the subsequent tutorial. The code is tested for the use on the Leonhard cluster and therefore we recommend to run the code on the Leonhard cluster as well. If you wish to run the code on another machine, please reach out to us - mschaller@student.ethz.ch (a few file paths will need to be adjusted).
+
 ## Installation
 
 Clone the GitHub repository in the cluster's $SCRATCH folder and update its cited submodules
