@@ -76,6 +76,7 @@ To determine the frequency range of interest, we analyze Fourier dissimilarity v
 
 First, download the pairs of real and generated images:
 ```bash
+cd artifact_regularization_for_gans
 bash scripts/download_FFHQ.sh
 ```
 
