@@ -38,7 +38,7 @@ def main():
 
         # read .png files
         real_list = []
-        for j in range(1000):
+        for j in range(2):
             file = path_images + '/' + str(i * 1000 + j).zfill(5) + '.png'
             real_list.append(preprocess(plt.imread(file)))
 
