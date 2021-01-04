@@ -85,7 +85,7 @@ Add the the conda environment to the notebook
 python -m ipykernel install --user --name=DL
 ```
 
-Select `DL` as kernel and follow the steps in `fourier_analysis.ipynb`
+Follow the steps in `fourier_analysis.ipynb`, where you should select `DL` as kernel.
 
 </p>
 </details>
