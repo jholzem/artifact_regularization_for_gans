@@ -72,7 +72,7 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh 11
 <details><summary>Analyze dissimilarity of Fourier spectra of real/generated images</summary>
 <p>
 
-To determine the frequency range of interest, we analyze Fourier dissimilarity values for different truncations of the spectra of real and generated images. Since a Jupyter notebook is included in the subsequent steps, it might be convenient to follow perform the steps on a machine where you can open .ipynb with a GUI.
+To determine the frequency range of interest, we analyze Fourier dissimilarity values for different truncations of the spectra of real and generated images. Since a Jupyter notebook is included in the subsequent steps, it might be convenient to follow these on a machine where you can open .ipynb files with a GUI. All **Installation** steps should be finished.
 
 First, download the pairs of real and generated images:
 ```bash
