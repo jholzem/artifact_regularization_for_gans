@@ -1,18 +1,11 @@
 import torch
-import pickle
 import cv2
+import time
 import numpy as np
 import matplotlib.pyplot as plt
-import idinvert.inverter as inv
-from models.stylegan_generator_idinvert import StyleGANGeneratorIdinvert
-
-# settings
-path_images = 'data/FFHQ_256'
-n_iter = 200
-
-# initialize generator & invertor
-G = StyleGANGeneratorIdinvert('styleganinv_ffhq256')
-Inverter = inv.StyleGANInverter(G, 'styleganinv_ffhq256', iteration=n_iter)
+import idinvert_pytorch.utils.inverter as inv
+from idinvert_pytorch.models.stylegan_generator_idinvert import StyleGANGeneratorIdinvert
+from shutil import copyfile
 
 
 def preprocess(image):
@@ -25,35 +18,72 @@ def preprocess(image):
     return image.astype(np.float32).transpose(2, 0, 1)
 
 
-# process images in packages of 1000
+def main():
 
+    # settings
+    path_save = 'data/reproduced'
+    path_images = 'data/reproduced/FFHQ_256'
+    n_iter = 200
+    n_thousands = 11
 
-for i in range(11):
-
-    # read .png files
-    real_list = []
-    for j in range(1000):
-        file = path_images + '/' + str(i * 1000 + j).zfill(5) + '.png'
-        real_list.append(preprocess(plt.imread(file)))
-
-    real = torch.from_numpy(np.array(real_list))
+    # initialize generator & invertor
+    G = StyleGANGeneratorIdinvert('styleganinv_ffhq256')
+    Inverter = inv.StyleGANInverter(G, 'styleganinv_ffhq256', iteration=n_iter)
 
     latents = []
     fakes = []
     losses = []
 
-    # create optimized latent code & fake images
-    for k in range(real.shape[0]):
-        latent, fake, loss = Inverter.invert_offline(image=(real[k].type(torch.cuda.FloatTensor)).unsqueeze(0))
-        latents.append(latent.squeeze().detach().cpu().numpy())
-        fakes.append(fake.squeeze().detach().cpu().numpy())
-        losses.append(loss)
+    for i in range(n_thousands):
+
+        # read .png files
+        real_list = []
+        for j in range(1000):
+            file = path_images + '/' + str(i * 1000 + j).zfill(5) + '.png'
+            real_list.append(preprocess(plt.imread(file)))
+
+        real = torch.from_numpy(np.array(real_list))
+
+        # create optimized latent code & fake images
+        for k in range(real.shape[0]):
+            latent, fake, loss = Inverter.invert_offline(image=(real[k].type(torch.cuda.FloatTensor)).unsqueeze(0))
+            latents.append(latent.squeeze().detach().cpu().numpy())
+            fakes.append(fake.squeeze().detach().cpu().numpy())
+            losses.append(loss)
 
     latents = np.array(latents)
     fakes = np.array(fakes)
     losses = np.array(losses)
 
-    # save
-    pickle.dump(latents, open('latA'+str(i).zfill(2)+'.p', 'wb'))
-    pickle.dump(fakes, open('fakA'+str(i).zfill(2)+'.p', 'wb'))
-    pickle.dump(losses, open('losA'+str(i).zfill(2)+'.p', 'wb'))
+    ids = np.arange(1000*n_thousands)
+
+    loss_threshold = 0.3
+
+    index_keep = np.arange(1000 * n_thousands)[losses < loss_threshold]
+    print('Accepting', str(np.round(1000 * len(index_keep) / len(ids)) / 10), '% of examples.')
+
+    counter = 1
+    start = time.time()
+    stamp = time.time()
+
+    for idx in index_keep:
+
+        # real
+        copyfile(path_images + str(ids[idx]).zfill(5) + '.png', path_save + 'real/' + str(ids[idx]).zfill(5) + '.png')
+
+        # latent
+        np.savetxt(path_save + 'latent/' + str(ids[idx]).zfill(5) + '.csv', latents[idx], delimiter=',')
+
+        # fake
+        plt.imsave(path_save + 'fake/' + str(ids[idx]).zfill(5) + '.png', (fakes[idx].transpose(1, 2, 0) + 1) / 2)
+
+        if time.time() - stamp > 10:
+            stamp = time.time()
+            print('ETA:', str(np.round((len(index_keep) - counter) * (time.time() - start) / counter / 60)),
+                  'min left.')
+
+        counter += 1
+
+
+if __name__ == '__main__':
+    main()
