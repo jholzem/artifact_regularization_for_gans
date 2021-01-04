@@ -53,35 +53,33 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24
 <details><summary>Create triplets of real images, latent codes, and fake images</summary>
 <p>
 
-As described in the report, we compute the optimized latent codes of the in-domain GAN inversion prior to the actual fine-tuning of the StyleGAN generator. The following steps can be followed to reproduce the results that have been downloaded already in the previous step.
+As described in the report, we compute the optimized latent codes of the in-domain GAN inversion prior to the actual fine-tuning of the StyleGAN generator. The following steps can be followed to reproduce the results that have been downloaded already in the previous steps. All **Installation** steps should be finished beforehand.
 
 Download FFHQ data:
-Download pre-trained weights and FFHQ data
 ```bash
 cd $SCRATCH/artifact_regularization_for_gans
 bash scripts/download_FFHQ.sh
 ```
 
-Run *realZfake.sh* on the cluster:
+Utilize in-domain GAN inversion to optimize latent codes for real FFHQ images and pass those through the StyleGAN generator to retrieve associated "fake" images.
 ```bash
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh
 ```
 
-After the job is finished, download the result files *lat\<X\>.p*, *fak\<X\>.p*, *los\<X\>.p*
-```bash
-scp  <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/artifact_regularization_for_gans/lat<X>.p /<localPath>/lat<X>.p
-scp  <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/artifact_regularization_for_gans/fak<X>.p /<localPath>/fak<X>.p
-scp  <nethz>@login.leonhard.ethz.ch:/cluster/scratch/<nethz>/artifact_regularization_for_gans/los<X>.p /<localPath>/los<X>.p
-```
-where you should replace \<nethz\>, \<X\> and \<localPath\>.
+</p>
+</details>
 
-### Post-process the results
+<details><summary>Analyze dissimilarity of Fourier spectra of real/generated images</summary>
+<p>
 
-Convert the .p files into .png files containing real and fake images and .csv files containing latent codes with
+To determine the frequency range of interest, we analyze Fourier dissimilarity values for different truncations of the spectra of real and generated images. Since a Jupyter notebook is included in the subsequent steps, it might be convenient to follow perform the steps on a machine where you can open .ipynb with a GUI.
+
+First, download the pairs of real and generated images:
 ```bash
-TODO
+bash scripts/download_FFHQ.sh
 ```
+
+Follow the steps in `fourier_analysis.ipynb`
 
 </p>
 </details>
-...
