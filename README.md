@@ -74,12 +74,6 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh 11
 
 To determine the frequency range of interest, we analyze Fourier dissimilarity values for different truncations of the spectra of real and generated images. Since a Jupyter notebook is included in the subsequent steps, it might be convenient to follow these on a machine where you can open .ipynb files with a GUI. All **Installation** steps should be finished.
 
-First, download the pairs of real and generated images:
-```bash
-cd artifact_regularization_for_gans
-bash scripts/download_FFHQ.sh
-```
-
 Install `ipykernel` to be able to add the conda environment to the notebook
 ```bash
 conda activate DL
