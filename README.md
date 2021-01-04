@@ -81,6 +81,7 @@ bash scripts/download_FFHQ.sh
 
 Add the conda environment to the notebook
 ```bash
+conda activate DL
 conda install -c anaconda ipykernel
 python -m ipykernel install --user --name=DL
 ```
