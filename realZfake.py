@@ -1,3 +1,4 @@
+import os
 import torch
 import cv2
 import time
@@ -25,6 +26,15 @@ def main():
     path_images = 'data/reproduced/FFHQ_256'
     n_iter = 200
     n_thousands = 11
+
+    if not os.path.isdir(os.path.join(path_save, 'real')):
+        os.mkdir(os.path.join(path_save, 'real'))
+
+    if not os.path.isdir(os.path.join(path_save, 'latent')):
+        os.mkdir(os.path.join(path_save, 'latent'))
+
+    if not os.path.isdir(os.path.join(path_save, 'fake')):
+        os.mkdir(os.path.join(path_save, 'fake'))
 
     # initialize generator & invertor
     G = StyleGANGeneratorIdinvert('styleganinv_ffhq256')
