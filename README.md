@@ -79,7 +79,13 @@ First, download the pairs of real and generated images:
 bash scripts/download_FFHQ.sh
 ```
 
-Follow the steps in `fourier_analysis.ipynb`
+Add the conda environment to the notebook
+```bash
+conda install -c anaconda ipykernel
+python -m ipykernel install --user --name=DL
+```
+
+Select `DL` as kernel and follow the steps in `fourier_analysis.ipynb`
 
 </p>
 </details>
