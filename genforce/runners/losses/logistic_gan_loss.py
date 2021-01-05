@@ -135,6 +135,7 @@ class FourierRegularizedLogisticGANLoss(LogisticGANLoss):
         g_loss = F.softplus(-fake_scores).mean()
         runner.running_stats.update({'g_loss': g_loss.item()})
         fourier_loss = fourier_dissimilarity(fakes, data['image'], self.metric, self.threshold)
+        fourier_loss = fourier_loss.to(g_loss.device)
         fourier_loss = torch.mean(fourier_loss)
 
         runner.running_stats.update({'fourier_loss': fourier_loss.item()})
