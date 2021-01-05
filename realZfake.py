@@ -20,7 +20,7 @@ def preprocess(image):
 
 
 def main():
-    print('started')
+
     # settings
     path_save = 'data/reproduced/'
     path_images = 'data/reproduced/FFHQ_256/'

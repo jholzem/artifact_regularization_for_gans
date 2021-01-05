@@ -1,3 +1,1 @@
-echo "Started realZfake.sh"
-
-python ./realZfake.py
+python realZfake.py
