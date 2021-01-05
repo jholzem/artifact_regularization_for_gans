@@ -122,6 +122,32 @@ Max:    Lambda: 3, 1                          Metric: cos   LR: all,    nethz: m
 
 Oli:    Lambda: 3e-1, 1e-1                    Metric: cos   LR: all,    nethz: steffeol
 
+
+### New Rough Grid
+
+Lambda | 1000 | 100 | 10 | 1 | 0.1 | 0.01 | 0.001 | 0.0001
+
+Metric | '2' | 'cos'
+
+Learning rate | 1e-2 | 1e-3 | 1e-4 | 1e-5 | 1e-6 | 1e-7 | 1e-8 | 1e-9
+
+Maximum number of epochs: 20, with checkpoints after every epoch.
+
+
+Division
+
+Amir:   Lambda: 1000, 100, 10, 1,             Metric: 2   LR: all,    nethz: hadzica
+
+Jonas:  Lambda: 1e-1, 1e-2, 1e-3, 1e-4,       Metric: 2   LR:  1e-5, 1e-6, 1e-7, 1e-8, 1e-9,    nethz: jholzem
+
+Max:    Lambda: 1000, 100, 10, 1,             Metric: cos   LR: all,    nethz: mschaller
+
+Oli:    Lambda: 1e-1, 1e-2, 1e-3, 1e-4,       Metric: cos   LR:  1e-5, 1e-6, 1e-7, 1e-8, 1e-9,    nethz: steffeol
+
+
+### New Fine grid
+
+
 ## Download the results
 
 To download the .txt accuracy files and log files, execute the following commands from a local terminal:
