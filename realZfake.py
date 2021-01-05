@@ -26,7 +26,7 @@ def main():
     path_images = 'data/reproduced/FFHQ_256/'
     n_iter = 200
     n_outer = 11
-    n_inner = 2
+    n_inner = 1000
 
     if not os.path.isdir(os.path.join(path_save, 'real')):
         os.mkdir(os.path.join(path_save, 'real'))
