@@ -34,14 +34,27 @@ python -m torch.distributed.launch \
 	   ${@:8}
 
 
-#for idx in {1..2};
-for idx in {1..2};
+idx=1
+
+while true;
 
 do
 
-python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$RES$SAVENAME$BAR$idx$ENDING" ${SYNFOLDER}
-python demo_dir.py -d ${SYNFOLDER} -m weights/blur_jpg_prob0.1.pth
+    FILE="$FOLDER${NETHZ}$RES$SAVENAME$BAR$idx$ENDING"
 
-rm -r ${SYNFOLDER}
+    if test -f "$FILE"; then
+
+        python img_syn.py ${N_IMAGES} FILE ${SYNFOLDER}
+        python demo_dir.py -d ${SYNFOLDER} -m weights/blur_jpg_prob0.1.pth
+
+        rm -r ${SYNFOLDER}
+
+        idx=${idx}+1
+
+    else
+
+        break
+
+    fi
 
 done
