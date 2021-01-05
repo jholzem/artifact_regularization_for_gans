@@ -1,3 +1,7 @@
+```diff
+- TODO: Hard-code best number of epochs in configuration.py
+```
+
 Recent research has shown that GAN-generated images are easy to detect for dedicated detection algorithms. They rely on artifacts in the Fourier representation of   the generated images. As the goal for image synthesis is to produce images which are indistinguishable from real ones, this is a major drawback. We propose a novel training framework which penalizes synthesis artifacts by computing a Fourier dissimilarity between synthesized and real images. In this work, we investigate in which bandwidth in the Fourier domain the artifacts occur and show that the accuracy of StyleGAN images being detected as fake can be reduced by using an appropriate training strategy.
 
 To reproduce our results, please follow the subsequent tutorial. The code is tested for the use on the Leonhard cluster and therefore we recommend to run the code on the Leonhard cluster as well. If you wish to run the code on another machine, please reach out to us - mschaller@ethz.ch (a few file paths will need to be adjusted).
@@ -68,7 +72,7 @@ bash scripts/download_FFHQ.sh
 
 Utilize in-domain GAN inversion to optimize latent codes for real FFHQ images and pass those through the StyleGAN generator to retrieve associated "fake" images.
 ```bash
-bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 < scripts/realZfake.sh
 ```
 
 Info: the results will be saved into `data/reproduced`
