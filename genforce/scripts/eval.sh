@@ -49,7 +49,7 @@ do
 
         rm -r ${SYNFOLDER}
 
-        idx=${idx}+1
+        let "idx+=1"
 
     else
 
