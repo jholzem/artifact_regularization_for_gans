@@ -130,16 +130,17 @@ class FourierRegularizedLogisticGANLoss(LogisticGANLoss):
         latents = data['latent']
         G.net.train()
         fakes = G.net.module.synthesis(latents)
-        fake_scores = D(fakes, label=labels, **runner.D_kwargs_train)
+        #fake_scores = D(fakes, label=labels, **runner.D_kwargs_train)
 
-        g_loss = F.softplus(-fake_scores).mean()
+        g_loss = 0#F.softplus(-fake_scores).mean()
         runner.running_stats.update({'g_loss': g_loss.item()})
         fourier_loss = fourier_dissimilarity(fakes, data['image'], self.metric, self.threshold)
         fourier_loss = torch.mean(fourier_loss)
+
         runner.running_stats.update({'fourier_loss': fourier_loss.item()})
         total_loss = g_loss + self.lamb * fourier_loss
         runner.running_stats.update({'total_loss': total_loss.item()})
-        return g_loss
+        return total_loss
 
 class FourierRegularizedPerceptualLoss(LogisticGANLoss):
     def __init__(self, runner, d_loss_kwargs=None, g_loss_kwargs=None):
