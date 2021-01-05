@@ -68,7 +68,7 @@ bash scripts/download_FFHQ.sh
 
 Utilize in-domain GAN inversion to optimize latent codes for real FFHQ images and pass those through the StyleGAN generator to retrieve associated "fake" images.
 ```bash
-bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 scripts/realZfake.sh
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 < scripts/realZfake.sh
 ```
 
 Info: the results will be saved into `data/reproduced`
