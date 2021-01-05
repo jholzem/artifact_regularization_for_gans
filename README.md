@@ -1,6 +1,10 @@
+Recent research has shown that GAN-generated images are easy to detect for dedicated detection algorithms. They rely on artifacts in the Fourier representation of   the generated images. As the goal for image synthesis is to produce images which are indistinguishable from real ones, this is a major drawback. We propose a novel training framework which penalizes synthesis artifacts by computing a Fourier dissimilarity between synthesized and real images. In this work, we investigate in which bandwidth in the Fourier domain the artifacts occur and show that the accuracy of StyleGAN images being detected as fake can be reduced by using an appropriate training strategy.
+
+To reproduce our results, please follow the subsequent tutorial. The code is tested for the use on the Leonhard cluster and therefore we recommend to run the code on the Leonhard cluster as well. If you wish to run the code on another machine, please reach out to us - mschaller@ethz.ch (a few file paths will need to be adjusted).
+
 ## Installation
 
-Clone the GitHub repository in the cluster's $SCRATCH folder and update its cited submodules
+Clone the GitHub repository in the Leonhard cluster's $SCRATCH folder and update its cited submodules
 ```bash
 cd $SCRATCH
 git clone --branch submission https://github.com/hadzica/artifact_regularization_for_gans.git
@@ -46,6 +50,7 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24:00 scripts/train_eval.sh 1e-3 2 1e-6 10000 <NETHZ>
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24:00 scripts/train_eval.sh 3e-1 cos 1e-6 10000 <NETHZ>
 ```
+Info: The first `bsub` command initiates the fine-tuning without regularization (first argument of `train_eval.sh`), where 10000 images are synthesized for determining the detection accuracy by CNNDetection (fourth argument). The second and third `bsub` commands start the fine-tuning with Frobenius norm and cosine dissimilarity (second argument) with regularization factors 1e-3 and 3e-1, respectively (first argument). The learning rate is 1e-6 for both (third argument).
 
 
 ## Appendix
