@@ -44,7 +44,7 @@ do
 
     if test -f "$FILE"; then
 
-        python img_syn.py ${N_IMAGES} FILE ${SYNFOLDER}
+        python img_syn.py ${N_IMAGES} ${FILE} ${SYNFOLDER}
         python demo_dir.py -d ${SYNFOLDER} -m weights/blur_jpg_prob0.1.pth
 
         rm -r ${SYNFOLDER}
