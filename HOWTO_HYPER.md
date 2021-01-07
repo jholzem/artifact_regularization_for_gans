@@ -82,7 +82,7 @@ example:
 bash scripts/hyper.sh "1 5e-1 1e-1 5e-2" "cos" "1e-3 1e-4 1e-5 1e-6" "mschaller"
 ```
 
-### Strategy
+### Rough Grid
 
 Lambda | 1 | 0.5 | 0.1 | 0.05 | 0.01 | 0.005 | 0.001 | 0.0005
 
@@ -93,7 +93,7 @@ Learning rate | 1e-3 | 1e-4 | 1e-5 | 1e-6
 Maximum number of epochs: 20, with checkpoints after every epoch.
 
 
-### Division
+Division
 
 Amir:   Lambda: 1, 5e-1, 1e-1, 5e-2,         Metric: 2   LR: all,    nethz: hadzica
 
@@ -102,6 +102,51 @@ Jonas:  Lambda: 1e-2, 5e-3, 1e-3, 5e-4,      Metric: 2   LR: all,    nethz: jhol
 Max:    Lambda: 1, 5e-1, 1e-1, 5e-2,          Metric: cos   LR: all,    nethz: mschaller
 
 Oli:    Lambda: 1e-2, 5e-3, 1e-3, 5e-4,       Metric: cos   LR: all,    nethz: steffeol
+
+
+### Fine grid
+
+Clean up your results folder!
+
+Metric 2: lambda=[1e-3, 3e-4, 1e-4, 3e-5] lr=[1e-6, 3e-7, 1e-7, 3e-8]
+
+Metric cos: lambda=[3, 1, 3e-1, 1e-1] lr=[1e-6, 3e-7, 1e-7, 3e-8]
+
+Division:
+
+Amir:   Lambda: 1e-3, 3e-4                    Metric: 2   LR: all,    nethz: hadzica
+
+Jonas:  Lambda: 1e-4, 3e-5                    Metric: 2   LR: all,    nethz: jholzem
+
+Max:    Lambda: 3, 1                          Metric: cos   LR: all,    nethz: mschaller
+
+Oli:    Lambda: 3e-1, 1e-1                    Metric: cos   LR: all,    nethz: steffeol
+
+
+### New Rough Grid
+
+Lambda | 1000 | 100 | 10 | 1 | 0.1 | 0.01 | 0.001 | 0.0001
+
+Metric | '2' | 'cos'
+
+Learning rate | 1e-2 | 1e-3 | 1e-4 | 1e-5 | 1e-6 | 1e-7 | 1e-8 | 1e-9
+
+Maximum number of epochs: 20, with checkpoints after every epoch.
+
+
+Division
+
+Amir:   Lambda: 1000, 100, 10, 1,             Metric: 2   LR: all,    nethz: hadzica
+
+Jonas:  Lambda: 1e-1, 1e-2, 1e-3, 1e-4,       Metric: 2   LR:  1e-5, 1e-6, 1e-7, 1e-8, 1e-9,    nethz: jholzem
+
+Max:    Lambda: 1000, 100, 10, 1,             Metric: cos   LR: all,    nethz: mschaller
+
+Oli:    Lambda: 1e-1, 1e-2, 1e-3, 1e-4,       Metric: cos   LR:  1e-5, 1e-6, 1e-7, 1e-8, 1e-9,    nethz: steffeol
+
+
+### New Fine grid
+
 
 ## Download the results
 
@@ -116,4 +161,3 @@ example:
 ```bash
 bash download_log.sh "1 5e-1 1e-1 5e-2" "cos" "1e-3 1e-4 1e-5 1e-6" "mschaller" "/Users/max/Desktop/log"
 ```
-
