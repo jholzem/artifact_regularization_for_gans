@@ -139,7 +139,7 @@ class FourierRegularizedLogisticGANLoss(LogisticGANLoss):
         fourier_loss = torch.mean(fourier_loss)
 
         runner.running_stats.update({'fourier_loss': fourier_loss.item()})
-        total_loss = g_loss + self.lamb * fourier_loss
+        total_loss = self.lamb * fourier_loss # + g_loss
         runner.running_stats.update({'total_loss': total_loss.item()})
         return total_loss
 
