@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 def main():
     acc_0 = np.genfromtxt('models/pretrain/0_cos_1e-6_accuracies.txt', delimiter=',')
     acc_c = np.genfromtxt('models/pretrain/1e3_cos_1e-5_accuracies.txt', delimiter=',')
@@ -18,6 +17,7 @@ def main():
     #p_0, = plt.plot(x_ax[2:21], acc_0[2:21], linestyle='dashed', color='b', markersize=2)
     #p_2, = plt.plot(x_ax[2:21], acc_c[2:21], linestyle='dashed', color='r', markersize=2)
     #p_c, = plt.plot(x_ax[2:21], acc_inf[2:21], linestyle='dashed', color='g', markersize=2)
+
     plt.grid()
     # plt.axvline(x=5, linestyle=(0, (1, 10)), color='k', markersize=2)
     plt.xticks(x_tic)
