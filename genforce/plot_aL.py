@@ -10,7 +10,7 @@ def main():
     fl_c = acc_c[1:,2]
     fl_inf = acc_inf[1:401,2]
 
-    n = 51
+    n = 50
     a = int(n/2 - 0.5)
 
     std_0 = np.std(rolling_window(fl_0, n), 1)
@@ -24,6 +24,8 @@ def main():
     fl_0_ma = np.convolve(fl_0, np.ones(n), 'valid') / n
     fl_c_ma = np.convolve(fl_c, np.ones(n), 'valid') / n
     fl_inf_ma = np.convolve(fl_inf, np.ones(n), 'valid') / n
+
+    plt.figure(figsize=(7, 5.5))
 
     p_0, = plt.plot(x_ax, fl_0_ma, 'r', markersize=2)
     p_c, = plt.plot(x_ax, fl_c_ma, 'g', markersize=2)
@@ -45,10 +47,15 @@ def main():
     plt.grid()
     # plt.axvline(x=5, linestyle=(0, (1, 10)), color='k', markersize=2)
     plt.xticks(x_tic)
-    plt.xlabel('Epochs')
-    plt.ylabel('Adversarial loss during training')
+    plt.xlim([0, 20])
+    plt.xlabel('$N_\mathrm{epochs}$')
+    plt.ylabel('adversarial loss')
+    plt.ylim([0, 0.38])
     # plt.title('Accuracy comparison after different epochs of training w/o regularization, with Frobenius and cosine')
-    plt.legend(['Adv. loss only', 'Fourier & adv. loss', 'Fourier loss only'], loc='lower left')
+    plt.legend([p_inf, p_c, p_0],['Fourier loss only, $\eta = 10^{-4}$', 'Fourier & adv. loss, $\eta = 10^{-5}$', 'adv. loss only, $\eta = 10^{-6}$'], loc='lower left')
+
+    plt.savefig('AL.pdf')
+
     plt.show()
 
     print("finished")
