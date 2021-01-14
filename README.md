@@ -50,7 +50,7 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24:00 scripts/train_eval.sh 1 1e3 cos 1e-5 10000 <NETHZ>
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24:00 scripts/train_eval.sh 1 0 cos 1e-6 10000 <NETHZ>
 ```
-Info: The first `bsub` command initiates the fine-tuning without regularization (first argument of `train_eval.sh`) for 5 epochs (fourth argument), where 10000 images are synthesized for determining the detection accuracy by CNNDetection (fifth argument). The second and third `bsub` commands start the fine-tuning with Frobenius norm and cosine dissimilarity (second argument) with regularization factors 1e-3 and 3e-1, respectively (first argument). The learning rate is 1e-6 for both (third argument).
+Info: The first argument of `train_eval.sh` is the weight of the adversarial loss, while the second argument is the weight of the Fourier loss, for which the type of dissimilarity measure is chosen through the third argument. The fourth argument specifies the learning rate und the fifth argument denotes the number of images that are synthesized for determining the detection accuracy.
 
 
 ## Appendix
