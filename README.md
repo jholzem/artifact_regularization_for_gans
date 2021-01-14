@@ -50,15 +50,22 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24:00 scripts/train_eval.sh 1 1e3 cos 1e-5 10000 <NETHZ>
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24:00 scripts/train_eval.sh 1 0 cos 1e-6 10000 <NETHZ>
 ```
-Info: The first argument of `train_eval.sh` is the weight of the adversarial loss, while the second argument is the weight of the Fourier loss, for which the type of dissimilarity measure is chosen through the third argument. The fourth argument specifies the learning rate und the fifth argument denotes the number of images that are synthesized for determining the detection accuracy.
+Info: The first argument of `train_eval.sh` is the weight of the adversarial loss, while the second argument is the weight of the Fourier loss, for which the type of dissimilarity measure is chosen through the third argument. The fourth argument specifies the learning rate und the fifth argument denotes the number of images that are synthesized for determining the detection accuracy. We have observed very rare cases, when the three jobs interfere with each other in terms of GPU usage. If you see that one job did not produce any output files in `$SCRATCH/results`, then you should re-start it.
 
 ## Visualize the Results
+
+To reproduce the figures in the report based on the previous training results, please use the following commands, specifying your \<NETHZ\>:
 
 ```bash
 cd $SCRATCH/artifact_regularization_for_gans
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 1:00 scripts/visualize.sh 0_1e3_cos_1e-4 17 1_1e3_cos_1e-5 10 1_0_cos_1e-6 5 <NETHZ>
 ```
 
+If you wish to download the created .pdf files to your local computer to view them, you use the following command, specifying your \<NETHZ\> and the \<SAVEPATH\> where you would like to store the files:
+
+```bash
+scp <NETHZ>@login.leonhard.ethz.ch:/cluster/scratch/<NETHZ>/artifact_regularization_for_gans/visualization/*.pdf <SAVEPATH>
+```
 
 ## Appendix
 
