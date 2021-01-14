@@ -107,12 +107,13 @@ def a_priori(n_pairs):
         fd_2_list.append(fourier_dissimilarity(real, fake, '2', thres).numpy())
         fd_cos_list.append(fourier_dissimilarity(real, fake, 'cos', thres).numpy())
 
-    fd_2 = np.array(fd_2_list)
+    fd_2 = np.array(fd_2_list) / 2e-4
     fd_cos = np.array(fd_cos_list)
 
     # visualize fourier representations
     np.random.seed(9)
     random_indices = np.random.choice(n_pairs, size=3)
+    print(random_indices)
     real_sample = real[random_indices]
     fake_sample = fake[random_indices]
 
