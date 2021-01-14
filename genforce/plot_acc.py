@@ -1,13 +1,28 @@
+import argparse
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('savepath', type=str, default='', help='savepath')
+    parser.add_argument('acc1', type=str, default='', help='acc1')
+    parser.add_argument('acc2', type=str, default ='', help='acc2')
+    parser.add_argument('acc3', type=str, default ='', help='acc3')
+
+    return parser.parse_args()
+
 def main():
 
-    baseline = 0.9015
+    args = parse_args()
+    acc_0 = np.genfromtxt(args.acc1, delimiter=',')
+    acc_c = np.genfromtxt(args.acc2, delimiter=',')
+    acc_inf = np.genfromtxt(args.acc3, delimiter=',')
 
-    acc_0 = np.genfromtxt('models/pretrain/0_cos_1e-6_accuracies.txt', delimiter=',')
-    acc_c = np.genfromtxt('models/pretrain/1e3_cos_1e-5_accuracies.txt', delimiter=',')
-    acc_inf = np.genfromtxt('models/pretrain/inf_cos_1e-4_accuracies.txt', delimiter=',')
+    if os.path.isdir(args.savepath) == 0:
+        os.mkdir(args.savepath)
+
+    baseline = 0.9015
 
     acc_0 = np.append(np.array(baseline), acc_0[0:20])
     acc_c = np.append(np.array(baseline), acc_c[0:20])
@@ -37,13 +52,13 @@ def main():
     # plt.title('Accuracy comparison after different epochs of training w/o regularization, with Frobenius and cosine')
     plt.legend([p_base, p_inf, p_c, p_0], ['baseline','Fourier loss only, $\eta = 10^{-4}$', 'Fourier & adv. loss, $\eta = 10^{-5}$', 'adv. loss only, $\eta = 10^{-6}$'], loc='lower left')
 
-    plt.savefig('acc.pdf')
+    plt.savefig(args.savepath+'plot_acc.pdf')
 
-    plt.show()
+    #plt.show()
 
 
 
-    print('saved')
+    print('saved accuracy plot')
 
 if __name__ == '__main__':
     main()

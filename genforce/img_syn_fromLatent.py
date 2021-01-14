@@ -38,7 +38,8 @@ def main():
     image = image.astype(int)
     image = np.float32(image)
     img_rgb = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
-    cv2.imwrite(f'{args.syn_dir}/{args.generator[16:-4]}.png', img_rgb)
+    start = args.generator.rfind('/')+1
+    cv2.imwrite(f'{args.syn_dir}/{args.generator[start:-4]}.png', img_rgb)
 
     print(f'saved image')
 
