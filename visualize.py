@@ -30,13 +30,13 @@ def parse_args():
 def main():
     args = parse_args()
 
-    random_indices = a_priori(100) # 1000
-    syn(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, random_indices)
-    a_posteriori(args.conf_F+'_'+str(args.ep_F), args.conf_FA+'_'+str(args.ep_FA), args.conf_A+'_'+str(args.ep_A), random_indices)
-
     plot_FL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, 2)
     plot_AL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, 2)
     plot_ACC(args.res_dir, args.conf_F, args.conf_FA, args.conf_A)
+
+    random_indices = a_priori(1000)
+    syn(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, random_indices)
+    a_posteriori(args.conf_F+'_'+str(args.ep_F), args.conf_FA+'_'+str(args.ep_FA), args.conf_A+'_'+str(args.ep_A), random_indices)
 
 
 def syn(res_dir, conf_F, conf_FA, conf_A, random_indices):
