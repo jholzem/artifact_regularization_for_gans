@@ -34,8 +34,8 @@ def main():
     syn(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, random_indices)
     a_posteriori(args.conf_F+'_'+str(args.ep_F), args.conf_FA+'_'+str(args.ep_FA), args.conf_A+'_'+str(args.ep_A), random_indices)
 
-    plot_FL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A)
-    plot_AL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A)
+    plot_FL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, 2)
+    plot_AL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, 2)
     plot_ACC(args.res_dir, args.conf_F, args.conf_FA, args.conf_A)
 
 
@@ -240,7 +240,7 @@ def rgb2gray(images):
     return 0.299*images[:, :, :, 0] + 0.587*images[:, :, :, 1] + 0.114*images[:, :, :, 2]
 
 
-def plot_FL(res_dir, conf_F, conf_FA, conf_A):
+def plot_FL(res_dir, conf_F, conf_FA, conf_A, n):
 
     data_0 = tb2array(os.path.join(res_dir, conf_A + '_workdir', 'events'), 'fourier_loss')
     data_c = tb2array(os.path.join(res_dir, conf_FA + '_workdir', 'events'), 'fourier_loss')
@@ -249,8 +249,6 @@ def plot_FL(res_dir, conf_F, conf_FA, conf_A):
     fl_0 = data_0
     fl_c = data_c
     fl_inf = data_inf
-
-    n = 2###
 
     std_0 = np.std(rolling_window(fl_0, n), 1)
     std_c = np.std(rolling_window(fl_c, n), 1)
@@ -287,7 +285,7 @@ def plot_FL(res_dir, conf_F, conf_FA, conf_A):
     print("saved plot of Fourier loss")
 
 
-def plot_AL(res_dir, conf_F, conf_FA, conf_A):
+def plot_AL(res_dir, conf_F, conf_FA, conf_A, n):
 
     data_0 = tb2array(os.path.join(res_dir, conf_A + '_workdir', 'events'), 'g_loss')
     data_c = tb2array(os.path.join(res_dir, conf_FA + '_workdir', 'events'), 'g_loss')
@@ -296,8 +294,6 @@ def plot_AL(res_dir, conf_F, conf_FA, conf_A):
     fl_0 = data_0
     fl_c = data_c
     fl_inf = data_inf
-
-    n = 2###
 
     std_0 = np.std(rolling_window(fl_0, n), 1)
     std_c = np.std(rolling_window(fl_c, n), 1)
