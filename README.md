@@ -61,7 +61,7 @@ cd $SCRATCH/artifact_regularization_for_gans
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 1:00 scripts/visualize.sh 0_1e3_cos_1e-4 17 1_1e3_cos_1e-5 10 1_0_cos_1e-6 5 <NETHZ>
 ```
 
-If you wish to download the created .pdf files to your local computer to view them, you use the following command, specifying your \<NETHZ\> and the \<SAVEPATH\> where you would like to store the files:
+If you wish to download the created .pdf files to your local computer to view them, you can use the following command, specifying your \<NETHZ\> and the \<SAVEPATH\> where you would like to store the files:
 
 ```bash
 scp <NETHZ>@login.leonhard.ethz.ch:/cluster/scratch/<NETHZ>/artifact_regularization_for_gans/visualization/*.pdf <SAVEPATH>
