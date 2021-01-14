@@ -7,7 +7,7 @@ NETHZ=$6
 PORT=$RANDOM
 
 BAR="_"
-SAVENAME="${LAMB}$BAR${METRIC}$BAR${BASELR}"
+SAVENAME="${ADV}$BAR${LAMB}$BAR${METRIC}$BAR${BASELR}"
 FOLDER="/cluster/scratch/"
 RES="/results/"
 ENDING="_generator.pth"
