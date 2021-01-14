@@ -246,9 +246,9 @@ def plot_FL(res_dir, conf_F, conf_FA, conf_A):
     data_c = tb2array(os.path.join(res_dir, conf_FA + '_workdir', 'events'), 'fourier_loss')
     data_inf = tb2array(os.path.join(res_dir, conf_F + '_workdir', 'events'), 'fourier_loss')
 
-    fl_0 = data_0[1:, 2]
-    fl_c = data_c[1:, 2]
-    fl_inf = data_inf[1:, 2]
+    fl_0 = data_0
+    fl_c = data_c
+    fl_inf = data_inf
 
     n = 500
 
@@ -293,9 +293,9 @@ def plot_AL(res_dir, conf_F, conf_FA, conf_A):
     data_c = tb2array(os.path.join(res_dir, conf_FA + '_workdir', 'events'), 'g_loss')
     data_inf = tb2array(os.path.join(res_dir, conf_F + '_workdir', 'events'), 'g_loss')
 
-    fl_0 = data_0[1:,2]
-    fl_c = data_c[1:,2]
-    fl_inf = data_inf[1:,2]
+    fl_0 = data_0
+    fl_c = data_c
+    fl_inf = data_inf
 
     n = 500
 
