@@ -57,12 +57,12 @@ def syn(res_dir, conf_F, conf_FA, conf_A, random_indices):
                 latent = latent.float()
                 latent.unsqueeze_(0)
 
-                image = generator.net.synthesis(latent)
+                image = generator.net.synthesis(latent.type(torch.cuda.FloatTensor))
                 image = image.squeeze(0)
 
                 image = image.permute(1, 2, 0)
 
-                image = image.detach().numpy()
+                image = image.detach().cpu().numpy()
                 image = (image + 1) * 128
                 image = image.astype(int)
                 image = np.float32(image)
