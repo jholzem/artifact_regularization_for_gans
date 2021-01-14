@@ -73,7 +73,7 @@ def syn(res_dir, conf_F, conf_FA, conf_A, random_indices):
 
 def a_priori(n_pairs):
 
-    path = 'data'
+    path = 'data/'
 
     #plot settings
     font = {'family': 'DejaVu Sans',
