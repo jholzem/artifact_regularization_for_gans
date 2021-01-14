@@ -250,7 +250,7 @@ def plot_FL(res_dir, conf_F, conf_FA, conf_A):
     fl_c = data_c
     fl_inf = data_inf
 
-    n = 500
+    n = 2###
 
     std_0 = np.std(rolling_window(fl_0, n), 1)
     std_c = np.std(rolling_window(fl_c, n), 1)
@@ -297,7 +297,7 @@ def plot_AL(res_dir, conf_F, conf_FA, conf_A):
     fl_c = data_c
     fl_inf = data_inf
 
-    n = 500
+    n = 2###
 
     std_0 = np.std(rolling_window(fl_0, n), 1)
     std_c = np.std(rolling_window(fl_c, n), 1)
