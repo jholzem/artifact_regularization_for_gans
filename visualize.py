@@ -30,17 +30,13 @@ def parse_args():
 def main():
     args = parse_args()
 
-    conf_F = args.conf_F.replace(' ', '_')
-    conf_FA = args.conf_FA.replace(' ', '_')
-    conf_A = args.conf_A.replace(' ', '_')
+    random_indices = a_priori(100) # 1000
+    syn(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, random_indices)
+    a_posteriori(args.conf_F+'_'+str(args.ep_F), args.conf_FA+'_'+str(args.ep_FA), args.conf_A+'_'+str(args.ep_A), random_indices)
 
-    random_indices = a_priori(1000)
-    syn(args.res_dir, conf_F, conf_FA, conf_A, random_indices)
-    a_posteriori(conf_F+'_'+str(args.ep_F), conf_FA+'_'+str(args.ep_FA), conf_A+'_'+str(args.ep_A), random_indices)
-
-    plot_FL(args.res_dir, conf_F, conf_FA, conf_A)
-    plot_AL(args.res_dir, conf_F, conf_FA, conf_A)
-    plot_ACC(args.res_dir, conf_F, conf_FA, conf_A)
+    plot_FL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A)
+    plot_AL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A)
+    plot_ACC(args.res_dir, args.conf_F, args.conf_FA, args.conf_A)
 
 
 def syn(res_dir, conf_F, conf_FA, conf_A, random_indices):
