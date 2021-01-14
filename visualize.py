@@ -30,11 +30,11 @@ def parse_args():
 def main():
     args = parse_args()
 
-    plot_FL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, 2)
-    plot_AL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, 2)
+    plot_FL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, 2)####################################################
+    plot_AL(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, 2)####################################################
     plot_ACC(args.res_dir, args.conf_F, args.conf_FA, args.conf_A)
 
-    random_indices = a_priori(1000)
+    random_indices = a_priori(100)######################################################################################
     syn(args.res_dir, args.conf_F, args.conf_FA, args.conf_A, random_indices)
     a_posteriori(args.conf_F+'_'+str(args.ep_F), args.conf_FA+'_'+str(args.ep_FA), args.conf_A+'_'+str(args.ep_A), random_indices)
 
@@ -113,7 +113,6 @@ def a_priori(n_pairs):
     # visualize fourier representations
     np.random.seed(9)
     random_indices = np.random.choice(n_pairs, size=3)
-    print(random_indices)
     real_sample = real[random_indices]
     fake_sample = fake[random_indices]
 
@@ -148,6 +147,12 @@ def a_priori(n_pairs):
     ax2 = f.add_subplot(212)
 
     plot_range = np.arange(10, 110)
+
+    print('dim fd_2', fd_2.shape)
+    print('max fd_2', np.max(fd_2))
+
+    print('dim fd_cos', fd_cos.shape)
+    print('max fd_cos', np.max(fd_cos))
 
     ax1.plot(thresholds[plot_range], np.mean(fd_2[plot_range], axis=1),
              linewidth=linewidth)
