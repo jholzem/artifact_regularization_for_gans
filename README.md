@@ -19,7 +19,7 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
 chmod +x Miniconda3-latest-Linux-x86_64.sh
 ./Miniconda3-latest-Linux-x86_64.sh
 ```
-where you should specify the installation path when asked to and type `yes` when asked if the installer should intiliaze Miniconda3. Restart the shell after conda has been successfully installed.
+where you should specify the installation path when asked to and type `yes` when asked if the installer should intiliaze Miniconda3. Restart the shell window after conda has been successfully installed.
 
 Create and activate the conda environment
 ```bash
