@@ -68,7 +68,7 @@ def syn(res_dir, conf_F, conf_FA, conf_A, random_indices):
                 image = np.float32(image)
                 img_rgb = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
                 start = generator_path.rfind('/')+1
-                cv2.imwrite(f'visualization/img/{generator_path[start:-4]}_{latent_files[idx][:-4]}.png', img_rgb)
+                cv2.imwrite(f'visualization/img/{generator_path[start:-14]}_{latent_files[idx][:-4]}.png', img_rgb)
 
 
 def a_priori(n_pairs):
