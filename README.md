@@ -56,7 +56,7 @@ Info: The first argument of `train_eval.sh` is the weight of the adversarial los
 
 ```bash
 cd $SCRATCH/artifact_regularization_for_gans
-bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 1:00 scripts/visualize.sh "0 1e3 cos 1e-4" 17 "1 1e3 cos 1e-5" 10 "1 0 cos 1e-6" 5 <NETHZ>
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 1:00 scripts/visualize.sh 0_1e3_cos_1e-4 17 1_1e3_cos_1e-5 10 1_0_cos_1e-6 5 <NETHZ>
 ```
 
 
