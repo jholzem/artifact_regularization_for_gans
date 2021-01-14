@@ -52,7 +52,7 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24
 ```
 Info: The first argument of `train_eval.sh` is the weight of the adversarial loss, while the second argument is the weight of the Fourier loss, for which the type of dissimilarity measure is chosen through the third argument. The fourth argument specifies the learning rate und the fifth argument denotes the number of images that are synthesized for determining the detection accuracy. We have observed very rare cases, when the three jobs interfere with each other in terms of GPU usage. If you see that one job did not produce any output files in `$SCRATCH/results`, then you should re-start it.
 
-## Visualize the Results
+## Visualizing the Results
 
 To reproduce the figures in the report based on the previous training results, please use the following commands, specifying your \<NETHZ\>:
 
@@ -70,7 +70,7 @@ scp <NETHZ>@login.leonhard.ethz.ch:/cluster/scratch/<NETHZ>/artifact_regularizat
 
 ## Appendix
 
-<details><summary>Create triplets of real images, latent codes, and fake images</summary>
+<details><summary>Creating triplets of real images, latent codes, and fake images</summary>
 <p>
 
 As described in the report, we compute the optimized latent codes of the in-domain GAN inversion prior to the actual fine-tuning of the StyleGAN generator. The following steps can be followed to reproduce the results that have been downloaded already in the previous steps. All **Installation** steps should be finished beforehand.
