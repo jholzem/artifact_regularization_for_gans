@@ -56,7 +56,7 @@ Info: The first argument of `train_eval.sh` is the weight of the adversarial los
 
 ```bash
 cd $SCRATCH/artifact_regularization_for_gans
-bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 4:00 scripts/visualize.sh "0 1e3 cos 1e-4" 17 "1 1e3 cos 1e-5" 10 "1 0 cos 1e-6" 5 <NETHZ>
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 1:00 scripts/visualize.sh "0 1e3 cos 1e-4" 17 "1 1e3 cos 1e-5" 10 "1 0 cos 1e-6" 5 <NETHZ>
 ```
 
 
@@ -79,27 +79,6 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -W 120:00 < scripts/realZfake.sh
 ```
 
 Info: the results will be saved into `data/reproduced`
-
-</p>
-</details>
-
-<details><summary>Analyze dissimilarity of Fourier spectra of real/generated images</summary>
-<p>
-
-To determine the frequency range of interest, we analyze Fourier dissimilarity values for different truncations of the spectra of real and generated images. Since a Jupyter notebook is included in the subsequent steps, it might be convenient to follow these on a machine where you can open .ipynb files with a GUI. All **Installation** steps should be finished.
-
-Install `ipykernel` to be able to add the conda environment to the notebook
-```bash
-conda activate DL
-conda install -c anaconda ipykernel
-```
-
-Add the the conda environment to the notebook
-```bash
-python -m ipykernel install --user --name=DL
-```
-
-Follow the steps in `fourier_analysis.ipynb`, where you should select `DL` as kernel.
 
 </p>
 </details>
