@@ -6,7 +6,6 @@ import torch
 import cv2
 import os
 from tensorboard.backend.event_processing import event_accumulator
-from fourier import fourier_dissimilarity
 from idinvert_pytorch.models import stylegan_generator_idinvert
 
 
@@ -243,6 +242,21 @@ def a_posteriori(stem_F, stem_FA, stem_A, random_indices):
 # utility function to convert RGB into gray-scale images
 def rgb2gray(images):
     return 0.299*images[:, :, :, 0] + 0.587*images[:, :, :, 1] + 0.114*images[:, :, :, 2]
+
+
+def fourier_dissimilarity(fake_images, real_images, metric, thres=20):
+    fake_ft = torch.norm(torch.rfft(rgb2gray(fake_images), signal_ndim=2), dim=3)
+    real_ft = torch.norm(torch.rfft(rgb2gray(real_images), signal_ndim=2), dim=3)
+    if metric == '1':
+        return torch.norm((fake_ft[:,thres:-thres,thres:]-real_ft[:,thres:-thres,thres:]).cpu(), p=1, dim=(1, 2))*1e-8
+    elif metric == '2':
+        return torch.norm((fake_ft[:,thres:-thres,thres:]-real_ft[:,thres:-thres,thres:]).cpu(), p='fro', dim=(1, 2))*2e-4
+    elif metric == 'cos':
+        vec_fake_ft = torch.flatten(fake_ft[:,thres:-thres,thres:], start_dim=1).unsqueeze(dim=1)
+        vec_real_ft = torch.flatten(real_ft[:,thres:-thres,thres:], start_dim=1).unsqueeze(dim=2)
+        return 1 - torch.bmm(vec_fake_ft, vec_real_ft).squeeze() / (torch.norm(vec_fake_ft, dim=2) * torch.norm(vec_real_ft, dim=1)).squeeze()
+    else:
+        return 0
 
 
 def plot_FL(res_dir, conf_F, conf_FA, conf_A, n):
