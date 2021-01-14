@@ -1,7 +1,7 @@
-LAMB=$1
-METRIC=$2
-BASELR=$3
-EPOCHS=$4
+ADV=$1
+LAMB=$2
+METRIC=$3
+BASELR=$4
 N_IMAGES=$5
 NETHZ=$6
 PORT=$RANDOM
@@ -25,6 +25,7 @@ python -m torch.distributed.launch \
        ./genforce/train.py ${CONFIG} \
            --work_dir ${WORK_DIR} \
            --launcher="pytorch" \
+           --adv=${ADV} \
            --lamb=${LAMB} \
            --metric=${METRIC} \
            --baseLR=${BASELR} \
@@ -32,7 +33,29 @@ python -m torch.distributed.launch \
 	   ${@:8}
 
 
-python img_syn.py ${N_IMAGES} "$FOLDER${NETHZ}$RES$SAVENAME$BAR$EPOCHS$ENDING" ${SYNFOLDER}
-python CNNDetection/detection.py -d ${SYNFOLDER}
+idx=1
 
-rm -r ${SYNFOLDER}
+while true;
+
+do
+
+    FILE="$FOLDER${NETHZ}$RES$SAVENAME$BAR$idx$ENDING"
+
+    if test -f "$FILE"; then
+
+        python img_syn.py ${N_IMAGES} ${FILE} ${SYNFOLDER}
+        python CNNDetection/detection.py -d ${SYNFOLDER}
+
+        rm -r ${SYNFOLDER}
+
+        let "idx+=1"
+
+    else
+
+        break
+
+    fi
+
+done
+
+
