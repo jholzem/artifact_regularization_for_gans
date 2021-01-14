@@ -42,7 +42,7 @@ Load ETH proxy:
 module load eth_proxy
 ```
 
-Start training and subsequent evaluation with CNNDetection, where you should specify your \<NETHZ\>:
+Start training and subsequent evaluation with the fake detection network, where you should specify your \<NETHZ\>:
 ```bash
 mkdir $SCRATCH/results
 cd $SCRATCH/artifact_regularization_for_gans
@@ -51,6 +51,13 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24
 bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 24:00 scripts/train_eval.sh 1 0 cos 1e-6 10000 <NETHZ>
 ```
 Info: The first argument of `train_eval.sh` is the weight of the adversarial loss, while the second argument is the weight of the Fourier loss, for which the type of dissimilarity measure is chosen through the third argument. The fourth argument specifies the learning rate und the fifth argument denotes the number of images that are synthesized for determining the detection accuracy.
+
+## Visualize the Results
+
+```bash
+cd $SCRATCH/artifact_regularization_for_gans
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 4:00 scripts/visualize.sh "0 1e3 cos 1e-4" 17 "1 1e3 cos 1e-5" 10 "1 0 cos 1e-6" 5 <NETHZ>
+```
 
 
 ## Appendix
