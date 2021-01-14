@@ -254,7 +254,7 @@ def plot_FL(res_dir, conf_F, conf_FA, conf_A, n):
     std_c = np.std(rolling_window(fl_c, n), 1)
     std_inf = np.std(rolling_window(fl_inf, n), 1)
 
-    x_ax = np.linspace(0.0, 20.0, num=1000 - n + 1)
+    x_ax = np.linspace(0.0, 20.0, num=len(fl_0) - n + 1)
     x_tic = list(range(0, 21, 5))
 
     fl_0_ma = np.convolve(fl_0, np.ones(n), 'valid') / n
@@ -291,20 +291,20 @@ def plot_AL(res_dir, conf_F, conf_FA, conf_A, n):
     data_c = tb2array(os.path.join(res_dir, conf_FA + '_workdir', 'events'), 'g_loss')
     data_inf = tb2array(os.path.join(res_dir, conf_F + '_workdir', 'events'), 'g_loss')
 
-    fl_0 = data_0
-    fl_c = data_c
-    fl_inf = data_inf
+    al_0 = data_0
+    al_c = data_c
+    al_inf = data_inf
 
-    std_0 = np.std(rolling_window(fl_0, n), 1)
-    std_c = np.std(rolling_window(fl_c, n), 1)
-    std_inf = np.std(rolling_window(fl_inf, n), 1)
+    std_0 = np.std(rolling_window(al_0, n), 1)
+    std_c = np.std(rolling_window(al_c, n), 1)
+    std_inf = np.std(rolling_window(al_inf, n), 1)
 
-    x_ax = np.linspace(0.0, 20.0, num=1000-n+1)
+    x_ax = np.linspace(0.0, 20.0, num=len(al_0)-n+1)
     x_tic = list(range(0,21,5))
 
-    fl_0_ma = np.convolve(fl_0, np.ones(n), 'valid') / n
-    fl_c_ma = np.convolve(fl_c, np.ones(n), 'valid') / n
-    fl_inf_ma = np.convolve(fl_inf, np.ones(n), 'valid') / n
+    fl_0_ma = np.convolve(al_0, np.ones(n), 'valid') / n
+    fl_c_ma = np.convolve(al_c, np.ones(n), 'valid') / n
+    fl_inf_ma = np.convolve(al_inf, np.ones(n), 'valid') / n
 
     plt.figure(figsize=(7, 5.5))
 
