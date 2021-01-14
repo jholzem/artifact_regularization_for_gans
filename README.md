@@ -62,7 +62,7 @@ bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 1:
 ```
 Info: The first, third, and fifth argument of `visualize.sh` correspond to the training configurations chosen previously. The second, fourth, and sixth argument are the number of training epochs for which the resulting spectra should be compared. The numerical values are chosen such that with all threee training configurations, the detection accuracy is at 70 %.
 
-If you wish to download the created .pdf files to your local computer to view them, you can use the following command, specifying your \<NETHZ\> and the \<SAVEPATH\> where you would like to store the files:
+If you wish to download the created .pdf files to your local computer in order to view them, you can use the following command, specifying your \<NETHZ\> and the \<SAVEPATH\> where you would like to store the files:
 
 ```bash
 scp <NETHZ>@login.leonhard.ethz.ch:/cluster/scratch/<NETHZ>/artifact_regularization_for_gans/visualization/*.pdf <SAVEPATH>
