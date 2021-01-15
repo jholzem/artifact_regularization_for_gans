@@ -59,7 +59,7 @@ To reproduce the figures in the report based on the previous training results, p
 
 ```bash
 cd $SCRATCH/artifact_regularization_for_gans
-bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 1:00 scripts/visualize.sh 0_1e3_cos_1e-4 17 1_1e3_cos_1e-5 10 1_0_cos_1e-6 5 <NETHZ>
+bsub -R "rusage[mem=32768,ngpus_excl_p=1]" -R "select[gpu_mtotal0>=10240]" -W 4:00 scripts/visualize.sh 0_1e3_cos_1e-4 17 1_1e3_cos_1e-5 10 1_0_cos_1e-6 5 <NETHZ>
 ```
 Info: The first, third, and fifth argument of `visualize.sh` correspond to the training configurations chosen previously. The second, fourth, and sixth argument are the number of training epochs for which the resulting spectra should be compared. The numerical values are chosen such that with all threee training configurations, the detection accuracy is at 70 %.
 
