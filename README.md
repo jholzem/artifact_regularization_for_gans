@@ -4,6 +4,8 @@ To reproduce our results, please follow the subsequent tutorial. The code is tes
 
 ## Installation
 
+NOTE: This readme was written to reproduce our experiments on the Leonhard cluster. The necessary code will be downloaded when the steps are followed. The code which was submitted with the report is meant for inspection purposes.
+
 Clone the GitHub repository in the Leonhard cluster's $SCRATCH folder and update its cited submodules
 ```bash
 cd $SCRATCH
