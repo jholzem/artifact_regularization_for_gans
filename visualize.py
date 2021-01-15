@@ -293,7 +293,7 @@ def plot_FL(res_dir, conf_F, conf_FA, conf_A, n):
     plt.grid()
     plt.xticks(x_tic)
     plt.xlim([0, 20])
-    plt.ylim([0.205, 0.25])
+    plt.ylim([0.18, 0.25])
     plt.xlabel('$N_\mathrm{epochs}$')
     plt.ylabel('Fourier loss $\ell_\mathrm{F,cos}$')
     plt.legend([p_inf, p_c, p_0], ['Fourier loss only, $\eta = 10^{-4}$', 'Fourier & adv. loss, $\eta = 10^{-5}$',
