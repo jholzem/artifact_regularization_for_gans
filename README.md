@@ -11,6 +11,7 @@ git clone --branch submission https://github.com/hadzica/artifact_regularization
 cd artifact_regularization_for_gans
 git submodule update --init
 ```
+Info: The submodules are forked from https://github.com/PeterWang512/CNNDetection, https://github.com/genforce/genforce, and https://github.com/genforce/idinvert_pytorch, respectively.
 
 Install conda using the following commands
 ```bash
